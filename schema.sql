@@ -3,6 +3,7 @@
 CREATE TABLE IF NOT EXISTS users (
   id          TEXT PRIMARY KEY,
   email       TEXT NOT NULL UNIQUE,
+  username    TEXT NOT NULL UNIQUE COLLATE NOCASE,  -- login handle, stored lowercase
   name        TEXT NOT NULL,
   pw_hash     TEXT NOT NULL,              -- pbkdf2$iterations$salt$hash
   theme       TEXT NOT NULL DEFAULT 'dark',

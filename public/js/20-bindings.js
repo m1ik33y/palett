@@ -27,3 +27,6 @@ $('#mnu').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;$('#mnu'
  if(k=='new')leave(()=>openNew('blank'));else if(k=='gal')leave(()=>go('lib','all'));else if(k=='save')saveNow(1);else if(k=='exp')$('#exp').click();
  else if(k=='lay')$('#lyr').click();else if(k=='fav'){$('#fv').click();toast(cur&&cur.fav?'Added to favourites':'Removed from favourites')}
  else if(k=='ren'){$('#bn').focus();$('#bn').select()}else if(k=='full')$('#full').click();else if(k=='clr')$('#clr').click();else if(k=='exit')leave(()=>go('home'))};
+
+/* Search box: block browser/password-manager autofill & suggestions. It is readonly until the user actually focuses it, which stops autofill from filling it on load. */
+(()=>{const q=$('#q');const arm=()=>q.removeAttribute('readonly');q.addEventListener('focus',arm);q.addEventListener('pointerdown',arm);q.addEventListener('keydown',arm)})();

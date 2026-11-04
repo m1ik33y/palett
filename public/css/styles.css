@@ -259,3 +259,9 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 .invl{color:var(--mut);font-size:12.5px;font-weight:600}
 .cpfs{display:flex;flex-wrap:wrap;gap:8px}
 .cpf{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:#fff;font-weight:800;font-size:14px;flex:none}
+
+/* Stacked collaborator avatars (paint page, top right) */
+#av.stk{width:auto;height:auto;padding:0;background:none;border-radius:0;display:flex;align-items:center}
+#av.stk .cpf{width:34px;height:34px;font-size:13px;border:2px solid var(--bg);box-sizing:content-box;position:relative}
+#av.stk .cpf+.cpf{margin-left:-12px}
+#av.stk .cpm{background:var(--hov);color:var(--ink);font-size:12px}
