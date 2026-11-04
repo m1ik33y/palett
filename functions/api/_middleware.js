@@ -27,7 +27,10 @@ export async function onRequest({ request, env, next, data }) {
     return await next();
   } catch (e) {
     if (e instanceof HttpError) return json({ error: e.message }, e.status);
-    console.error(e);
+    console.error('API error', request.method, new URL(request.url).pathname, e && e.message || e);
+    const m = String(e && e.message || e);
+    // Most common cause after a deploy: the D1 database was never initialised or is missing a migration.
+    if (/no such (table|column)/i.test(m)) return json({ error: 'Database is not set up yet. Run schema.sql and the migrations on the D1 database.' }, 500);
     return json({ error: 'Server error' }, 500);
   }
 }
