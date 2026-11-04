@@ -4,7 +4,7 @@ async function startSession(u){
   if(lastUid&&lastUid!==u.id){cur=null;go('home')}
   archOpen=false;lastUid=u.id;me=u;user.name=u.name;user.theme=u.theme||'dark';
   fopen=!!u.treeOpen;$('#ft').hidden=!fopen;$('#fb').classList.toggle('fo',fopen);
-  theme();avatar();await loadBooks();render_();$('#auth').hidden=1}
+  theme();avatar();await loadBooks();render_();$('#auth').hidden=1;if(typeof presenceStart==='function')presenceStart()}
 function sessionExpired(){if(!$('#auth').hidden)return;me=null;showAuth('in');$('#aerr').textContent='Your session expired. Please log in again.'}
 function showAuth(mode){const A=$('#auth'),up=mode=='up';A.hidden=0;
  A.innerHTML=`<div class="ac"><div class="ab">${LOGO}<span>Palett</span></div><div class="mut">${up?'Create an account to get started.':'Welcome back. Log in to continue.'}</div>

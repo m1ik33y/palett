@@ -3,7 +3,7 @@ let members=[],memberBook=null;
 const PFC=['#fe713b','#5856d6','#00897b','#ff2d92','#1565c0','#8bc34a','#af52de','#ff9500'];
 const pfcol=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return PFC[h%PFC.length]};
 const pfp=m=>`<span class="cpf" style="background:${pfcol(m.id)}" title="${esc(m.name)}${m.owner?' (owner)':''}">${esc((m.name.trim()[0]||'A').toUpperCase())}</span>`;
-async function loadMembers(){if(!cur)return;const id=cur.id;try{const r=await api('/books/'+id+'/members');if(cur&&cur.id==id){members=r.members;memberBook=id;cur.isOwner=r.isOwner;avatar();liveStart()}}catch(e){}}
+async function loadMembers(){if(!cur)return;const id=cur.id;try{const r=await api('/books/'+id+'/members');if(cur&&cur.id==id){members=r.members;memberBook=id;cur.isOwner=r.isOwner;avatar();liveStart();if(typeof refreshMemberPresence==='function')refreshMemberPresence()}}catch(e){}}
 const memberRow=()=>members.map(pfp).join('');
 function invitePop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}
  if(memberBook!=cur.id)members=[];
@@ -17,12 +17,12 @@ function invitePop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}
   if(cur.isOwner===false)return err('Only the owner can invite people.');
   const b=$('#invb');b.disabled=true;
   try{const ok=await saveNow();if(ok===false)throw new Error('Could not save the paintbook first.');
-   const r=await api('/books/'+cur.id+'/members',{method:'POST',body:{username:v}});members=r.members;memberBook=cur.id;avatar();liveStart();
+   const r=await api('/books/'+cur.id+'/members',{method:'POST',body:{username:v}});members=r.members;memberBook=cur.id;avatar();liveStart();if(typeof refreshMemberPresence==='function')refreshMemberPresence();
    $('#invi').value='';$('#invm').innerHTML=memberRow();toast(members[members.length-1].name+' was added to the canvas')}
   catch(e){err(e.message||'Could not invite.')}
   b.disabled=false};
  $('#invb').onclick=send;$('#invi').onkeydown=e=>{if(e.key=='Enter')send()};
- loadMembers().then(()=>{const m=$('#invm');if(m)m.innerHTML=memberRow()})}
+ loadMembers().then(()=>{const m=$('#invm');if(m)m.innerHTML=memberRow();if(typeof refreshMemberPresence==='function')refreshMemberPresence()})}
 
 
 /* Live canvas sync. Shared paintbooks exchange short-lived snapshots while multiple

@@ -67,7 +67,8 @@ function render(keep){if(!keep)qs();
   for(let i=0;i<car.n;i++){const x=car.dir=='h'?i*step:0,y=car.dir=='v'?i*step:0;sc.fillText(String(i+1),x+8/view.s,y+6/view.s)}
   sc.restore();
  }
- {const ab=$('#addsl');if(ab.hidden==!!car)ab.hidden=!car;if(car){const t='+ Add slide ('+car.n+')';if(ab.textContent!=t)ab.textContent=t}}
+ $('#addsl').hidden=true;
+  const np=$('#newpage');if(np)np.hidden=!car;
  if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}else $('#ypos').hidden=true
  if(sel&&tool=='select'&&!sel.ed){const k=1/view.s;sc.strokeStyle='#4f46e5';sc.lineWidth=1.5*k;sc.strokeRect(sel.x,sel.y,sel.w,sel.h);
   sc.fillStyle='#fff';HS.forEach(([n,a,b])=>{const x=sel.x+a*sel.w-4.5*k,y=sel.y+b*sel.h-4.5*k;sc.fillRect(x,y,9*k,9*k);sc.strokeRect(x,y,9*k,9*k)})}

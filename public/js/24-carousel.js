@@ -10,4 +10,9 @@ function addSlide(){if(!car)return;car.n++;applyCar(0);
  if(car.dir=='h')view.x=r.width/2-(car.sw*car.n+(car.n-1)*(car.gap||28))/2*k;else view.y=r.height/2-(car.sh*car.n+(car.n-1)*(car.gap||28))/2*k;
  render();toast('Slide '+car.n+' added')}
 $('#addsl').addEventListener('click',addSlide);
+const np=$('#newpage');
+if(np)np.addEventListener('click',addSlide);
+function syncNewPageButton(){if(np)np.hidden=!car}
+addEventListener('keydown',e=>{if(e.altKey&&e.key.toLowerCase()==='n'&&!e.repeat){e.preventDefault();if(car)addSlide()}});
+
 $('#addsl').addEventListener('pointerdown',e=>e.stopPropagation());
