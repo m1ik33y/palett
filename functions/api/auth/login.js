@@ -4,16 +4,16 @@ import { createSession, publicUser, rateLimit, clearLimit } from '../../../src/l
 
 export async function onRequestPost({ request, env }) {
   const b = await readJson(request);
-  const email = String(b.email || '').trim().toLowerCase();
+  const username = String(b.username || '').trim().toLowerCase();
   const password = String(b.password || '');
-  if (!email || !password || password.length > 200) throw new HttpError(400, 'Enter your email and password.');
+  if (!username || !password || password.length > 200) throw new HttpError(400, 'Enter your username and password.');
 
-  const key = `login:${clientIp(request)}:${email}`;
+  const key = `login:${clientIp(request)}:${username}`;
   await rateLimit(env, key, 10, 900);
 
-  const user = await env.DB.prepare('SELECT * FROM users WHERE email = ?').bind(email).first();
+  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ? COLLATE NOCASE').bind(username).first();
   const ok = await verifyPassword(password, user ? user.pw_hash : DUMMY_HASH);
-  if (!user || !ok) throw new HttpError(401, 'Incorrect email or password.');
+  if (!user || !ok) throw new HttpError(401, 'Incorrect username or password.');
 
   await clearLimit(env, key);
   const cookie = await createSession(env, request, user.id);

@@ -259,3 +259,9 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 .invl{color:var(--mut);font-size:12.5px;font-weight:600}
 .cpfs{display:flex;flex-wrap:wrap;gap:8px}
 .cpf{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:#fff;font-weight:800;font-size:14px;flex:none}
+
+#stk{display:none;align-items:center;margin-right:12px;cursor:pointer}
+body.studio #stk:not([hidden]){display:inline-flex}
+#stk .cpf{width:34px;height:34px;font-size:13px;border:2px solid var(--bg,#1c1c1e);margin-left:-10px}
+#stk .cpf:first-child{margin-left:0}
+#stk .cmore{background:var(--hov);color:var(--ink)}

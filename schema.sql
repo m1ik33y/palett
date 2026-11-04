@@ -3,6 +3,7 @@
 CREATE TABLE IF NOT EXISTS users (
   id          TEXT PRIMARY KEY,
   email       TEXT NOT NULL UNIQUE,
+  username    TEXT,                       -- unique login name (see idx_users_username)
   name        TEXT NOT NULL,
   pw_hash     TEXT NOT NULL,              -- pbkdf2$iterations$salt$hash
   theme       TEXT NOT NULL DEFAULT 'dark',
@@ -61,3 +62,5 @@ CREATE TABLE IF NOT EXISTS book_members (
   PRIMARY KEY (book_id, user_id)
 );
 CREATE INDEX IF NOT EXISTS idx_members_user ON book_members(user_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username COLLATE NOCASE);

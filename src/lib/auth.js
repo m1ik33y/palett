@@ -5,7 +5,7 @@ const COOKIE = 'palett_session';
 const SESSION_MS = 30 * 24 * 3600 * 1000;
 
 export const publicUser = (u) => ({
-  id: u.id, name: u.name, email: u.email, theme: u.theme, treeOpen: !!u.tree_open,
+  id: u.id, name: u.name, username: u.username, email: u.email, theme: u.theme, treeOpen: !!u.tree_open,
 });
 
 function readCookie(request, name) {
