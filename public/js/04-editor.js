@@ -3,7 +3,7 @@ const map={color:o=>o.c=st.color,fill:o=>o.fc=st.fill,dofill:o=>o.df=st.doFill,o
  size:o=>o.t=='text'?o.fs=st.size*3:o.s=st.size,brush:o=>{if(o.t=='stroke'&&o.br!='eraser')o.br=st.brush},
  font:o=>{if(o.t=='text')o.f=st.font},bold:o=>{if(o.t=='text')o.b=st.bold},italic:o=>{if(o.t=='text')o.i=st.italic}};
 function readUI(){st.color=$('#color').value;st.fill=$('#fill').value;st.doFill=$('#dofill').checked;st.size=+$('#size').value;st.op=$('#op').value/100;
- st.brush=$('#brush').value;st.font=$('#font').value;$('#bold').classList.toggle('on',st.bold);$('#italic').classList.toggle('on',st.italic);colMark();brushMark();skUpd()}
+ st.brush=$('#brush').value;st.font=$('#font').value;$('#bold').classList.toggle('on',st.bold);$('#italic').classList.toggle('on',st.italic);if(typeof colMark=='function'){colMark();brushMark();skUpd()}}
 function syncUI(){if(!sel)return;$('#color').value=sel.c;$('#fill').value=sel.fc;$('#dofill').checked=!!sel.df;$('#op').value=sel.op*100;
  $('#size').value=sel.t=='text'?Math.round(sel.fs/3):sel.s;if(sel.t=='text'){$('#font').value=sel.f;st.bold=!!sel.b;st.italic=!!sel.i}
  if(sel.t=='stroke'&&sel.br!='eraser')$('#brush').value=sel.br;readUI()}
