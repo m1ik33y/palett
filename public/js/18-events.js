@@ -4,7 +4,7 @@ document.addEventListener('click',e=>{const T=e.target;
  if(T.closest('#afold')){go('arch');return}
  const th=T.closest('[data-th]');if(th){user.theme=th.dataset.th;theme();saveProfile();pop();pop();return}
  const nv=T.closest('[data-n]');if(nv){nv.dataset.n=='home'?go('home'):go('lib',nv.dataset.n);return}
- const nt=T.closest('[data-nt]');if(nt){const t=nt.dataset.nt;if(t=='import'){f2.click();return}S.mode=t;newView();return}
+ const nt=T.closest('[data-nt]');if(nt){const t=nt.dataset.nt;if(t=='import'){f2.click();return}if(t=='carousel'&&S.mode!='carousel'){Object.assign(S,{mode:t,dir:'h',n:3,pre:'pt',w:1080,h:1350})}else if(t!='carousel'&&S.mode=='carousel'){Object.assign(S,{mode:t,pre:'hd',w:1920,h:1080})}S.mode=t;newView();return}
  const g=T.closest('[data-go]');if(g){go('lib',g.dataset.go);return}
  const a=T.closest('[data-a]'),c=T.closest('.card'),id=c&&c.dataset.id,m=books.find(b=>b.id==id);
  if(a){const k=a.dataset.a;

@@ -54,6 +54,11 @@ function render(keep){if(!keep)qs();
  sc.setTransform(1,0,0,1,0,0);sc.clearRect(0,0,w,h);T();
  sc.shadowColor='rgba(0,0,0,.35)';sc.shadowBlur=18;sc.fillStyle=bg;sc.fillRect(0,0,W,H);sc.shadowBlur=0;sc.imageSmoothingQuality='high';
  sc.setTransform(1,0,0,1,0,0);sc.drawImage(src,0,0);T();
+ {const ab=$('#addsl');if(ab.hidden==!!car)ab.hidden=!car;if(car){const t='+ Add slide ('+car.n+')';if(ab.textContent!=t)ab.textContent=t;
+  sc.save();const k=1/view.s;sc.strokeStyle='rgba(120,120,128,.9)';sc.lineWidth=2*k;sc.setLineDash([10*k,8*k]);sc.beginPath();
+  for(let i=1;i<car.n;i++){if(car.dir=='h'){sc.moveTo(i*car.sw,0);sc.lineTo(i*car.sw,H)}else{sc.moveTo(0,i*car.sh);sc.lineTo(W,i*car.sh)}}sc.stroke();sc.setLineDash([]);
+  sc.font='600 '+13*k+'px sans-serif';sc.textBaseline='top';sc.fillStyle='rgba(120,120,128,.95)';
+  for(let i=0;i<car.n;i++)sc.fillText(String(i+1),(car.dir=='h'?i*car.sw:0)+8*k,(car.dir=='v'?i*car.sh:0)+6*k);sc.restore()}}
  if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}else $('#ypos').hidden=true
  if(sel&&tool=='select'&&!sel.ed){const k=1/view.s;sc.strokeStyle='#4f46e5';sc.lineWidth=1.5*k;sc.strokeRect(sel.x,sel.y,sel.w,sel.h);
   sc.fillStyle='#fff';HS.forEach(([n,a,b])=>{const x=sel.x+a*sel.w-4.5*k,y=sel.y+b*sel.h-4.5*k;sc.fillRect(x,y,9*k,9*k);sc.strokeRect(x,y,9*k,9*k)})}
@@ -65,5 +70,5 @@ const nm=o=>o.t=='text'?'T: '+o.l.slice(0,14):o.t=='stroke'?(o.br=='eraser'?'era
 function add(o){o.id=nid++;objs.push(o);sel=o;syncUI();layers();render()}
 function setTool(t){tool=t;if(t!='text')$('#tpop').hidden=true;if(t!='select')sel=null;document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));
  stage.style.cursor=t=='select'?'default':t=='hand'?'grab':t=='text'?'text':'crosshair';layers();render()}
-function fitView(){const r=stage.getBoundingClientRect();if(!r.width||!r.height)return;fitMode=1;if(SCR){view.s=Math.min(2,(r.width-48)/W);view.x=(r.width-W*view.s)/2;view.y=24}
+function fitView(){const r=stage.getBoundingClientRect();if(!r.width||!r.height)return;fitMode=1;if(car){const fw=car.sw,fh=car.sh;view.s=Math.min((r.width-48)/fw,(r.height-48)/fh);view.x=(r.width-fw*view.s)/2;view.y=(r.height-fh*view.s)/2}else if(SCR){view.s=Math.min(2,(r.width-48)/W);view.x=(r.width-W*view.s)/2;view.y=24}
  else{view.s=Math.min((r.width-48)/W,(r.height-48)/H);view.x=(r.width-W*view.s)/2;view.y=(r.height-H*view.s)/2}render()}

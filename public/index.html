@@ -14,7 +14,8 @@
 <div id="ft" hidden><div class="fbar"><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook"></button></div><div id="ftl"></div></div>
 <button class="nv nw" data-nt="blank" data-ic="blank"><span>Blank</span></button>
 <button class="nv nw" data-nt="import" data-ic="upload"><span>Import</span></button>
-<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button></div>
+<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button>
+<button class="nv nw" data-nt="carousel" data-ic="carousel"><span>Carousel</span></button></div>
 <button id="nb" class="nv" data-a="new" data-ic="plus"><span>Create</span></button></aside>
 <div id="app">
 <header id="top">
@@ -53,7 +54,7 @@
 <div class="grp">
 <button id="fit" data-ic="fit" title="Fit to screen"></button><span id="zoom">100%</span><button id="pan" data-ic="palette" title="Colour &amp; brush panel"></button><button id="lay2" data-ic="layers" title="Layers"></button></div>
 </div>
-<div id="work"><div id="wrap"><canvas id="stage"></canvas><span id="ypos" hidden></span></div>
+<div id="work"><div id="wrap"><canvas id="stage"></canvas><span id="ypos" hidden></span><button id="addsl" hidden></button></div>
 <div id="side"><h4 data-ic="palette"><span id="sht">Colour &amp; brush</span></h4><div id="pnl">
 <div class="ps">Colour</div><div class="cgrid"><button class="cs" data-c="#000000" style="background:#000000" title="#000000"></button><button class="cs" data-c="#2b2b2b" style="background:#2b2b2b" title="#2b2b2b"></button><button class="cs" data-c="#555555" style="background:#555555" title="#555555"></button><button class="cs" data-c="#808080" style="background:#808080" title="#808080"></button><button class="cs" data-c="#aaaaaa" style="background:#aaaaaa" title="#aaaaaa"></button><button class="cs" data-c="#d4d4d4" style="background:#d4d4d4" title="#d4d4d4"></button><button class="cs" data-c="#ffffff" style="background:#ffffff" title="#ffffff"></button><button class="cs" data-c="#5c1a1a" style="background:#5c1a1a" title="#5c1a1a"></button><button class="cs" data-c="#b71c1c" style="background:#b71c1c" title="#b71c1c"></button><button class="cs" data-c="#ff3b30" style="background:#ff3b30" title="#ff3b30"></button><button class="cs" data-c="#ff7a59" style="background:#ff7a59" title="#ff7a59"></button><button class="cs" data-c="#ff9500" style="background:#ff9500" title="#ff9500"></button><button class="cs" data-c="#ffc107" style="background:#ffc107" title="#ffc107"></button><button class="cs" data-c="#ffe066" style="background:#ffe066" title="#ffe066"></button><button class="cs" data-c="#1b4332" style="background:#1b4332" title="#1b4332"></button><button class="cs" data-c="#2e7d32" style="background:#2e7d32" title="#2e7d32"></button><button class="cs" data-c="#34c759" style="background:#34c759" title="#34c759"></button><button class="cs" data-c="#8bc34a" style="background:#8bc34a" title="#8bc34a"></button><button class="cs" data-c="#00c7be" style="background:#00c7be" title="#00c7be"></button><button class="cs" data-c="#00897b" style="background:#00897b" title="#00897b"></button><button class="cs" data-c="#b7e4c7" style="background:#b7e4c7" title="#b7e4c7"></button><button class="cs" data-c="#0d1b4c" style="background:#0d1b4c" title="#0d1b4c"></button><button class="cs" data-c="#1565c0" style="background:#1565c0" title="#1565c0"></button><button class="cs" data-c="#007aff" style="background:#007aff" title="#007aff"></button><button class="cs" data-c="#32ade6" style="background:#32ade6" title="#32ade6"></button><button class="cs" data-c="#5856d6" style="background:#5856d6" title="#5856d6"></button><button class="cs" data-c="#7b1fa2" style="background:#7b1fa2" title="#7b1fa2"></button><button class="cs" data-c="#af52de" style="background:#af52de" title="#af52de"></button><button class="cs" data-c="#ff2d92" style="background:#ff2d92" title="#ff2d92"></button><button class="cs" data-c="#f48fb1" style="background:#f48fb1" title="#f48fb1"></button><button class="cs" data-c="#ffc8dd" style="background:#ffc8dd" title="#ffc8dd"></button><button class="cs" data-c="#5d4037" style="background:#5d4037" title="#5d4037"></button><button class="cs" data-c="#a1887f" style="background:#a1887f" title="#a1887f"></button><button class="cs" data-c="#f1c27d" style="background:#f1c27d" title="#f1c27d"></button><button class="cs" data-c="#ffe0bd" style="background:#ffe0bd" title="#ffe0bd"></button></div>
 <div class="crow"><label>Custom<input type="color" id="color" value="#111111"></label><label>Fill<input type="color" id="fill" value="#ffcc00"><input type="checkbox" id="dofill" title="Fill shapes"></label></div>
@@ -93,5 +94,6 @@
 <script defer src="/js/20-bindings.js"></script>
 <script defer src="/js/21-brush-ui.js"></script>
 <script defer src="/js/23-collab.js"></script>
+<script defer src="/js/24-carousel.js"></script>
 <script defer src="/js/22-init.js"></script>
 </body></html>

@@ -1,7 +1,7 @@
 /* Canvas state, helpers and shape geometry */
 const $=s=>document.querySelector(s);
 const stage=$('#stage'),sc=stage.getContext('2d');
-let cur=null,loading=0,last='',qt,fitMode=1;let W=1920,H=1080,H0=1080,Q=1,SCR=0;
+let car=null,cur=null,loading=0,last='',qt,fitMode=1;let W=1920,H=1080,H0=1080,Q=1,SCR=0;
 const art=document.createElement('canvas'),base=document.createElement('canvas'),lay=document.createElement('canvas');
 const ac=art.getContext('2d'),bc=base.getContext('2d'),lc=lay.getContext('2d');let dirty=1,rq=0;
 function setCanvas(w,h,scr){W=w;H=H0=h;SCR=scr?1:0;

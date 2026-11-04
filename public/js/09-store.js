@@ -5,7 +5,7 @@ const patchMe=b=>api('/me',{method:'PATCH',body:b}).catch(()=>{});
 let nt,spT;
 const saveMeta=m=>{clearTimeout(nt);nt=setTimeout(()=>patchBook(m,{name:m.name}),500)};
 const saveProfile=()=>{clearTimeout(spT);spT=setTimeout(()=>patchMe({name:user.name,theme:user.theme}),400)};
-function payload(){const used={};objs.forEach(o=>{if(o.img&&imgs[o.img])used[o.img]=imgs[o.img].src});return{objs,imgs:used,bg,nid,w:W,h:H0,scroll:SCR}}
+function payload(){const used={};objs.forEach(o=>{if(o.img&&imgs[o.img])used[o.img]=imgs[o.img].src});return{objs,imgs:used,bg,nid,w:W,h:H0,scroll:SCR,car:car||undefined}}
 function thumb(c){const k=document.createElement('canvas');k.width=480;k.height=270;const x=k.getContext('2d');x.fillStyle='#8e8e93';x.fillRect(0,0,480,270);
  if(SCR)x.drawImage(snapshot(0,0,W,W*9/16,480,270),0,0);
  else{const s=Math.min(480/W,270/H),ow=Math.max(1,Math.round(W*s)),oh=Math.max(1,Math.round(H*s));x.drawImage(snapshot(0,0,W,H,ow,oh),(480-ow)/2,(270-oh)/2)}
@@ -23,7 +23,7 @@ async function open(id){const m=books.find(b=>b.id==id);if(!m)return;loading=1;
   let d;try{d=(await api('/books/'+id)).payload}catch(e){loading=0;toast(e.message||'Could not open paintbook');return}
   d=d||{objs:[],imgs:{},bg:'#ffffff',nid:1};imgs={};
  await Promise.all(Object.entries(d.imgs||{}).map(([k,s])=>new Promise(r=>{const im=new Image();im.onload=im.onerror=()=>{imgs[k]=im;r()};im.src=s})));
- setCanvas(d.w||m.w||1920,d.h||m.h||1080,d.scroll!=null?d.scroll:m.scroll);
+ car=d.car||null;setCanvas(d.w||m.w||1920,d.h||m.h||1080,d.scroll!=null?d.scroll:m.scroll);if(car)carQ();
  objs=d.objs;bg=d.bg||'#ffffff';$('#bg').value=bg;pgSw();sel=null;hist=[];redo=[];live=null;drag=null;nid=Math.max(d.nid||1,...objs.map(o=>o.id||0))+1;
  cur=m;last=JSON.stringify(payload());loading=0;$('#bn').value=m.name;$('#fv').classList.toggle('fav',!!m.fav);
  members=[];memberBook=null;go('studio');loadMembers();setTool('brush');layers();setTimeout(fitView,40);$('#st').textContent='Saved '+ago(m.updated).toLowerCase()}
@@ -31,7 +31,7 @@ async function newBook(o){o=o||{};const w=o.w||1920,h=o.h||1080;let m;
   try{m=(await api('/books',{method:'POST',body:{name:(o.name||'').trim()||'Untitled '+(books.length+1),title:(o.title||'').trim(),w,h,scroll:o.scroll?1:0,bg:o.bg||'#ffffff'}})).book}
   catch(e){toast(e.message||'Could not create paintbook');throw e}
   books.unshift(m);await open(m.id);
- {const n=parseInt((o.bg||'#ffffff').slice(1),16);if(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255)<110){$('#color').value='#f5f5f5';readUI()}}if(o.tOn&&m.title)addTitle(m.title);if(o.src)addImg(o.src,o.fill)}
+ {const n=parseInt((o.bg||'#ffffff').slice(1),16);if(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255)<110){$('#color').value='#f5f5f5';readUI()}}if(o.tOn&&m.title)addTitle(m.title);if(o.src)addImg(o.src,o.fill);if(o.car){car=o.car;applyCar(1);saveNow()}}
 function addTitle(t){const n=parseInt(bg.slice(1),16),lum=.299*(n>>16)+.587*(n>>8&255)+.114*(n&255);
  const o=mk({t:'text',x:0,y:0,l:t,fs:Math.max(24,Math.round(Math.min(W,1920)*.045)),f:'Arial',b:1,i:0,c:lum>140?'#111111':'#f5f5f5'});fit(o);o.x=Math.max(20,(W-o.w)/2);o.y=Math.round(Math.min(W,H)*.04);
  o.id=nid++;objs.push(o);layers();render()}
