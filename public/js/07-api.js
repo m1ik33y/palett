@@ -8,6 +8,7 @@ async function api(path,o={}){
   let d=null;try{d=await r.json()}catch(e){}
   if(!r.ok){
     const x=new Error((d&&d.error)||'Request failed ('+r.status+')');x.status=r.status;
+    if(archOpen&&(r.status==403||r.status==404)&&/^\/books/.test(path)&&Date.now()-archAt>=ARCH_MS){x.message='Archive session expired. Enter the password again.';x.archExpired=true;archExpire()}
     if(r.status==401&&!/^\/(auth|archive)/.test(path)&&typeof sessionExpired=='function')sessionExpired();
     throw x}
   return d}

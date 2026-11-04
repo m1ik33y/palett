@@ -1,6 +1,6 @@
 import { HttpError, json } from '../../src/lib/http.js';
 import { getSessionUser } from '../../src/lib/auth.js';
-import { ARCH_TTL, isUnlocked } from '../../src/lib/archive.js';
+import { isUnlocked } from '../../src/lib/archive.js';
 
 const PUBLIC = new Set(['/api/auth/login', '/api/auth/signup', '/api/auth/logout']);
 
@@ -18,12 +18,8 @@ export async function onRequest({ request, env, next, data }) {
     data.user = await getSessionUser(env, request);
     if (!PUBLIC.has(url.pathname) && !data.user) throw new HttpError(401, 'Not signed in');
 
-    // Archive unlock lives on the server-side session row, never in the browser.
+    // Archive unlock lives on the server-side session row, never in the browser. It is not extended by activity.
     data.unlocked = isUnlocked(data.user);
-    const now = Date.now();
-    if (data.unlocked && data.user.arch_until - now < ARCH_TTL - 5 * 60 * 1000) {
-      await env.DB.prepare('UPDATE sessions SET arch_until = ? WHERE id = ?').bind(now + ARCH_TTL, data.user.session_id).run();
-    }
     return await next();
   } catch (e) {
     if (e instanceof HttpError) return json({ error: e.message }, e.status);

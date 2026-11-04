@@ -217,11 +217,13 @@ body.set #v-set{display:block}body.set .dashonly{display:none}
 .tgl{position:relative;width:54px;height:30px;padding:0;border-radius:8px;background:var(--hov);flex:none;transition:background .18s}.tgl:active{transform:none}
 .tgl i{position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:5px;background:var(--mut);transition:transform .18s,background .18s}
 .tgl.on{background:var(--ink)}.tgl.on i{transform:translateX(24px);background:var(--bg)}
-body.sec #v-sec{display:block}body.sec .dashonly{display:none}
+body.arch #v-arch{display:block}body.arch .dashonly{display:none}
 .btn2{background:var(--hov);padding:9px 16px;font-weight:600}
-.sech{display:flex;align-items:center;gap:12px}.sech h1{display:flex;align-items:center;gap:10px;flex:1}
-#sech{position:fixed;z-index:25;background:var(--panel);border-radius:12px;padding:6px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
-#sech button{width:100%;gap:12px;padding:10px 12px;justify-content:flex-start;text-align:left}#sech small{display:block;color:var(--mut)}
+.ahead{display:flex;align-items:center;gap:14px;margin-top:4px}.ahead h1{display:flex;align-items:center;gap:12px;margin:0;flex:1}.afi svg{width:40px;height:40px;display:block}
+.fgrid{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 6px}
+.afold{width:136px;padding:14px 10px 12px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;cursor:pointer;outline:0;animation:apop .22s ease-out}
+.afold:hover,.afold:focus-visible{background:var(--panel)}.afold svg{width:76px;height:76px}.afold b{font-size:13px;margin-top:2px}.afold small{color:var(--mut)}
+@keyframes apop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
 .mbox.sm{width:min(420px,100%);min-height:250px;padding:24px;display:flex;flex-direction:column}.mbox.sm .mh{margin-bottom:22px}.mbox.sm .mh b{font-size:19px}.mbox.sm .fld2{margin:0}.mbox.sm .pwf input{padding:14px 46px 14px 14px}.mbox.sm .aerr{margin:8px 0 0;min-height:20px}.mbox.sm .pri{margin-top:auto!important;padding:14px!important}
 input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;background:none;padding:8px 2px;box-shadow:none}input.ul:focus-visible{outline:0}
 .pwf{position:relative}.pwf input{width:100%;display:block;border:0;border-radius:5px;padding:11px 44px 11px 12px;background:color-mix(in srgb,var(--panel) 93%,#888)}.pwf input:focus-visible{outline:0;box-shadow:0 0 0 1px var(--mut)}

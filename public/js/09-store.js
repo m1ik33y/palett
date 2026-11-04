@@ -45,7 +45,7 @@ function delBook(m){const i=books.indexOf(m);if(i<0)return;books.splice(i,1);ren
 addEventListener('pagehide',()=>{pendDel.forEach((t,id)=>{clearTimeout(t);fetch('/api/books/'+id,{method:'DELETE',keepalive:true})});pendDel.clear()});
 /* Archive: archived paintbooks are only sent by the server while this session is unlocked.
    The browser never holds the password hash or an unlock token (it lives in the server-side session). */
-let archOpen=false;
-async function unlockArch(){const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
+let archOpen=false,archAt=0;const ARCH_MS=7000; // must match ARCH_TTL on the server
+async function unlockArch(){archAt=Date.now();const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
 function lockArch(){archOpen=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
 async function archiveBook(m){try{await api('/books/'+m.id,{method:'PATCH',body:{arch:1}});m.arch=1;lockArch();render_();toast('Archived “'+m.name+'”')}catch(e){toast(e.message||'Could not archive')}}

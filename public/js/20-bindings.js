@@ -3,7 +3,7 @@ $('#av').onclick=pop;$('#back').onclick=()=>leave(()=>go('home'));
 $('#svb').onclick=()=>saveNow(1);
 $('#bn').oninput=e=>{if(cur){cur.name=e.target.value||'Untitled';saveMeta(cur)}};
 $('#fv').onclick=()=>{if(cur){cur.fav=cur.fav?0:1;$('#fv').classList.toggle('fav',!!cur.fav);patchBook(cur,{fav:cur.fav})}};
-$('#q').oninput=e=>{$('#sech').hidden=1;qv=e.target.value;if(!document.body.classList.contains('lib'))go('lib',tab);else lib()};
+$('#q').oninput=e=>{qv=e.target.value;if(!document.body.classList.contains('lib'))go('lib',tab);else lib()};
 const f2=document.createElement('input');f2.type='file';f2.accept='image/*';f2.id='f2';f2.hidden=true;document.body.append(f2);
 f2.onchange=e=>{const f=e.target.files[0];e.target.value='';loadImgFile(f)};
 addEventListener('beforeunload',e=>{if(isDirty()){e.preventDefault();e.returnValue=''}});

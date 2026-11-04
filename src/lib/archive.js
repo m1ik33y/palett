@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { HttpError } from './http.js';
 import { verifyPassword } from './crypto.js';
 
-export const ARCH_TTL = 15 * 60 * 1000; // how long a session stays unlocked (sliding)
+export const ARCH_TTL = 7000; // the unlock token lives 7 seconds and is never extended; after that the password is needed again
 
 // bcrypt only uses the first 72 bytes of a password, so longer ones are refused instead of silently truncated.
 export function checkArchivePassword(pw, { min = 1 } = {}) {
