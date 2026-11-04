@@ -6,7 +6,10 @@ export async function onRequestGet({ request, env, data }) {
   const archived = new URL(request.url).searchParams.get('archived') === '1';
   if (archived && !data.unlocked) throw new HttpError(403, 'Archive is locked');
   const { results } = await env.DB.prepare(
-    `SELECT ${META_COLS} FROM books WHERE user_id = ? AND arch = ? ORDER BY updated_at DESC`
+    `SELECT ${META_COLS}, 0 AS shared FROM books WHERE user_id = ?1 AND arch = ?2
+     UNION ALL
+     SELECT ${META_COLS}, 1 AS shared FROM books WHERE ?2 = 0 AND arch = 0 AND id IN (SELECT book_id FROM book_members WHERE user_id = ?1)
+     ORDER BY updated_at DESC`
   ).bind(data.user.id, archived ? 1 : 0).all();
   return json({ books: results.map(bookMeta) });
 }

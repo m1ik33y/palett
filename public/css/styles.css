@@ -246,3 +246,16 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 .dlg .dbt .btn2{width:100%;justify-content:center;padding:14px;font-size:15px;font-weight:700;border-radius:12px}
 .dlg .dgo{background:#ff453a;color:#fff}.dlg .dgo:hover:not(:disabled){background:#ff5a4f}.dlg .dgo:disabled{opacity:.6;cursor:wait}
 .dlg .dkp{background:var(--hov);color:var(--ink)}
+
+/* Collaboration popup */
+.inv{padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px}
+.invt{font-size:15px}
+.invr{display:flex;align-items:flex-end;gap:12px}
+.invr input{flex:1;min-width:0;background:none;border:0;border-bottom:2px solid var(--mut);border-radius:0;padding:6px 2px;color:var(--ink);font-size:15px;outline:none}
+.invr input:focus{border-bottom-color:var(--acc)}
+#pop .invbtn{width:auto;padding:6px 4px;background:none;color:var(--acc);font-weight:700;border-radius:6px}
+.invbtn:disabled{opacity:.5}
+.inv .aerr{min-height:16px;margin:0}
+.invl{color:var(--mut);font-size:12.5px;font-weight:600}
+.cpfs{display:flex;flex-wrap:wrap;gap:8px}
+.cpf{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:#fff;font-weight:800;font-size:14px;flex:none}

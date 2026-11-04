@@ -52,3 +52,12 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   count       INTEGER NOT NULL,
   reset_at    INTEGER NOT NULL
 );
+
+-- Collaboration: people invited to a paintbook
+CREATE TABLE IF NOT EXISTS book_members (
+  book_id   TEXT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+  user_id   TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  added_at  INTEGER NOT NULL,
+  PRIMARY KEY (book_id, user_id)
+);
+CREATE INDEX IF NOT EXISTS idx_members_user ON book_members(user_id);

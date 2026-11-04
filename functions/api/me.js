@@ -27,6 +27,7 @@ export async function onRequestPatch({ request, env, data }) {
 export async function onRequestDelete({ env, data, request }) {
   const id = data.user.id;
   await env.DB.batch([
+    env.DB.prepare('DELETE FROM book_members WHERE user_id = ? OR book_id IN (SELECT id FROM books WHERE user_id = ?)').bind(id, id),
     env.DB.prepare('DELETE FROM book_chunks WHERE book_id IN (SELECT id FROM books WHERE user_id = ?)').bind(id),
     env.DB.prepare('DELETE FROM books WHERE user_id = ?').bind(id),
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(id),

@@ -1,5 +1,5 @@
 /* Toolbar, menu and dashboard bindings */
-$('#av').onclick=pop;$('#back').onclick=()=>leave(()=>go('home'));
+$('#av').onclick=()=>document.body.classList.contains('studio')&&cur?invitePop():pop();$('#back').onclick=()=>leave(()=>go('home'));
 $('#svb').onclick=()=>saveNow(1);
 $('#bn').oninput=e=>{if(cur){cur.name=e.target.value||'Untitled';saveMeta(cur)}};
 $('#fv').onclick=()=>{if(cur){cur.fav=cur.fav?0:1;$('#fv').classList.toggle('fav',!!cur.fav);patchBook(cur,{fav:cur.fav})}};

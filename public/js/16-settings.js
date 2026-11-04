@@ -21,7 +21,7 @@ function confirmDelete(){const n=vis().length,ini=esc((user.name.trim()[0]||'A')
 <p class="dtx">This is permanent and can't be undone. Everything tied to this account will be erased:</p>
 <ul class="dls"><li>${ic('trash',16)}<span>${n} paintbook${n==1?'':'s'}, plus anything in your archive</span></li><li>${ic('user',16)}<span>Your profile, name and settings</span></li></ul>
 <div class="aerr" id="derr"></div>
-<div class="dbt"><button class="btn2 dgo" id="dok">Yes, delete my account</button><button class="btn2 dkp" data-mc>Keep my account</button></div>`,'sm dlg');
+<div class="dbt"><button class="btn2 dgo" id="dok">Yes, delete my account</button></div>`,'sm dlg');
  $('#dok').onclick=async()=>{const b=$('#dok');b.disabled=true;b.textContent='Deleting…';
   try{await api('/me',{method:'DELETE'});mclose();me=null;lastUid=null;books=[];archOpen=false;cur=null;user={name:'Artist',theme:user.theme};theme();avatar();go('home');showAuth('up')}
   catch(e){b.disabled=false;b.textContent='Yes, delete my account';$('#derr').textContent=e.message||'Could not delete account.'}}}
