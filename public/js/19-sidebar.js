@@ -2,7 +2,7 @@
 let fopen=false,fren=null,fmid=null;
 const fmHide=()=>{$('#fmenu').hidden=1;document.querySelectorAll('.fr.mo').forEach(e=>e.classList.remove('mo'))};
 $('#fmenu').onclick=e=>{const b=e.target.closest('[data-mx]');if(!b)return;const id=fmid;fmHide();
- if(b.dataset.mx=='rn'){fren=id;ftRender()}else if(b.dataset.mx=='ar'){const m=books.find(x=>x.id==id);if(m)archPrompt(()=>archiveBook(m))}else{const m=books.find(x=>x.id==id);if(!m)return;delBook(m)}};
+ if(b.dataset.mx=='rn'){fren=id;ftRender()}else if(b.dataset.mx=='ar'){const m=books.find(x=>x.id==id);if(m)archPrompt(p=>archiveBook(m,p))}else{const m=books.find(x=>x.id==id);if(!m)return;delBook(m)}};
 const fsave=()=>patchMe({treeOpen:fopen?1:0});
 function ftRender(){const box=$('#ftl');if(!box)return;
  const l=[...vis()].sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));

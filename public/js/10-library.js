@@ -10,6 +10,6 @@ ${rec.length?`<div class="sec"><h2>Recent</h2><div class="grow"></div><button cl
 ${fav.length?`<div class="sec"><h2>Favourites</h2><div class="grow"></div><button class="lnk" data-go="fav">See all</button></div>${grid(fav.slice(0,4))}`:''}`}
 function lib(){let l=tab=='recent'?byUp().slice(0,24):tab=='fav'?byUp().filter(b=>b.fav):byUp();if(qv)l=l.filter(match);
  const T={all:'All paintbooks',recent:'Recents',fav:'Favourites'};
- if(tab=='all'){$('#v-lib').innerHTML='<h1>My Studio</h1>'+archTile();return}
- $('#v-lib').innerHTML=`<h1>${T[tab]}</h1><div class="pills">${Object.entries(T).map(([k,v])=>`<button data-go="${k}" class="${k==tab?'on':''}">${v}</button>`).join('')}</div>${archTile()}${grid(l,qv?'No paintbooks match your search.':'Nothing here yet.')}`}
+ if(tab=='all'&&!qv){$('#v-lib').innerHTML='<h1>My Studio</h1>'+archTile();return}
+ $('#v-lib').innerHTML=`<h1>${tab=='all'?'My Studio':T[tab]}</h1>${tab=='all'?'':`<div class="pills">${Object.entries(T).map(([k,v])=>`<button data-go="${k}" class="${k==tab?'on':''}">${v}</button>`).join('')}</div>`}${archTile()}${grid(l,qv?'No paintbooks match your search.':'Nothing here yet.')}`}
 const render_=()=>{if(document.body.classList.contains('home'))home();if(document.body.classList.contains('lib'))lib();if(document.body.classList.contains('arch'))archPage();ftRender()};

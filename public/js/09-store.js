@@ -43,9 +43,12 @@ function delBook(m){const i=books.indexOf(m);if(i<0)return;books.splice(i,1);ren
   pendDel.set(m.id,t);
   toast('Deleted “'+m.name+'”','Undo',()=>{clearTimeout(t);pendDel.delete(m.id);books.splice(Math.min(i,books.length),0,m);render_()})}
 addEventListener('pagehide',()=>{pendDel.forEach((t,id)=>{clearTimeout(t);fetch('/api/books/'+id,{method:'DELETE',keepalive:true})});pendDel.clear()});
-/* Archive: archived paintbooks are only sent by the server while this session is unlocked.
-   The browser never holds the password hash or an unlock token (it lives in the server-side session). */
-let archOpen=false,archAt=0;const ARCH_MS=7000; // must match ARCH_TTL on the server
-async function unlockArch(){archAt=Date.now();const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
-function lockArch(){archOpen=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
-async function archiveBook(m){try{await api('/books/'+m.id,{method:'PATCH',body:{arch:1}});m.arch=1;lockArch();render_();toast('Archived “'+m.name+'”')}catch(e){toast(e.message||'Could not archive')}}
+/* Archive: archived paintbooks are only sent by the server while the folder session is open.
+   Flow: password -> 7 s entry pass (/archive/verify) -> pass is exchanged once for the folder session (/archive/enter).
+   The folder session ends on Esc/Exit/leaving, when the page closes, or ~2 min after the last activity. */
+let archOpen=false,archBeat=0;
+const archEnter=pass=>api('/archive/enter',{method:'POST',body:{pass}});
+async function unlockArch(pass){await archEnter(pass);const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true;clearInterval(archBeat);archBeat=setInterval(archPing,30000)}
+function archPing(){if(!archOpen)return;api('/archive/status').then(r=>{if(!r.unlocked)archExpire()}).catch(()=>{})}
+function lockArch(){archOpen=false;clearInterval(archBeat);books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
+async function archiveBook(m,pass){try{await archEnter(pass);await api('/books/'+m.id,{method:'PATCH',body:{arch:1}});m.arch=1;lockArch();render_();toast('Archived “'+m.name+'”')}catch(e){lockArch();toast(e.message||'Could not archive')}}
