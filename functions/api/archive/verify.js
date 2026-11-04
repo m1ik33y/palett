@@ -20,7 +20,7 @@ export async function onRequestPost({ request, env, data }) {
   let created = false;
   if (!user.arch_hash) {
     if (b.create !== true) throw new HttpError(401, 'Password not found');
-    checkArchivePassword(password, { min: 6 });
+    checkArchivePassword(password, { min: 1 });
     await env.DB.prepare('UPDATE users SET arch_hash = ? WHERE id = ?').bind(await hashArchive(env, password), user.id).run();
     created = true;
   } else {
