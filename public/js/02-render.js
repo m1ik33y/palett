@@ -52,13 +52,22 @@ function render(keep){if(!keep)qs();
  let src=lay;
  if(live){fc.setTransform(1,0,0,1,0,0);fc.clearRect(0,0,w,h);fc.drawImage(lay,0,0);fc.setTransform(dpr*view.s,0,0,dpr*view.s,dpr*view.x,dpr*view.y);fc.save();if(SCR){fc.beginPath();fc.rect(0,0,W,H);fc.clip()}draw(fc,live);fc.restore();src=frm}
  sc.setTransform(1,0,0,1,0,0);sc.clearRect(0,0,w,h);T();
- sc.shadowColor='rgba(0,0,0,.35)';sc.shadowBlur=18;sc.fillStyle=bg;sc.fillRect(0,0,W,H);sc.shadowBlur=0;sc.imageSmoothingQuality='high';
- sc.setTransform(1,0,0,1,0,0);sc.drawImage(src,0,0);T();
- {const ab=$('#addsl');if(ab.hidden==!!car)ab.hidden=!car;if(car){const t='+ Add slide ('+car.n+')';if(ab.textContent!=t)ab.textContent=t;
-  sc.save();const k=1/view.s;sc.strokeStyle='rgba(120,120,128,.9)';sc.lineWidth=2*k;sc.setLineDash([10*k,8*k]);sc.beginPath();
-  for(let i=1;i<car.n;i++){if(car.dir=='h'){sc.moveTo(i*car.sw,0);sc.lineTo(i*car.sw,H)}else{sc.moveTo(0,i*car.sh);sc.lineTo(W,i*car.sh)}}sc.stroke();sc.setLineDash([]);
-  sc.font='600 '+13*k+'px sans-serif';sc.textBaseline='top';sc.fillStyle='rgba(120,120,128,.95)';
-  for(let i=0;i<car.n;i++)sc.fillText(String(i+1),(car.dir=='h'?i*car.sw:0)+8*k,(car.dir=='v'?i*car.sh:0)+6*k);sc.restore()}}
+ if(car){
+  const gap=car.gap||28,step=(car.dir=='h'?car.sw:car.sh)+gap;
+  sc.save();sc.shadowColor='rgba(0,0,0,.32)';sc.shadowBlur=18;sc.fillStyle=bg;
+  for(let i=0;i<car.n;i++){const x=car.dir=='h'?i*step:0,y=car.dir=='v'?i*step:0;sc.fillRect(x,y,car.sw,car.sh)}
+  sc.shadowBlur=0;sc.restore();
+ }else{
+  sc.shadowColor='rgba(0,0,0,.35)';sc.shadowBlur=18;sc.fillStyle=bg;sc.fillRect(0,0,W,H);sc.shadowBlur=0;
+ }
+ sc.imageSmoothingQuality='high';sc.setTransform(1,0,0,1,0,0);sc.drawImage(src,0,0);T();
+ if(car){
+  const gap=car.gap||28,step=(car.dir=='h'?car.sw:car.sh)+gap;
+  sc.save();sc.font='600 '+13/view.s+'px sans-serif';sc.textBaseline='top';sc.fillStyle='rgba(120,120,128,.95)';
+  for(let i=0;i<car.n;i++){const x=car.dir=='h'?i*step:0,y=car.dir=='v'?i*step:0;sc.fillText(String(i+1),x+8/view.s,y+6/view.s)}
+  sc.restore();
+ }
+ {const ab=$('#addsl');if(ab.hidden==!!car)ab.hidden=!car;if(car){const t='+ Add slide ('+car.n+')';if(ab.textContent!=t)ab.textContent=t}}
  if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}else $('#ypos').hidden=true
  if(sel&&tool=='select'&&!sel.ed){const k=1/view.s;sc.strokeStyle='#4f46e5';sc.lineWidth=1.5*k;sc.strokeRect(sel.x,sel.y,sel.w,sel.h);
   sc.fillStyle='#fff';HS.forEach(([n,a,b])=>{const x=sel.x+a*sel.w-4.5*k,y=sel.y+b*sel.h-4.5*k;sc.fillRect(x,y,9*k,9*k);sc.strokeRect(x,y,9*k,9*k)})}

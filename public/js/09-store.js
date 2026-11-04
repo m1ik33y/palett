@@ -23,7 +23,21 @@ async function open(id){if(typeof liveStop==='function')liveStop();const m=books
   let d;try{d=(await api('/books/'+id)).payload}catch(e){loading=0;toast(e.message||'Could not open paintbook');return}
   d=d||{objs:[],imgs:{},bg:'#ffffff',nid:1};imgs={};
  await Promise.all(Object.entries(d.imgs||{}).map(([k,s])=>new Promise(r=>{const im=new Image();im.onload=im.onerror=()=>{imgs[k]=im;r()};im.src=s})));
- car=d.car||null;setCanvas(d.w||m.w||1920,d.h||m.h||1080,d.scroll!=null?d.scroll:m.scroll);if(car)carQ();
+ car=d.car||null;
+ if(car){
+  const gap=28,oldGap=Number(car.gap)||0;
+  if(!oldGap){
+   for(const o of (d.objs||[])){
+    const pos=car.dir=='h'?o.x:o.y,unit=car.dir=='h'?car.sw:car.sh;
+    const idx=Math.max(0,Math.floor(pos/unit)),shift=idx*gap;
+    if(car.dir=='h')o.x+=shift;else o.y+=shift;
+   }
+   car.gap=gap;
+  }
+  const g=car.gap;
+  setCanvas(car.dir=='h'?car.sw*car.n+g*(car.n-1):car.sw,
+            car.dir=='v'?car.sh*car.n+g*(car.n-1):car.sh,0);carQ();
+ }else setCanvas(d.w||m.w||1920,d.h||m.h||1080,d.scroll!=null?d.scroll:m.scroll);
  objs=d.objs;bg=d.bg||'#ffffff';$('#bg').value=bg;pgSw();sel=null;hist=[];redo=[];live=null;drag=null;nid=Math.max(d.nid||1,...objs.map(o=>o.id||0))+1;
  cur=m;last=JSON.stringify(payload());loading=0;$('#bn').value=m.name;$('#fv').classList.toggle('fav',!!m.fav);
  members=[];memberBook=null;go('studio');loadMembers();setTool('brush');layers();setTimeout(fitView,40);$('#st').textContent='Saved '+ago(m.updated).toLowerCase()}
