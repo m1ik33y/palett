@@ -1,5 +1,5 @@
 import { HttpError, json, readJson } from '../../src/lib/http.js';
-import { publicUser } from '../../src/lib/auth.js';
+import { publicUser, sessionCookie } from '../../src/lib/auth.js';
 
 export async function onRequestGet({ data }) {
   return json({ user: publicUser(data.user) });
@@ -21,4 +21,16 @@ export async function onRequestPatch({ request, env, data }) {
   if (sets.length) await env.DB.prepare(`UPDATE users SET ${sets.join(', ')} WHERE id = ?`).bind(...vals, data.user.id).run();
   const row = await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(data.user.id).first();
   return json({ user: publicUser(row) });
+}
+
+// Permanently deletes the account and everything owned by it.
+export async function onRequestDelete({ env, data, request }) {
+  const id = data.user.id;
+  await env.DB.batch([
+    env.DB.prepare('DELETE FROM book_chunks WHERE book_id IN (SELECT id FROM books WHERE user_id = ?)').bind(id),
+    env.DB.prepare('DELETE FROM books WHERE user_id = ?').bind(id),
+    env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(id),
+    env.DB.prepare('DELETE FROM users WHERE id = ?').bind(id),
+  ]);
+  return json({ ok: true }, 200, { 'set-cookie': sessionCookie(request, '', 0) });
 }
