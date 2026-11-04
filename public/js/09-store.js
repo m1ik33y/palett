@@ -25,7 +25,7 @@ async function open(id){const m=books.find(b=>b.id==id);if(!m)return;loading=1;
  await Promise.all(Object.entries(d.imgs||{}).map(([k,s])=>new Promise(r=>{const im=new Image();im.onload=im.onerror=()=>{imgs[k]=im;r()};im.src=s})));
  setCanvas(d.w||m.w||1920,d.h||m.h||1080,d.scroll!=null?d.scroll:m.scroll);
  objs=d.objs;bg=d.bg||'#ffffff';$('#bg').value=bg;pgSw();sel=null;hist=[];redo=[];live=null;drag=null;nid=Math.max(d.nid||1,...objs.map(o=>o.id||0))+1;
- cur=m;last=JSON.stringify(payload());loading=0;members=[];memberBook=null;stackRender();loadMembers().then(stackRender);$('#bn').value=m.name;$('#fv').classList.toggle('fav',!!m.fav);
+ cur=m;last=JSON.stringify(payload());loading=0;$('#bn').value=m.name;$('#fv').classList.toggle('fav',!!m.fav);
  go('studio');setTool('brush');layers();setTimeout(fitView,40);$('#st').textContent='Saved '+ago(m.updated).toLowerCase()}
 async function newBook(o){o=o||{};const w=o.w||1920,h=o.h||1080;let m;
   try{m=(await api('/books',{method:'POST',body:{name:(o.name||'').trim()||'Untitled '+(books.length+1),title:(o.title||'').trim(),w,h,scroll:o.scroll?1:0,bg:o.bg||'#ffffff'}})).book}
