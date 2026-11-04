@@ -19,7 +19,7 @@ async function saveNow(manual){if(!cur||loading)return;clearTimeout(qt);const c=
     try{const r=await api('/books/'+c.id,{method:'PUT',body:{payload:p,thumb:c.thumb,w:p.w,h:p.h,scroll:p.scroll?1:0,name:c.name}});last=s;c.updated=r.book.updated}
     catch(e){toast(e.message||'Save failed');return false}}
   $('#st').textContent='Saved '+ago(c.updated).toLowerCase();if(manual)toast('Paintbook saved');return true}
-async function open(id){const m=books.find(b=>b.id==id);if(!m)return;loading=1;
+async function open(id){if(typeof liveStop==='function')liveStop();const m=books.find(b=>b.id==id);if(!m)return;loading=1;
   let d;try{d=(await api('/books/'+id)).payload}catch(e){loading=0;toast(e.message||'Could not open paintbook');return}
   d=d||{objs:[],imgs:{},bg:'#ffffff',nid:1};imgs={};
  await Promise.all(Object.entries(d.imgs||{}).map(([k,s])=>new Promise(r=>{const im=new Image();im.onload=im.onerror=()=>{imgs[k]=im;r()};im.src=s})));

@@ -62,7 +62,8 @@ function render(keep){if(!keep)qs();
  if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}else $('#ypos').hidden=true
  if(sel&&tool=='select'&&!sel.ed){const k=1/view.s;sc.strokeStyle='#4f46e5';sc.lineWidth=1.5*k;sc.strokeRect(sel.x,sel.y,sel.w,sel.h);
   sc.fillStyle='#fff';HS.forEach(([n,a,b])=>{const x=sel.x+a*sel.w-4.5*k,y=sel.y+b*sel.h-4.5*k;sc.fillRect(x,y,9*k,9*k);sc.strokeRect(x,y,9*k,9*k)})}
- $('#zoom').textContent=Math.round(view.s*100)+'%';if(window.tbPlace)tbPlace()}
+ $('#zoom').textContent=Math.round(view.s*100)+'%';if(window.tbPlace)tbPlace();
+ if(typeof liveQueue==='function')liveQueue()}
 const wp=e=>{const r=stage.getBoundingClientRect();return[(e.clientX-r.left-view.x)/view.s,(e.clientY-r.top-view.y)/view.s]};
 const hit=(o,x,y)=>{if(o.hide||o.br=='eraser')return false;const p=o.t=='stroke'?o.s+6:4;return x>=o.x-p&&x<=o.x+o.w+p&&y>=o.y-p&&y<=o.y+o.h+p};
 const hh=(x,y)=>{const k=9/view.s;const f=HS.find(([n,a,b])=>Math.abs(sel.x+a*sel.w-x)<k&&Math.abs(sel.y+b*sel.h-y)<k);return f&&f[0]};
