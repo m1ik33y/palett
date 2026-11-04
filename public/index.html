@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Palett</title>
+<meta name="description" content="Palett: brushes, shapes, layers and scroll canvases, saved to your account."><meta name="theme-color" content="#fe713b"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/styles.css">
+</head><body class="home"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wob" x="-5%" y="-25%" width="110%" height="150%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter></svg>
+<aside id="sb"><div id="sbs"><div class="brand"><i class="logo"></i><span>Palett</span></div>
+<button class="nv" data-n="home" data-ic="home"><span>Home</span></button>
+<button class="nv" data-n="all" data-ic="grid"><span>Paintbooks</span></button>
+<button class="nv" data-n="recent" data-ic="clock"><span>Recents</span></button>
+<button class="nv" data-n="fav" data-ic="star"><span>Favourites</span></button>
+<button id="fb" class="nv" data-ic="folder"><span>Folder</span></button>
+<div id="ft" hidden><div class="fbar"><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook"></button></div><div id="ftl"></div></div>
+<button class="nv nw" data-nt="blank" data-ic="blank"><span>Blank</span></button>
+<button class="nv nw" data-nt="import" data-ic="upload"><span>Import</span></button>
+<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button></div>
+<button id="nb" class="nv" data-a="new" data-ic="plus"><span>Create</span></button></aside>
+<div id="app">
+<header id="top">
+<button id="back" class="ib so" data-ic="back" title="Back to dashboard"></button>
+<label class="search dashonly"><span data-ic="search"></span><input id="q" placeholder="Search paintbooks"></label>
+<div class="frow so">
+<button id="nw1" class="tb" data-ic="plus" title="New paintbook"><span class="l">New</span></button><button id="gl" class="tb" data-ic="grid" title="Gallery"><span class="l">Gallery</span></button><button id="exp" class="tb" data-ic="export" title="Export as PNG"><span class="l">Export</span></button><button id="full" class="tb" data-ic="full" title="Fullscreen"><span class="l">Fullscreen</span></button><button id="lyr" class="tb" data-ic="layers" title="Layers"><span class="l">Layers</span></button><button id="fv" class="tb" data-ic="star" title="Favourite"></button><button id="svb" class="tb" data-ic="save" title="Save (Ctrl+S)"><span class="l">Save</span></button></div>
+<input id="bn" class="so" placeholder="Untitled" spellcheck="false">
+<span id="st" class="mut so"></span>
+<div class="grow"></div>
+<button id="av" title="Account"></button>
+<div id="pop" hidden></div>
+</header>
+<section id="v-home" class="view"></section>
+<section id="v-lib" class="view"></section>
+<section id="v-new" class="view"></section>
+<section id="v-set" class="view"></section>
+<section id="v-sec" class="view"></section>
+<section id="v-studio" class="view">
+<div class="rail">
+<div class="grp" id="tools">
+<span class="mw"><button id="hb" data-ic="menu" title="Menu"></button><div id="mnu" hidden>
+<button data-m="new" data-ic="plus">New paintbook</button><button data-m="gal" data-ic="grid">Gallery</button><button data-m="save" data-ic="save">Save</button><button data-m="exp" data-ic="export">Export as PNG</button><button data-m="lay" data-ic="layers">Layers</button><button data-m="fav" data-ic="star">Favourite</button><button data-m="ren" data-ic="edit">Rename</button><button data-m="full" data-ic="full">Fullscreen</button><button data-m="clr" data-ic="clean">Clear canvas</button><button data-m="exit" data-ic="back">Exit to dashboard</button></div></span>
+<button data-t="select" data-ic="cursor" title="Select / move / resize (V)"></button>
+<button data-t="hand" data-ic="hand" title="Pan (H or hold Space)"></button>
+<button data-t="brush" data-ic="brush" title="Brush (B)"></button>
+<button data-t="eraser" data-ic="eraser" title="Eraser (E)"></button>
+<span class="shw"><button id="shp" data-t="shape" title="Shapes (R, O, L)"></button><div id="shf" hidden></div></span>
+<button data-t="text" data-ic="text" title="Text (T) · click again for font options"></button>
+<button id="imp" data-ic="image" title="Import image"></button><button data-t="fill" data-ic="roller" title="Fill (G): click a shape, or the page"></button>
+<input type="file" id="file" accept="image/*" multiple hidden>
+<span class="pgw"><button id="pgb" title="Page colour"><i class="pgs" id="pgs"></i></button><input type="color" id="bg" value="#ffffff" title="Page colour"></span></div>
+<div class="grp">
+<button id="undo" data-ic="undo" title="Undo (Ctrl+Z)"></button><button id="redo" data-ic="redo" title="Redo (Ctrl+Y)"></button>
+<button id="dup" data-ic="copy" title="Duplicate (Ctrl+D)"></button><button id="del" data-ic="trash" title="Delete"></button><button id="clr" data-ic="clean" title="Clear canvas"></button></div>
+<div class="grp">
+<button id="fit" data-ic="fit" title="Fit to screen"></button><span id="zoom">100%</span><button id="pan" data-ic="palette" title="Colour &amp; brush panel"></button><button id="lay2" data-ic="layers" title="Layers"></button></div>
+</div>
+<div id="work"><div id="wrap"><canvas id="stage"></canvas><span id="ypos" hidden></span></div>
+<div id="side"><h4 data-ic="palette"><span id="sht">Colour &amp; brush</span></h4><div id="pnl">
+<div class="ps">Colour</div><div class="cgrid"><button class="cs" data-c="#000000" style="background:#000000" title="#000000"></button><button class="cs" data-c="#2b2b2b" style="background:#2b2b2b" title="#2b2b2b"></button><button class="cs" data-c="#555555" style="background:#555555" title="#555555"></button><button class="cs" data-c="#808080" style="background:#808080" title="#808080"></button><button class="cs" data-c="#aaaaaa" style="background:#aaaaaa" title="#aaaaaa"></button><button class="cs" data-c="#d4d4d4" style="background:#d4d4d4" title="#d4d4d4"></button><button class="cs" data-c="#ffffff" style="background:#ffffff" title="#ffffff"></button><button class="cs" data-c="#5c1a1a" style="background:#5c1a1a" title="#5c1a1a"></button><button class="cs" data-c="#b71c1c" style="background:#b71c1c" title="#b71c1c"></button><button class="cs" data-c="#ff3b30" style="background:#ff3b30" title="#ff3b30"></button><button class="cs" data-c="#ff7a59" style="background:#ff7a59" title="#ff7a59"></button><button class="cs" data-c="#ff9500" style="background:#ff9500" title="#ff9500"></button><button class="cs" data-c="#ffc107" style="background:#ffc107" title="#ffc107"></button><button class="cs" data-c="#ffe066" style="background:#ffe066" title="#ffe066"></button><button class="cs" data-c="#1b4332" style="background:#1b4332" title="#1b4332"></button><button class="cs" data-c="#2e7d32" style="background:#2e7d32" title="#2e7d32"></button><button class="cs" data-c="#34c759" style="background:#34c759" title="#34c759"></button><button class="cs" data-c="#8bc34a" style="background:#8bc34a" title="#8bc34a"></button><button class="cs" data-c="#00c7be" style="background:#00c7be" title="#00c7be"></button><button class="cs" data-c="#00897b" style="background:#00897b" title="#00897b"></button><button class="cs" data-c="#b7e4c7" style="background:#b7e4c7" title="#b7e4c7"></button><button class="cs" data-c="#0d1b4c" style="background:#0d1b4c" title="#0d1b4c"></button><button class="cs" data-c="#1565c0" style="background:#1565c0" title="#1565c0"></button><button class="cs" data-c="#007aff" style="background:#007aff" title="#007aff"></button><button class="cs" data-c="#32ade6" style="background:#32ade6" title="#32ade6"></button><button class="cs" data-c="#5856d6" style="background:#5856d6" title="#5856d6"></button><button class="cs" data-c="#7b1fa2" style="background:#7b1fa2" title="#7b1fa2"></button><button class="cs" data-c="#af52de" style="background:#af52de" title="#af52de"></button><button class="cs" data-c="#ff2d92" style="background:#ff2d92" title="#ff2d92"></button><button class="cs" data-c="#f48fb1" style="background:#f48fb1" title="#f48fb1"></button><button class="cs" data-c="#ffc8dd" style="background:#ffc8dd" title="#ffc8dd"></button><button class="cs" data-c="#5d4037" style="background:#5d4037" title="#5d4037"></button><button class="cs" data-c="#a1887f" style="background:#a1887f" title="#a1887f"></button><button class="cs" data-c="#f1c27d" style="background:#f1c27d" title="#f1c27d"></button><button class="cs" data-c="#ffe0bd" style="background:#ffe0bd" title="#ffe0bd"></button></div>
+<div class="crow"><label>Custom<input type="color" id="color" value="#111111"></label><label>Fill<input type="color" id="fill" value="#ffcc00"><input type="checkbox" id="dofill" title="Fill shapes"></label></div>
+<div class="ps">Brush<span class="mut" style="font-weight:400">double-click for settings</span></div><div class="bgrid"><button class="bb" data-b="pen" title="Pen"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="ball" title="Ballpoint"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="dip" title="Dip pen"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="ink" title="Ink brush"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="pencil" title="Pencil"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="charcoal" title="Charcoal"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="crayon" title="Crayon"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="marker" title="Marker"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="hl" title="Highlighter"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="air" title="Airbrush"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="spray" title="Spray"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="water" title="Watercolour"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="oil" title="Oil paint"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="neon" title="Neon"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="dash" title="Dashed"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="dot" title="Dotted"><canvas width="192" height="68"></canvas></button><button class="bb" data-b="pixel" title="Pixel"><canvas width="192" height="68"></canvas></button></div><select id="brush" hidden><option value="pen">Pen</option><option value="ball">Ballpoint</option><option value="dip">Dip pen</option><option value="ink">Ink brush</option><option value="pencil">Pencil</option><option value="charcoal">Charcoal</option><option value="crayon">Crayon</option><option value="marker">Marker</option><option value="hl">Highlighter</option><option value="air">Airbrush</option><option value="spray">Spray</option><option value="water">Watercolour</option><option value="oil">Oil paint</option><option value="neon">Neon</option><option value="dash">Dashed</option><option value="dot">Dotted</option><option value="pixel">Pixel</option></select>
+<div class="ps">Size<span class="hw" data-v="size"><span id="sv">8</span></span></div><div class="sk sks" data-k="size"><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><svg class="skb skp" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><i class="skn"></i></div><input type="range" id="size" min="1" max="80" value="8" hidden>
+<div class="ps">Opacity<span class="hw" data-v="op">100%</span></div><div class="sk sko" data-k="op"><div class="skf"></div><svg class="skb hat" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M14 31l5-19M23 31l5-19M32 31l5-19M41 31l5-19M50 31l5-19M59 31l5-19M68 31l5-19M77 31l5-19M86 31l5-19M95 31l5-19M104 31l5-19M113 31l5-19M122 31l5-19M131 31l5-19M140 31l5-19M149 31l5-19M158 31l5-19M167 31l5-19M176 31l5-19M185 31l5-19"/></svg><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M7 11C60 8 140 10 193 9C197 17 196 24 194 31C140 33 60 30 6 32C3 24 4 17 7 11Z"/><path d="M9 14C70 12 130 14 191 12" opacity=".4"/></svg><i class="skn"></i></div><input type="range" id="op" min="5" max="100" value="100" hidden>
+</div><div id="layers" hidden></div></div></div>
+</section></div>
+<div id="bpop" hidden><div class="bph"><b id="bpn">Pen</b><button class="ib" id="bpx" title="Close">✕</button></div><canvas id="bpv" width="520" height="140"></canvas>
+<div class="ps">Size<span class="hw" data-v="size"></span></div><div class="sk sks" data-k="size"><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><svg class="skb skp" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><i class="skn"></i></div>
+<div class="ps">Opacity<span class="hw" data-v="op"></span></div><div class="sk sko" data-k="op"><div class="skf"></div><svg class="skb hat" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M14 31l5-19M23 31l5-19M32 31l5-19M41 31l5-19M50 31l5-19M59 31l5-19M68 31l5-19M77 31l5-19M86 31l5-19M95 31l5-19M104 31l5-19M113 31l5-19M122 31l5-19M131 31l5-19M140 31l5-19M149 31l5-19M158 31l5-19M167 31l5-19M176 31l5-19M185 31l5-19"/></svg><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M7 11C60 8 140 10 193 9C197 17 196 24 194 31C140 33 60 30 6 32C3 24 4 17 7 11Z"/><path d="M9 14C70 12 130 14 191 12" opacity=".4"/></svg><i class="skn"></i></div></div>
+<div id="tpop" hidden><b>Text</b><div class="ps">Font</div><select id="font"><option>Arial</option><option>Georgia</option><option>Courier New</option><option>Impact</option><option>Comic Sans MS</option><option>Times New Roman</option></select><div class="ps">Style</div><div class="bi"><button id="bold" class="bt"><b>B</b></button><button id="italic" class="bt"><i>I</i></button></div></div>
+<div id="dlg" hidden><div class="dbox"><b>Save changes?</b><p id="dtx"></p><div class="acts"><button id="dno">Don't save</button><button id="dyes" class="pri">Yes, save</button></div></div></div>
+<div id="fmenu" hidden></div>
+<div id="sech" hidden></div>
+<div id="mdl" hidden><div class="mbox"></div></div>
+<div id="auth"></div>
+<div id="toast"></div>
+<script defer src="/js/01-core.js"></script>
+<script defer src="/js/02-render.js"></script>
+<script defer src="/js/03-pointer.js"></script>
+<script defer src="/js/04-editor.js"></script>
+<script defer src="/js/05-icons.js"></script>
+<script defer src="/js/06-logo.js"></script>
+<script defer src="/js/07-api.js"></script>
+<script defer src="/js/08-helpers.js"></script>
+<script defer src="/js/09-store.js"></script>
+<script defer src="/js/10-library.js"></script>
+<script defer src="/js/11-new-paintbook.js"></script>
+<script defer src="/js/12-nav.js"></script>
+<script defer src="/js/13-legal.js"></script>
+<script defer src="/js/14-account.js"></script>
+<script defer src="/js/15-archive.js"></script>
+<script defer src="/js/16-settings.js"></script>
+<script defer src="/js/17-auth.js"></script>
+<script defer src="/js/18-events.js"></script>
+<script defer src="/js/19-sidebar.js"></script>
+<script defer src="/js/20-bindings.js"></script>
+<script defer src="/js/21-brush-ui.js"></script>
+<script defer src="/js/22-init.js"></script>
+</body></html>
