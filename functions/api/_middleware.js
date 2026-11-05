@@ -28,6 +28,6 @@ export async function onRequest({ request, env, next, data }) {
   } catch (e) {
     if (e instanceof HttpError) return json({ error: e.message }, e.status);
     console.error(e);
-    return json({ error: 'Server error' }, 500);
+    return json({ error: 'Server error', detail: String((e && e.message) || e) }, 500); // TEMP DEBUG: remove `detail` once login works
   }
 }
