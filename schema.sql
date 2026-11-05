@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS book_members (
   book_id     TEXT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
   user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   added_at    INTEGER NOT NULL,
+  arch        INTEGER NOT NULL DEFAULT 0,  -- this collaborator's own archive flag (doesn't affect the owner)
   PRIMARY KEY (book_id, user_id)
 );
 CREATE INDEX IF NOT EXISTS idx_members_user ON book_members(user_id);

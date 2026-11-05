@@ -2,7 +2,7 @@
 let fopen=false,fren=null,fmid=null;
 const fmHide=()=>{$('#fmenu').hidden=1;document.querySelectorAll('.fr.mo').forEach(e=>e.classList.remove('mo'))};
 function fmShow(r,id,x){const fm=$('#fmenu'),m=books.find(b=>b.id==id);if(!fm.hidden&&fmid==id){fmHide();return}fmHide();fmid=id;r.classList.add('mo');
- fm.innerHTML=(PH.matches&&m?`<div class="sh">${esc(m.name)}</div>`:'')+(m&&m.shared?`<button data-mx="lv" class="dng">${ic('logout',16)}Leave paintbook</button>`:`<button data-mx="rn">${ic('edit',16)}Rename</button><button data-mx="ar">${ic('archive',16)}Archive</button><button data-mx="dl" class="dng">${ic('trash',16)}Delete</button>`);fm.hidden=0;
+ fm.innerHTML=(PH.matches&&m?`<div class="sh">${esc(m.name)}</div>`:'')+(m&&m.shared?`<button data-mx="ar">${ic('archive',16)}Archive</button><button data-mx="lv" class="dng">${ic('logout',16)}Leave paintbook</button>`:`<button data-mx="rn">${ic('edit',16)}Rename</button><button data-mx="ar">${ic('archive',16)}Archive</button><button data-mx="dl" class="dng">${ic('trash',16)}Delete</button>`);fm.hidden=0;
  if(PH.matches||!x){fm.style.top=fm.style.left='';return}
  const b=x.getBoundingClientRect();fm.style.top=Math.min(b.bottom+4,innerHeight-100)+'px';fm.style.left=Math.max(8,b.right-150)+'px'}
 $('#fmenu').onclick=e=>{const b=e.target.closest('[data-mx]');if(!b)return;const id=fmid;fmHide();

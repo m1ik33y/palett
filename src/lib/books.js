@@ -35,15 +35,19 @@ export async function ownedBook(env, userId, id, unlocked = false) {
   return row;
 }
 
-// Owner OR invited member. Archived books stay owner-only (and need the archive unlocked).
+// Owner OR invited member. A book archived by this person needs the archive unlocked.
 export async function accessibleBook(env, userId, id, unlocked = false) {
   const row = await env.DB.prepare(
-    `SELECT ${META_COLS}, user_id FROM books b WHERE id = ?1 AND (user_id = ?2 OR EXISTS
+    `SELECT ${META_COLS}, user_id, (SELECT m.arch FROM book_members m WHERE m.book_id = b.id AND m.user_id = ?2) AS march
+       FROM books b WHERE id = ?1 AND (user_id = ?2 OR EXISTS
        (SELECT 1 FROM book_members m WHERE m.book_id = b.id AND m.user_id = ?2))`
   ).bind(id, userId).first();
   if (!row) throw new HttpError(404, 'Paintbook not found');
   row.isOwner = row.user_id === userId;
-  if (row.arch && (!row.isOwner || !unlocked)) throw new HttpError(404, 'Paintbook not found');
+  // Archive is per person: a collaborator's flag lives on book_members and only hides the canvas for them.
+  if (!row.isOwner) row.arch = row.march ? 1 : 0;
+  delete row.march;
+  if (row.arch && !unlocked) throw new HttpError(404, 'Paintbook not found');
   return row;
 }
 

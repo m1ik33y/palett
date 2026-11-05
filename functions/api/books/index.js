@@ -2,15 +2,23 @@ import { HttpError, json, readJson } from '../../../src/lib/http.js';
 import { newId } from '../../../src/lib/crypto.js';
 import { bookMeta, META_COLS, clampDim, chunkStatements, MAX_BOOKS } from '../../../src/lib/books.js';
 
+// For collaborator rows, report the collaborator's own archive flag (the owner's flag is irrelevant to them).
+const META_SHARED = META_COLS.replace(' arch,', ' (SELECT m.arch FROM book_members m WHERE m.book_id = b.id AND m.user_id = ?1) AS arch,');
+
 export async function onRequestGet({ request, env, data }) {
   const archived = new URL(request.url).searchParams.get('archived') === '1';
   if (archived && !data.unlocked) throw new HttpError(403, 'Archive is locked');
   const { results } = archived
-    ? await env.DB.prepare(`SELECT ${META_COLS}, 0 AS shared FROM books WHERE user_id = ? AND arch = 1 ORDER BY updated_at DESC`).bind(data.user.id).all()
+    ? await env.DB.prepare(
+      `SELECT ${META_COLS}, 0 AS shared FROM books WHERE user_id = ?1 AND arch = 1
+       UNION ALL
+       SELECT ${META_SHARED}, 1 AS shared FROM books b WHERE id IN (SELECT book_id FROM book_members WHERE user_id = ?1 AND arch = 1)
+       ORDER BY updated_at DESC`
+    ).bind(data.user.id).all()
     : await env.DB.prepare(
       `SELECT ${META_COLS}, 0 AS shared FROM books WHERE user_id = ?1 AND arch = 0
        UNION ALL
-       SELECT ${META_COLS}, 1 AS shared FROM books WHERE arch = 0 AND id IN (SELECT book_id FROM book_members WHERE user_id = ?1)
+       SELECT ${META_SHARED}, 1 AS shared FROM books b WHERE id IN (SELECT book_id FROM book_members WHERE user_id = ?1 AND arch = 0)
        ORDER BY updated_at DESC`
     ).bind(data.user.id).all();
   return json({ books: results.map(bookMeta) });

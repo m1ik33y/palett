@@ -469,7 +469,7 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
 body.hasbar{padding-top:56px}
 
 /* ===== Archived folder: bare orange folder icon + name, and the folder page header ===== */
-.fcard{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:12px 6px;background:none;border-radius:12px;cursor:pointer;text-align:center;outline:0;-webkit-tap-highlight-color:transparent;transition:transform .15s,opacity .15s}
+.fcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px 6px;background:none;border-radius:12px;width:100%;max-width:160px;aspect-ratio:1/1;box-sizing:border-box;cursor:pointer;text-align:center;outline:0;-webkit-tap-highlight-color:transparent;transition:transform .15s,opacity .15s}
 .fcard:active{transform:scale(.96);opacity:.75}
 @media (hover:hover) and (pointer:fine){.fcard:hover{background:var(--hov)}}
 .fcard:focus-visible{box-shadow:0 0 0 2px #ff8a2b}

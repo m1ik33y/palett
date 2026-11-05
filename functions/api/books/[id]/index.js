@@ -33,8 +33,17 @@ export async function onRequestPut({ request, env, data, params }) {
 
 // Rename / favourite / archive. Does not change "updated".
 export async function onRequestPatch({ request, env, data, params }) {
-  const book = await ownedBook(env, data.user.id, params.id, data.unlocked);
   const b = await readJson(request);
+  // A collaborator can archive/unarchive a shared canvas for themselves only.
+  const member = await env.DB.prepare('SELECT 1 AS ok FROM book_members WHERE book_id = ? AND user_id = ?').bind(params.id, data.user.id).first();
+  if (member) {
+    if (b.arch === undefined || Object.keys(b).some((k) => k !== 'arch')) throw new HttpError(403, 'Only the owner can do that with a shared paintbook.');
+    if (!data.unlocked) throw new HttpError(403, 'Archive is locked');
+    if (b.arch && !data.user.arch_hash) throw new HttpError(400, 'Set an archive password first');
+    await env.DB.prepare('UPDATE book_members SET arch = ? WHERE book_id = ? AND user_id = ?').bind(b.arch ? 1 : 0, params.id, data.user.id).run();
+    return json({ ok: true });
+  }
+  const book = await ownedBook(env, data.user.id, params.id, data.unlocked);
   if (b.arch !== undefined) {
     if (!data.unlocked) throw new HttpError(403, 'Archive is locked');
     if (b.arch && !data.user.arch_hash) throw new HttpError(400, 'Set an archive password first');

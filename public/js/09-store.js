@@ -49,7 +49,7 @@ let archOpen=false,archSolo=false;
 async function unlockArch(){const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
 function lockArch(){archOpen=false;archSolo=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
 async function leaveBook(m){try{await api('/books/'+m.id+'/members?user='+encodeURIComponent(me.id),{method:'DELETE'});books=books.filter(b=>b.id!=m.id);render_();toast('Left “'+m.name+'”')}catch(e){toast(e.message||'Could not leave this paintbook')}}
-async function archiveBook(m){if(m.shared){toast('Only the owner can archive a shared paintbook');return}if(m._ar)return;m._ar=1;
+async function archiveBook(m){if(m._ar)return;m._ar=1;
  const patch=()=>api('/books/'+m.id,{method:'PATCH',body:{arch:1}});
  try{
   try{await patch()}
