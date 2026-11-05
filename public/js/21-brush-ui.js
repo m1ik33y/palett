@@ -30,3 +30,9 @@ addEventListener('keydown',e=>{if(e.key=='Escape'){$('#bpop').hidden=1;$('#shf')
 function showPanel(m){$('#side').hidden=false;$('#lay2').classList.toggle('on',m=='layers');$('#pan').classList.toggle('on',m!='layers');$('#pnl').hidden=m!='paint';$('#layers').hidden=m!='layers';$('#lyr').classList.toggle('on',m=='layers');
  $('#side>h4').innerHTML=ic(m=='layers'?'layers':'palette',20)+'<span id="sht">'+(m=='layers'?'Layers':'Colour &amp; brush')+'</span>';if(m=='layers')layers();fitView()}
 $('#lyr').onclick=()=>showPanel(!$('#side').hidden&&!$('#layers').hidden?'paint':'layers');
+
+/* Phone: brush list opens from a button next to the size slider */
+(()=>{const w=$('#work'),b=$('#brt');if(!w||!b)return;
+ b.onclick=e=>{e.stopPropagation();w.classList.toggle('bo')};
+ $('#side').addEventListener('click',e=>{if(e.target.closest('[data-b]'))w.classList.remove('bo')});
+ document.addEventListener('pointerdown',e=>{if(!e.target.closest('.bgrid,#brt'))w.classList.remove('bo')})})();
