@@ -3,7 +3,7 @@ const map={color:o=>o.c=st.color,fill:o=>o.fc=st.fill,dofill:o=>o.df=st.doFill,o
  size:o=>o.t=='text'?o.fs=st.size*3:o.s=st.size,brush:o=>{if(o.t=='stroke'&&o.br!='eraser')o.br=st.brush},
  font:o=>{if(o.t=='text')o.f=st.font},bold:o=>{if(o.t=='text')o.b=st.bold},italic:o=>{if(o.t=='text')o.i=st.italic}};
 function readUI(){st.color=$('#color').value;st.fill=$('#fill').value;st.doFill=$('#dofill').checked;st.size=+$('#size').value;st.op=$('#op').value/100;
- st.brush=$('#brush').value;st.font=$('#font').value;$('#bold').classList.toggle('on',st.bold);$('#italic').classList.toggle('on',st.italic);colMark();brushMark();skUpd()}
+ st.brush=$('#brush').value;st.font=$('#font').value;$('#bold').classList.toggle('on',st.bold);$('#italic').classList.toggle('on',st.italic);if(typeof colMark=='function'){colMark();brushMark();skUpd()}}
 function syncUI(){if(!sel)return;$('#color').value=sel.c;$('#fill').value=sel.fc;$('#dofill').checked=!!sel.df;$('#op').value=sel.op*100;
  $('#size').value=sel.t=='text'?Math.round(sel.fs/3):sel.s;if(sel.t=='text'){$('#font').value=sel.f;st.bold=!!sel.b;st.italic=!!sel.i}
  if(sel.t=='stroke'&&sel.br!='eraser')$('#brush').value=sel.br;readUI()}
@@ -44,7 +44,7 @@ $('#zoom').title='Reset to 100%';$('#zoom').onclick=()=>{const r=stage.getBoundi
 $('#full').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
 addEventListener('fullscreenchange',()=>setTimeout(fitView,100));
 document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{const t=b.dataset.t;
- if(t=='text'&&tool=='text'){const p=$('#tpop');if(!p.hidden){p.hidden=true;return}p.hidden=false;const r=b.getBoundingClientRect();p.style.left=Math.max(10,Math.min(innerWidth-p.offsetWidth-10,r.left))+'px';p.style.top=(PH.matches?Math.max(8,r.top-p.offsetHeight-8):r.bottom+8)+'px'}else setTool(t)});
+ if(t=='text'&&tool=='text'){const p=$('#tpop');if(!p.hidden){p.hidden=true;return}p.hidden=false;const r=b.getBoundingClientRect();p.style.left=Math.max(10,Math.min(innerWidth-p.offsetWidth-10,r.left))+'px';p.style.top=r.bottom+8+'px'}else setTool(t)});
 document.addEventListener('click',e=>{if(!e.target.closest('#tpop,[data-t=text]'))$('#tpop').hidden=true});
 addEventListener('keydown',e=>{if(e.key=='Escape')$('#tpop').hidden=true});
 function addImg(src,fill){if(!cur)return;const im=new Image();im.onload=()=>{const id='i'+nid++;imgs[id]=im;
@@ -74,4 +74,4 @@ addEventListener('keydown',e=>{if(!document.body.classList.contains('studio'))re
  if(!m&&(k=='['||k==']')){const el=$('#size');el.value=Math.max(1,Math.min(80,+el.value+(k==']'?2:-2)));el.dispatchEvent(new Event('input'));return}const SK={r:'rect',o:'ell',l:'line'};if(!m&&SK[k]){pickShape(SK[k]);return}const T={v:'select',h:'hand',b:'brush',e:'eraser',t:'text',g:'fill'};if(!m&&T[k])setTool(T[k])});
 addEventListener('keyup',e=>{if(e.key==' ')spc=0});
 addEventListener('resize',render);
-readUI();setTool('brush');
+

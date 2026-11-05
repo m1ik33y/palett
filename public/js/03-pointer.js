@@ -61,6 +61,6 @@ function editText(o){
     if(h.includes('w'))o.x=o0.x+o0.w-o.w;if(h.includes('n'))o.y=o0.y+o0.h-o.h}
    place()};
   box.onpointerup=()=>{box.onpointermove=null;t.focus()}};
- t.oninput=()=>{o.l=t.value;fit(o);place()};
+ t.oninput=()=>{o.l=t.value;fit(o);place();render()};
  t.onkeydown=e=>{if(e.key=='Escape'||(e.key=='Enter'&&!e.shiftKey)){e.preventDefault();finish()}e.stopPropagation()};
  fit(o);place();t.focus();t.select()}

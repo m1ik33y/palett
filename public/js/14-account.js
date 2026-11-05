@@ -1,7 +1,7 @@
 /* Account menu + logout */
 const acct=()=>me;
 function pop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}const a=acct();
- p.innerHTML=`<div class="pf"><span class="pfa">${esc((user.name.trim()[0]||'A').toUpperCase())}</span><div class="pfn"><b>${esc(user.name)}</b><small>${a?esc(a.email):'Guest'}</small></div></div><hr>
+ p.innerHTML=`<div class="pf"><span class="pfa">${esc((user.name.trim()[0]||'A').toUpperCase())}</span><div class="pfn"><b>${esc(user.name)}</b><small>${a?'@'+esc(a.username||''):'Guest'}</small></div></div><hr>
 <button data-pm="set">${ic('gear',18)}Settings</button><button data-pm="pp">${ic('shield',18)}Privacy Policy</button><button data-pm="tos">${ic('file',18)}Terms of Service</button><hr>
 ${a?`<button data-pm="out">${ic('logout',18)}Log out</button>`:`<button data-pm="in">${ic('user',18)}Log in / Sign up</button>`}`;p.hidden=0}
 $('#pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;$('#pop').hidden=1;const k=b.dataset.pm;
