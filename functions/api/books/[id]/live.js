@@ -13,6 +13,8 @@ export async function onRequestGet({ env, data, params, request }) {
   if (!row || row.updated_at <= since) return json({ state: null, updatedAt: row?.updated_at || 0 });
   let state;
   try { state = JSON.parse(row.state); } catch { throw new HttpError(500, 'Live canvas state is invalid.'); }
+  // Images are sent only when the client's image set differs (ik = hash of image keys).
+  if (state.imgs && state.ik && state.ik === url.searchParams.get('ik')) delete state.imgs;
   return json({ state, clientId: row.client_id, updatedAt: row.updated_at });
 }
 
@@ -22,6 +24,10 @@ export async function onRequestPost({ request, env, data, params }) {
   if (!b.state || !Array.isArray(b.state.objs) || typeof b.state.bg !== 'string')
     throw new HttpError(400, 'Invalid live canvas state.');
   const clientId = String(b.clientId || '').slice(0, 80);
+  if (b.state.imgs === undefined) { // unchanged images: keep the ones already stored
+    const prev = await env.DB.prepare('SELECT state FROM book_live WHERE book_id = ?').bind(book.id).first();
+    try { const ps = prev && JSON.parse(prev.state); if (ps && ps.imgs) b.state.imgs = ps.imgs; } catch {}
+  }
   const state = JSON.stringify(b.state);
   // D1 rows have a 2 MB ceiling; leave room for row metadata.
   if (state.length > 1700000) throw new HttpError(413, 'This canvas is too large for live sync. Save normally instead.');

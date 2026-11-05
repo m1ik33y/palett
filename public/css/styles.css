@@ -229,7 +229,6 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 
 /* ===== Studio header: Save button ===== */
 #sv{position:relative}
-#sv.dirty::after{content:'';position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:#fe713b}
 #sv.busy{opacity:.5;pointer-events:none}
 
 /* ===== Paintbook cards: one horizontal 3-dot button -> dropdown ===== */
@@ -328,7 +327,7 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 #pop .invr input{flex:1;min-width:0;width:auto;background:none;border:0;border-bottom:1.5px solid var(--ink);border-radius:0;padding:6px 2px;box-shadow:none;outline:0;font-size:15px}
 #pop .invr input:focus-visible{outline:0}
 #pop .invr input::placeholder{color:var(--mut)}
-#pop .invr .invbtn{width:auto;flex:none;background:none;border-radius:0;padding:0;font-weight:800;font-size:15px;color:var(--ink);cursor:pointer;display:inline;transform:none}
+#pop .invr .invbtn{width:auto;flex:none;background:none;border-radius:0;padding:0;font-weight:600;font-size:15px;color:var(--ink);cursor:pointer;display:inline;transform:none}
 #pop .invr .invbtn:hover,#pop .invr .invbtn:active{background:none;transform:none;opacity:.7}
 #pop .invr .invbtn:disabled{opacity:.4;cursor:default}
 #pop .invl{margin-top:18px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}

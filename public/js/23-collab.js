@@ -8,7 +8,7 @@ const memberRow=()=>members.map(pfp).join('');
 function invitePop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}
  if(memberBook!=cur.id)members=[];
  p.innerHTML=`<div class="inv"><b class="invt">Collaborate</b>
-<div class="invr"><input id="invi" placeholder="Username" maxlength="60" autocomplete="off" spellcheck="false"><button id="invb" class="invbtn">Invite</button></div>
+<div class="invr"><input id="invi" placeholder="Username" maxlength="60" name="invite-user-x" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore><button id="invb" class="invbtn" type="button">Invite</button></div>
 <div class="aerr" id="inve"></div>
 <div class="invl">On this canvas</div><div class="cpfs" id="invm">${memberRow()}</div></div>`;
  p.hidden=0;setTimeout(()=>$('#invi').focus(),30);
@@ -36,7 +36,7 @@ function liveStop(){
  clearInterval(liveHeartbeat);liveHeartbeat=null;
  clearTimeout(liveReconnectTimer);liveReconnectTimer=null;
  clearTimeout(livePushTimer);livePushTimer=null;
- liveCursor=0;liveLastSent='';liveLastBook=null;
+ liveCursor=0;liveLastSent='';liveSentIk='';liveLastBook=null;
  liveFailures=0;liveReconnectAttempts=0;livePingBusy=false;livePullBusy=false;
 }
 function liveStart(){
@@ -45,7 +45,7 @@ function liveStart(){
  const id=cur.id;liveLastBook=id;
  // Start from zero so a collaborator receives the latest snapshot immediately.
  liveCursor=0;
- livePoll=setInterval(()=>livePull(id),400);
+ livePoll=setInterval(()=>livePull(id),250);
  // Independent heartbeat: every 10 seconds confirm the collaboration endpoint is alive.
  liveHeartbeat=setInterval(()=>livePing(id),10000);
  liveQueue();
@@ -83,48 +83,59 @@ function liveReconnect(id){
    ]);
    if(!r||r.pong!==true)throw new Error('Reconnect failed');
    liveFailures=0;liveReconnectAttempts=0;
-   if(!livePoll)livePoll=setInterval(()=>livePull(id),400);
+   if(!livePoll)livePoll=setInterval(()=>livePull(id),250);
    liveQueue();
   }catch(e){liveMarkFailure(id);if(!liveReconnectTimer)liveReconnect(id)}
  },delay);
 }
+const liveHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))>>>0;return h.toString(36)};
+const liveIk=()=>liveHash(Object.keys(imgs).sort().join(','));
+let liveSentIk='';
+const liveBase=()=>({objs:objs.map(o=>({...o,ed:0})),bg,nid,w:W,h:H0,scroll:SCR,car:(typeof car!=='undefined'&&car)||undefined,live});
 async function livePull(id){
  if(livePullBusy||!cur||cur.id!==id||members.length<2)return;
+ if(drag)return; // never overwrite what this user is drawing right now
  livePullBusy=true;
  try{
-  const r=await api('/books/'+id+'/live?since='+liveCursor);
+  const r=await api('/books/'+id+'/live?since='+liveCursor+'&ik='+liveIk());
   if(!r.state||!cur||cur.id!==id)return;
   liveCursor=r.updatedAt;
   if(r.clientId===liveClientId)return;
+  if(drag)return;
   liveApplying=true;
   const d=r.state;
-  // Load any newly shared images before swapping the object list.
-  await Promise.all(Object.entries(d.imgs||{}).map(([key,src])=>{
+  if(d.imgs)await Promise.all(Object.entries(d.imgs).map(([key,src])=>{
    if(imgs[key]&&imgs[key].src===src)return Promise.resolve();
    return new Promise(resolve=>{const im=new Image();im.onload=im.onerror=()=>{imgs[key]=im;resolve()};im.src=src});
   }));
-  if(!cur||cur.id!==id){liveApplying=false;return}
+  if(!cur||cur.id!==id||drag){liveApplying=false;liveCursor=0;return}
+  if(d.w&&(d.w!==W||d.h!==H0))setCanvas(d.w,d.h,d.scroll);
   objs=Array.isArray(d.objs)?d.objs:[];
   bg=d.bg||'#ffffff';$('#bg').value=bg;pgSw();
   live=d.live||null;
   nid=Math.max(d.nid||1,...objs.map(o=>o.id||0))+1;
-  sel=null;layers();render();
+  sel=null;layers();render(1);dirty=1;
+  liveLastSent=JSON.stringify(liveBase()); // what we just received is not a local change
   liveApplying=false;liveFailures=0;
+  if(typeof isDirty==='function'){const dd=isDirty();$('#sv').classList.toggle('dirty',dd)}
  }catch(e){liveApplying=false;liveMarkFailure(id)}
  finally{livePullBusy=false}
 }
+// Throttled push (leading edge): strokes in progress are broadcast ~every 70 ms.
 function liveQueue(){
- if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook)return;
- clearTimeout(livePushTimer);
+ if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook||livePushTimer)return;
  livePushTimer=setTimeout(async()=>{
+  livePushTimer=null;
   if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook)return;
-  const state={objs:objs.map(o=>({...o,ed:0})),imgs:Object.fromEntries(Object.entries(imgs).map(([k,v])=>[k,v.src])),
-   bg,nid,w:W,h:H0,scroll:SCR,car:car||undefined,live};
-  let raw;try{raw=JSON.stringify(state)}catch(e){return}
-  if(raw===liveLastSent)return;
+  const base=liveBase();let raw;try{raw=JSON.stringify(base)}catch(e){return}
+  const ik=liveIk(),sendImgs=ik!==liveSentIk;
+  if(raw===liveLastSent&&!sendImgs)return;
+  const state={...base,ik};
+  if(sendImgs)state.imgs=Object.fromEntries(Object.entries(imgs).map(([k,v])=>[k,v.src]));
   try{
    const r=await api('/books/'+cur.id+'/live',{method:'POST',body:{clientId:liveClientId,state}});
-   liveLastSent=raw;liveCursor=Math.max(liveCursor,r.updatedAt||0);
-  }catch(e){/* The ordinary Save path remains available if live sync is unavailable. */}
- },120);
+   liveLastSent=raw;if(sendImgs)liveSentIk=ik;liveCursor=Math.max(liveCursor,r.updatedAt||0);
+  }catch(e){/* ordinary Save remains available */}
+  if(cur&&members.length>1&&JSON.stringify(liveBase())!==liveLastSent)liveQueue(); // catch changes made while sending
+ },70);
 }
