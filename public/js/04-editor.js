@@ -74,7 +74,9 @@ function exBox(){let x0=0,y0=0,x1=W,y1=SCR?Math.max(H0,Math.ceil(bottom()+40)):H
  return{x:Math.floor(x0),y:Math.floor(y0),w:Math.ceil(x1-x0),h:Math.ceil(y1-y0)}}
 $('#exp').onclick=()=>{const B=exBox(),k=Math.min(SCR?1:Q,16000/B.h,16000/B.w,Math.sqrt(1.2e8/(B.w*B.h)));
  const c=snapshot(B.x,B.y,B.w,B.h,Math.round(B.w*k),Math.round(B.h*k));
- c.toBlob(b=>{if(!b){toast('Canvas is too large to export');return}const a=document.createElement('a');a.href=URL.createObjectURL(b);
+ c.toBlob(b=>{if(!b){toast('Canvas is too large to export');return}
+  if(window.PalettApp&&PalettApp.saveFile){const nm=((cur&&cur.name||'painting').replace(/[\\/:*?"<>|]+/g,'').trim()||'painting')+'.png',fr=new FileReader();fr.onload=()=>{let ok=false;try{ok=PalettApp.saveFile(nm,'image/png',String(fr.result).split(',')[1])}catch(e){}if(!ok)toast('Could not save the image')};fr.readAsDataURL(b);return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=((cur&&cur.name||'painting').replace(/[\\/:*?"<>|]+/g,'').trim()||'painting')+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)})};
 addEventListener('keydown',e=>{if(!document.body.classList.contains('studio'))return;if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)&&e.target.type!='range'&&e.target.type!='checkbox')return;
  const k=e.key.toLowerCase(),m=e.ctrlKey||e.metaKey;

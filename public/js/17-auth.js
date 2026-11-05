@@ -12,7 +12,7 @@ function showAuth(mode){const A=$('#auth'),up=mode=='up';A.hidden=0;
 <div class="fld2"><span>Username</span><input id="ae" placeholder="${up?'Pick a unique username':'Your username'}" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
 <div class="fld2"><span>Password</span><input id="ap" type="password" placeholder="${up?'At least 6 characters':'Your password'}" autocomplete="${up?'new-password':'current-password'}"></div>
 ${up?`<div class="tbx legal">${legal('Terms of Service',TOS)}${legal('Privacy Policy',PRIV)}</div><label class="agr"><input type="checkbox" id="atc"><span>I have read and agree to the <a data-lg="tos">Terms of Service</a> and <a data-lg="pp">Privacy Policy</a>.</span></label>`:''}
-<div class="aerr" id="aerr"></div><button class="pri" id="ago" ${up?'disabled':''}>${up?'Create account':'Log in'}</button></div>`;
+<div class="aerr" id="aerr"></div><button class="pri" id="ago" ${up?'disabled':''}>${up?'Create account':'Log in'}</button><a class="getapp" data-getapp hidden href="/downloads/palett.apk" download="Palett.apk">Get the Android app</a></div>`;
  A.querySelectorAll('[data-am]').forEach(b=>b.onclick=()=>showAuth(b.dataset.am));
  A.querySelectorAll('[data-lg]').forEach(b=>b.onclick=()=>modal(mhead(b.dataset.lg=='pp'?'Privacy Policy':'Terms of Service')+`<div class="legal">${b.dataset.lg=='pp'?legal('Privacy Policy',PRIV):legal('Terms of Service',TOS)}</div>`));
  const err=m=>{$('#aerr').textContent=m};

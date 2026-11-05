@@ -388,3 +388,6 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 #boot img{width:84px;height:84px;display:block;animation:bootp 1.4s ease-in-out infinite}
 @keyframes bootp{0%,100%{transform:scale(.92);opacity:.75}50%{transform:scale(1.04);opacity:1}}
 @media (prefers-reduced-motion:reduce){#boot img{animation:none}}
+.getapp{display:block;text-align:center;margin-top:18px;font-size:14px;font-weight:600;color:var(--mut);text-decoration:underline;text-underline-offset:3px}
+.getapp[hidden],[data-getapp][hidden]{display:none}
+a.btn2{display:inline-flex;align-items:center;text-decoration:none}

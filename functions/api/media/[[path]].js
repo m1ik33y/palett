@@ -14,7 +14,7 @@ export async function onRequestGet({ env, data, params }) {
   return new Response(obj.body, {
     headers: {
       'content-type': mimeFor(key),
-      'cache-control': 'private, max-age=31536000, immutable', // object names are random and never rewritten
+      'cache-control': 'no-store',
       'x-content-type-options': 'nosniff',
       'content-security-policy': "default-src 'none'",
     },
