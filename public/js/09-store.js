@@ -48,4 +48,15 @@ addEventListener('pagehide',()=>{pendDel.forEach((t,id)=>{clearTimeout(t);fetch(
 let archOpen=false;
 async function unlockArch(){const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
 function lockArch(){archOpen=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
-async function archiveBook(m){try{await api('/books/'+m.id,{method:'PATCH',body:{arch:1}});m.arch=1;lockArch();render_();toast('Archived “'+m.name+'”')}catch(e){toast(e.message||'Could not archive')}}
+async function archiveBook(m){if(m._ar)return;m._ar=1;
+ const patch=()=>api('/books/'+m.id,{method:'PATCH',body:{arch:1}});
+ try{
+  try{await patch()}
+  catch(e){
+   if(e.status==403){await new Promise(r=>setTimeout(r,700));await patch()} /* unlock not visible yet: retry once */
+   else if(e.status==404){ /* already archived (e.g. an earlier tap got through) or gone: check the real list */
+    const r=await api('/books');if(r.books.some(b=>b.id==m.id))throw e}
+   else throw e}
+  m.arch=1;lockArch();render_();toast('Archived “'+m.name+'”')}
+ catch(e){toast(e.message||'Could not archive')}
+ finally{m._ar=0}}

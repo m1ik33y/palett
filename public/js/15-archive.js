@@ -1,8 +1,8 @@
 /* Secret folder: the archive password is verified by the server */
 function archPrompt(ok){modal(mhead('Archive password')+`<div class="fld2"><div class="pwf"><input id="apw" type="password" placeholder="Password" autocomplete="off"><button type="button" id="apeye" title="Show password">${ic('eye',20)}</button></div></div><div class="aerr" id="apwe"></div><button class="pri" id="apc" style="width:100%;justify-content:center;padding:11px">Continue</button>`,'sm');
  const err=m=>{$('#apwe').textContent=m};
-  const go1=async()=>{const v=$('#apw').value;if(!v)return err('Password not found');
-   try{await api('/archive/verify',{method:'POST',body:{password:v,create:true}})}catch(e){return err(e.status==401?'Password not found':(e.message||'Something went wrong'))}
+  let busy=0;const go1=async()=>{if(busy)return;const v=$('#apw').value;if(!v)return err('Password not found');busy=1;
+   try{await api('/archive/verify',{method:'POST',body:{password:v,create:true}})}catch(e){busy=0;return err(e.status==401?'Password not found':(e.message||'Something went wrong'))}
    mclose();ok()};
  $('#apeye').onclick=()=>{const i=$('#apw'),show=i.type=='password';i.type=show?'text':'password';$('#apeye').innerHTML=ic(show?'eyeoff':'eye',20);$('#apeye').title=show?'Hide password':'Show password';i.focus()};
  $('#apc').onclick=go1;$('#apw').onkeydown=e=>{if(e.key=='Enter')go1()};setTimeout(()=>$('#apw').focus(),30)}
