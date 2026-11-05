@@ -1,4 +1,5 @@
 /* Boot: restore the session from the cookie, otherwise show the login screen */
+readUI();setTool('brush');
 $('.brand i').innerHTML=LOGO;
 (()=>{const u=URL.createObjectURL(new Blob([LOGO],{type:'image/svg+xml'})),im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=180;c.getContext('2d').drawImage(im,0,0,180,180);const l=document.createElement('link');l.rel='apple-touch-icon';l.href=c.toDataURL();document.head.append(l);URL.revokeObjectURL(u)};im.src=u})();
 try{brushPrev()}catch(e){console.error(e)}skUpd();

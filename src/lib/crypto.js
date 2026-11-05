@@ -19,8 +19,12 @@ export async function hashPassword(password) {
 export async function verifyPassword(password, stored) {
   const [scheme, iter, salt, hash] = String(stored || '').split('$');
   if (scheme !== 'pbkdf2') return false;
-  const bits = new Uint8Array(await derive(password, fromB64(salt), Number(iter)));
-  const want = fromB64(hash);
+  let bits, want;
+  try {
+    // Workers' PBKDF2 throws above 100,000 iterations; a legacy/odd hash should mean "wrong password", not a 500.
+    bits = new Uint8Array(await derive(password, fromB64(salt), Number(iter)));
+    want = fromB64(hash);
+  } catch (e) { console.error('verifyPassword failed:', e); return false; }
   if (bits.length !== want.length) return false;
   let diff = 0;
   for (let i = 0; i < bits.length; i++) diff |= bits[i] ^ want[i]; // constant-time compare

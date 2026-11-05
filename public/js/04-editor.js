@@ -74,4 +74,4 @@ addEventListener('keydown',e=>{if(!document.body.classList.contains('studio'))re
  if(!m&&(k=='['||k==']')){const el=$('#size');el.value=Math.max(1,Math.min(80,+el.value+(k==']'?2:-2)));el.dispatchEvent(new Event('input'));return}const SK={r:'rect',o:'ell',l:'line'};if(!m&&SK[k]){pickShape(SK[k]);return}const T={v:'select',h:'hand',b:'brush',e:'eraser',t:'text',g:'fill'};if(!m&&T[k])setTool(T[k])});
 addEventListener('keyup',e=>{if(e.key==' ')spc=0});
 addEventListener('resize',render);
-readUI();setTool('brush');
+/* initial readUI()/setTool() run at the top of 22-init.js: colMark/brushMark/skUpd live in later scripts */
