@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Palett</title>
 <meta name="description" content="Palett: brushes, shapes, layers and scroll canvases, saved to your account."><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-title" content="Palett"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/css/styles.css?v=20261105f">
+<link rel="stylesheet" href="/css/styles.css?v=20261105g">
 </head><body class="home"><div id="boot" role="status" aria-label="Loading Palett"><img src="/favicon.svg" alt="Palett"></div><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wob" x="-5%" y="-25%" width="110%" height="150%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter></svg>
 <aside id="sb"><div id="sbs"><div class="brand"><i class="logo"></i><span>Palett</span></div>
 <button class="nv" data-n="home" data-ic="home"><span>Home</span></button>
@@ -71,6 +71,7 @@
 </nav>
 <div id="mbd" hidden></div>
 <div id="mfs" hidden><div class="mfh"><button class="mfx" data-fx="x" data-ic="back" title="Close" aria-label="Close"></button><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook" aria-label="New paintbook"></button></div><div id="mftl"></div><div class="mfhint">Press and hold a file for options</div></div>
+<div id="apkbar" hidden><i class="ablogo"></i><span class="abt"><b>Palett for Android</b><small>Get the app, free</small></span><a class="abd" href="/downloads/palett.apk" download="Palett.apk">Download</a><button class="abx" id="apkx" aria-label="Dismiss">✕</button></div>
 <div id="sbd" hidden></div>
 <div id="cmenu" hidden></div>
 <div id="bpop" hidden><div class="bph"><b id="bpn">Pen</b><button class="ib" id="bpx" title="Close">✕</button></div><canvas id="bpv" width="520" height="140"></canvas>
@@ -83,31 +84,31 @@
 <div id="mdl" hidden><div class="mbox"></div></div>
 <div id="auth"></div>
 <div id="toast"></div>
-<script defer src="/js/01-core.js?v=20261105f"></script>
-<script defer src="/js/02-render.js?v=20261105f"></script>
-<script defer src="/js/03-pointer.js?v=20261105f"></script>
-<script defer src="/js/04-editor.js?v=20261105f"></script>
-<script defer src="/js/05-icons.js?v=20261105f"></script>
-<script defer src="/js/06-logo.js?v=20261105f"></script>
-<script defer src="/js/07-api.js?v=20261105f"></script>
-<script defer src="/js/08-helpers.js?v=20261105f"></script>
-<script defer src="/js/09-store.js?v=20261105f"></script>
-<script defer src="/js/10-library.js?v=20261105f"></script>
-<script defer src="/js/11-new-paintbook.js?v=20261105f"></script>
-<script defer src="/js/12-nav.js?v=20261105f"></script>
-<script defer src="/js/13-legal.js?v=20261105f"></script>
-<script defer src="/js/14-account.js?v=20261105f"></script>
-<script defer src="/js/15-archive.js?v=20261105f"></script>
-<script defer src="/js/16-settings.js?v=20261105f"></script>
-<script defer src="/js/17-auth.js?v=20261105f"></script>
-<script defer src="/js/18-events.js?v=20261105f"></script>
-<script defer src="/js/19-sidebar.js?v=20261105f"></script>
-<script defer src="/js/20-bindings.js?v=20261105f"></script>
-<script defer src="/js/21-brush-ui.js?v=20261105f"></script>
-<script defer src="/js/22-init.js?v=20261105f"></script>
-<script defer src="/js/23-mobile.js?v=20261105f"></script>
-<script defer src="/js/23-collab.js?v=20261105f"></script>
-<script defer src="/js/25-presence-mobile.js?v=20261105f"></script>
-<script defer src="/js/26-app.js?v=20261105f"></script>
-<script defer src="/js/27-sheets.js?v=20261105f"></script>
+<script defer src="/js/01-core.js?v=20261105g"></script>
+<script defer src="/js/02-render.js?v=20261105g"></script>
+<script defer src="/js/03-pointer.js?v=20261105g"></script>
+<script defer src="/js/04-editor.js?v=20261105g"></script>
+<script defer src="/js/05-icons.js?v=20261105g"></script>
+<script defer src="/js/06-logo.js?v=20261105g"></script>
+<script defer src="/js/07-api.js?v=20261105g"></script>
+<script defer src="/js/08-helpers.js?v=20261105g"></script>
+<script defer src="/js/09-store.js?v=20261105g"></script>
+<script defer src="/js/10-library.js?v=20261105g"></script>
+<script defer src="/js/11-new-paintbook.js?v=20261105g"></script>
+<script defer src="/js/12-nav.js?v=20261105g"></script>
+<script defer src="/js/13-legal.js?v=20261105g"></script>
+<script defer src="/js/14-account.js?v=20261105g"></script>
+<script defer src="/js/15-archive.js?v=20261105g"></script>
+<script defer src="/js/16-settings.js?v=20261105g"></script>
+<script defer src="/js/17-auth.js?v=20261105g"></script>
+<script defer src="/js/18-events.js?v=20261105g"></script>
+<script defer src="/js/19-sidebar.js?v=20261105g"></script>
+<script defer src="/js/20-bindings.js?v=20261105g"></script>
+<script defer src="/js/21-brush-ui.js?v=20261105g"></script>
+<script defer src="/js/22-init.js?v=20261105g"></script>
+<script defer src="/js/23-mobile.js?v=20261105g"></script>
+<script defer src="/js/23-collab.js?v=20261105g"></script>
+<script defer src="/js/25-presence-mobile.js?v=20261105g"></script>
+<script defer src="/js/26-app.js?v=20261105g"></script>
+<script defer src="/js/27-sheets.js?v=20261105g"></script>
 </body></html>

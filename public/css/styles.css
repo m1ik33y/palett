@@ -463,3 +463,12 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
 @media (max-width:640px),(pointer:coarse) and (max-height:520px){
  #layers:not([hidden]):empty::after{content:'No layers yet';display:block;text-align:center;padding:20px 0 12px;color:var(--mut);font-size:15px}
 }
+
+/* Download bar across the top of the page (browser only, hidden inside the Android app) */
+#apkbar{position:fixed;left:0;right:0;top:0;z-index:95;height:56px;display:flex;align-items:center;gap:12px;padding:0 10px 0 14px;background:var(--bg);color:var(--ink);border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+#apkbar .ablogo{display:block;width:34px;height:34px;flex:none}#apkbar .ablogo svg{width:100%;height:100%;display:block}
+#apkbar .abt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+#apkbar .abt b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#apkbar small{color:var(--mut);font-size:12px}
+#apkbar .abd{flex:none;background:var(--ink);color:var(--bg);font-weight:700;font-size:14px;padding:9px 18px;border-radius:999px;text-decoration:none}
+#apkbar .abx{flex:none;width:36px;height:36px;padding:0;display:grid;place-items:center;color:var(--mut);font-size:15px;border-radius:50%}
+body.hasbar{padding-top:56px}

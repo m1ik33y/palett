@@ -16,7 +16,10 @@ window.palettBack=function(){
  return false};
 /* Offer the real APK. Shown only on the web (not inside the app) and only when the file has been uploaded. */
 window.apkOk=false;
-const apkSync=()=>document.querySelectorAll('[data-getapp]').forEach(a=>a.hidden=!(window.apkOk&&!IN_APP));
+let apkGone=false;try{apkGone=sessionStorage.getItem('apkbar')=='1'}catch(e){}
+const apkSync=()=>{document.querySelectorAll('[data-getapp]').forEach(a=>a.hidden=!(window.apkOk&&!IN_APP));
+ const on=!!(window.apkOk&&!IN_APP&&!apkGone),b=$('#apkbar');if(b){if(on&&!b.dataset.i){b.dataset.i=1;b.querySelector('.ablogo').innerHTML=LOGO}b.hidden=!on;document.body.classList.toggle('hasbar',on)}};
+$('#apkx').onclick=()=>{apkGone=true;try{sessionStorage.setItem('apkbar','1')}catch(e){}apkSync()};
 ['showAuth','settingsPage'].forEach(n=>{const f=window[n];if(typeof f=='function')window[n]=function(){const r=f.apply(this,arguments);apkSync();return r}});
 if(!IN_APP)fetch('/downloads/palett.apk',{method:'HEAD',cache:'no-store'}).then(r=>{
  window.apkOk=r.ok&&/android\.package-archive/.test(r.headers.get('content-type')||'');apkSync()}).catch(()=>{});
