@@ -3,7 +3,6 @@
 CREATE TABLE IF NOT EXISTS users (
   id          TEXT PRIMARY KEY,
   email       TEXT NOT NULL UNIQUE,
-  username    TEXT NOT NULL UNIQUE COLLATE NOCASE,  -- login handle, stored lowercase
   name        TEXT NOT NULL,
   pw_hash     TEXT NOT NULL,              -- pbkdf2$iterations$salt$hash
   theme       TEXT NOT NULL DEFAULT 'dark',
@@ -53,27 +52,3 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   count       INTEGER NOT NULL,
   reset_at    INTEGER NOT NULL
 );
-
--- Collaboration: people invited to a paintbook
-CREATE TABLE IF NOT EXISTS book_members (
-  book_id   TEXT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
-  user_id   TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  added_at  INTEGER NOT NULL,
-  PRIMARY KEY (book_id, user_id)
-);
-CREATE INDEX IF NOT EXISTS idx_members_user ON book_members(user_id);
-
--- Latest shared canvas snapshot used by live collaboration.
-CREATE TABLE IF NOT EXISTS book_live (
-  book_id TEXT PRIMARY KEY NOT NULL REFERENCES books(id) ON DELETE CASCADE,
-  client_id TEXT NOT NULL,
-  state TEXT NOT NULL,
-  updated_at INTEGER NOT NULL
-);
-
--- Last-seen heartbeat for global online presence.
-CREATE TABLE IF NOT EXISTS presence (
-  user_id TEXT PRIMARY KEY NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  last_seen INTEGER NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_presence_last_seen ON presence(last_seen);
