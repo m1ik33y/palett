@@ -11,7 +11,7 @@ function setCanvas(w,h,scr){W=w;H=H0=h;SCR=scr?1:0;
  dirty=1}
 setCanvas(1920,1080,0);
 const frm=document.createElement('canvas'),fc=frm.getContext('2d');let cs='';
-const req=()=>{if(!rq){rq=1;requestAnimationFrame(()=>{rq=0;render(1);if(typeof liveQueue==='function')liveQueue()})}};
+const req=()=>{if(!rq){rq=1;requestAnimationFrame(()=>{rq=0;render(1);if(typeof liveQueue==='function'){liveQueue();liveAutosave()}})}};
 let objs=[],sel=null,tool='brush',view={s:1,x:0,y:0},hist=[],redo=[],imgs={},nid=1,bg='#ffffff',drag=null,spc=0,live=null,pend=0;
 const st={color:'#111111',fill:'#ffcc00',size:8,op:1,brush:'pen',font:'Arial',bold:false,italic:false,doFill:false,shape:'rect'};
 const rnd=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};

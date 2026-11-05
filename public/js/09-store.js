@@ -11,7 +11,7 @@ function thumb(c){const k=document.createElement('canvas');k.width=480;k.height=
  else{const s=Math.min(480/W,270/H),ow=Math.max(1,Math.round(W*s)),oh=Math.max(1,Math.round(H*s));x.drawImage(snapshot(0,0,W,H,ow,oh),(480-ow)/2,(270-oh)/2)}
  c.thumb=k.toDataURL('image/jpeg',.72)}
 const isDirty=()=>!!cur&&!loading&&JSON.stringify(payload())!=last;
-function qs(){if(!cur||loading)return;if(typeof liveQueue==='function')liveQueue();clearTimeout(qt);qt=setTimeout(()=>{if(cur){const d=isDirty();$('#st').textContent=d?'Unsaved changes':'Saved '+ago(cur.updated).toLowerCase();$('#sv').classList.toggle('dirty',d)}},500)}
+function qs(){if(!cur||loading)return;if(typeof liveQueue==='function'){liveQueue();liveAutosave()}clearTimeout(qt);qt=setTimeout(()=>{if(cur){const d=isDirty();$('#st').textContent=d?'Unsaved changes':'Saved '+ago(cur.updated).toLowerCase();$('#sv').classList.toggle('dirty',d)}},500)}
 async function saveNow(manual){if(!cur||loading)return;clearTimeout(qt);const c=cur,p=payload(),s=JSON.stringify(p);
   if(s!=last){
     if(s.length>MAX_SAVE){toast('This paintbook is too large to save. Remove some images.');return false}

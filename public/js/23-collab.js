@@ -48,7 +48,7 @@ function liveStart(){
  livePoll=setInterval(()=>livePull(id),250);
  // Independent heartbeat: every 10 seconds confirm the collaboration endpoint is alive.
  liveHeartbeat=setInterval(()=>livePing(id),10000);
- liveQueue();
+ liveLastSent=JSON.stringify(liveBase()); // we loaded the saved copy; only real edits get pushed
 }
 async function livePing(id){
  if(livePingBusy||!cur||cur.id!==id||members.length<2)return;
@@ -117,25 +117,36 @@ async function livePull(id){
   sel=null;layers();render(1);dirty=1;
   liveLastSent=JSON.stringify(liveBase()); // what we just received is not a local change
   liveApplying=false;liveFailures=0;
-  if(typeof isDirty==='function'){const dd=isDirty();$('#sv').classList.toggle('dirty',dd)}
+  try{last=JSON.stringify(payload())}catch(e){}
+  $('#sv').classList.remove('dirty');$('#st').textContent='Live · synced';
  }catch(e){liveApplying=false;liveMarkFailure(id)}
  finally{livePullBusy=false}
 }
-// Throttled push (leading edge): strokes in progress are broadcast ~every 70 ms.
+// Throttled, one-in-flight push: strokes in progress are broadcast ~every 70 ms, always in order.
+let livePushBusy=false,liveErrAt=0;
 function liveQueue(){
- if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook||livePushTimer)return;
+ if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook||livePushTimer||livePushBusy)return;
  livePushTimer=setTimeout(async()=>{
   livePushTimer=null;
-  if(liveApplying||!cur||members.length<2||cur.id!==liveLastBook)return;
+  if(liveApplying||livePushBusy||!cur||members.length<2||cur.id!==liveLastBook)return;
   const base=liveBase();let raw;try{raw=JSON.stringify(base)}catch(e){return}
   const ik=liveIk(),sendImgs=ik!==liveSentIk;
   if(raw===liveLastSent&&!sendImgs)return;
   const state={...base,ik};
   if(sendImgs)state.imgs=Object.fromEntries(Object.entries(imgs).map(([k,v])=>[k,v.src]));
+  livePushBusy=true;
   try{
    const r=await api('/books/'+cur.id+'/live',{method:'POST',body:{clientId:liveClientId,state}});
    liveLastSent=raw;if(sendImgs)liveSentIk=ik;liveCursor=Math.max(liveCursor,r.updatedAt||0);
-  }catch(e){/* ordinary Save remains available */}
-  if(cur&&members.length>1&&JSON.stringify(liveBase())!==liveLastSent)liveQueue(); // catch changes made while sending
+  }catch(e){if(Date.now()-liveErrAt>15000){liveErrAt=Date.now();toast('Live sync: '+(e.message||'failed'))}}
+  livePushBusy=false;
+  if(cur&&members.length>1&&JSON.stringify(liveBase())!==liveLastSent)liveQueue(); // changes made while sending
  },70);
+}
+/* Shared canvases save themselves: nobody has to press Save. */
+let autoT=0;
+function liveAutosave(){
+ if(!cur||members.length<2)return;
+ clearTimeout(autoT);
+ autoT=setTimeout(async()=>{if(cur&&members.length>1&&!drag&&isDirty())await saveNow()},1200);
 }

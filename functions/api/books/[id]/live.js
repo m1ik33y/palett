@@ -11,6 +11,8 @@ export async function onRequestGet({ env, data, params, request }) {
     'SELECT client_id, state, updated_at FROM book_live WHERE book_id = ?'
   ).bind(book.id).first();
   if (!row || row.updated_at <= since) return json({ state: null, updatedAt: row?.updated_at || 0 });
+  // On first load, a live snapshot older than the saved paintbook is stale: the saved copy wins.
+  if (since === 0 && row.updated_at < book.updated_at) return json({ state: null, updatedAt: row.updated_at });
   let state;
   try { state = JSON.parse(row.state); } catch { throw new HttpError(500, 'Live canvas state is invalid.'); }
   // Images are sent only when the client's image set differs (ik = hash of image keys).
@@ -32,9 +34,12 @@ export async function onRequestPost({ request, env, data, params }) {
   // D1 rows have a 2 MB ceiling; leave room for row metadata.
   if (state.length > 1700000) throw new HttpError(413, 'This canvas is too large for live sync. Save normally instead.');
   const now = Date.now();
-  await env.DB.prepare(
-    `INSERT INTO book_live (book_id, client_id, state, updated_at) VALUES (?, ?, ?, ?)
-     ON CONFLICT(book_id) DO UPDATE SET client_id=excluded.client_id, state=excluded.state, updated_at=excluded.updated_at`
-  ).bind(book.id, clientId, state, now).run();
-  return json({ ok: true, updatedAt: now });
+  // updated_at is a strictly increasing version, so a slow request can never hide a newer write.
+  const row = await env.DB.prepare(
+    `INSERT INTO book_live (book_id, client_id, state, updated_at) VALUES (?1, ?2, ?3, ?4)
+     ON CONFLICT(book_id) DO UPDATE SET client_id=excluded.client_id, state=excluded.state,
+       updated_at=MAX(book_live.updated_at + 1, excluded.updated_at)
+     RETURNING updated_at`
+  ).bind(book.id, clientId, state, now).first();
+  return json({ ok: true, updatedAt: row.updated_at });
 }
