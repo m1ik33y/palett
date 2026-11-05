@@ -1,9 +1,10 @@
 /* Toolbar, menu and dashboard bindings */
-$('#av').onclick=()=>document.body.classList.contains('studio')&&cur?invitePop():pop();$('#back').onclick=()=>leave(()=>go('home'));
+$('#av').onclick=pop;$('#back').onclick=()=>leave(()=>go('home'));
 $('#svb').onclick=()=>saveNow(1);
+$('#sv').onclick=async()=>{const b=$('#sv');if(b.classList.contains('busy'))return;b.classList.add('busy');try{await saveNow(1)}finally{b.classList.remove('busy')}};
 $('#bn').oninput=e=>{if(cur){cur.name=e.target.value||'Untitled';saveMeta(cur)}};
 $('#fv').onclick=()=>{if(cur){cur.fav=cur.fav?0:1;$('#fv').classList.toggle('fav',!!cur.fav);patchBook(cur,{fav:cur.fav})}};
-$('#q').oninput=e=>{qv=e.target.value;if(!document.body.classList.contains('lib'))go('lib',tab);else lib()};
+$('#q').oninput=e=>{$('#sech').hidden=1;qv=e.target.value;if(!document.body.classList.contains('lib'))go('lib',tab);else lib()};
 const f2=document.createElement('input');f2.type='file';f2.accept='image/*';f2.id='f2';f2.hidden=true;document.body.append(f2);
 f2.onchange=e=>{const f=e.target.files[0];e.target.value='';loadImgFile(f)};
 addEventListener('beforeunload',e=>{if(isDirty()){e.preventDefault();e.returnValue=''}});
@@ -27,6 +28,3 @@ $('#mnu').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;$('#mnu'
  if(k=='new')leave(()=>openNew('blank'));else if(k=='gal')leave(()=>go('lib','all'));else if(k=='save')saveNow(1);else if(k=='exp')$('#exp').click();
  else if(k=='lay')$('#lyr').click();else if(k=='fav'){$('#fv').click();toast(cur&&cur.fav?'Added to favourites':'Removed from favourites')}
  else if(k=='ren'){$('#bn').focus();$('#bn').select()}else if(k=='full')$('#full').click();else if(k=='clr')$('#clr').click();else if(k=='exit')leave(()=>go('home'))};
-
-/* Search box: block browser/password-manager autofill & suggestions. It is readonly until the user actually focuses it, which stops autofill from filling it on load. */
-(()=>{const q=$('#q');const arm=()=>q.removeAttribute('readonly');q.addEventListener('focus',arm);q.addEventListener('pointerdown',arm);q.addEventListener('keydown',arm)})();

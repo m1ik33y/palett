@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Palett</title>
-<meta name="description" content="Palett: brushes, shapes, layers and scroll canvases, saved to your account."><meta name="theme-color" content="#fe713b"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="description" content="Palett: brushes, shapes, layers and scroll canvases, saved to your account."><meta name="theme-color" content="#fe713b"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Palett"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/css/styles.css">
 </head><body class="home"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wob" x="-5%" y="-25%" width="110%" height="150%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter></svg>
 <aside id="sb"><div id="sbs"><div class="brand"><i class="logo"></i><span>Palett</span></div>
@@ -14,18 +14,18 @@
 <div id="ft" hidden><div class="fbar"><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook"></button></div><div id="ftl"></div></div>
 <button class="nv nw" data-nt="blank" data-ic="blank"><span>Blank</span></button>
 <button class="nv nw" data-nt="import" data-ic="upload"><span>Import</span></button>
-<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button>
-<button class="nv nw" data-nt="carousel" data-ic="carousel"><span>Carousel</span></button></div>
+<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button></div>
 <button id="nb" class="nv" data-a="new" data-ic="plus"><span>Create</span></button></aside>
 <div id="app">
 <header id="top">
 <button id="back" class="ib so" data-ic="back" title="Back to dashboard"></button>
-<label class="search dashonly"><span data-ic="search"></span><input id="q" type="text" name="pl-search-nofill" placeholder="Search paintbooks" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" readonly></label>
+<label class="search dashonly"><span data-ic="search"></span><input id="q" placeholder="Search paintbooks"></label>
 <div class="frow so">
 <button id="nw1" class="tb" data-ic="plus" title="New paintbook"><span class="l">New</span></button><button id="gl" class="tb" data-ic="grid" title="Gallery"><span class="l">Gallery</span></button><button id="exp" class="tb" data-ic="export" title="Export as PNG"><span class="l">Export</span></button><button id="full" class="tb" data-ic="full" title="Fullscreen"><span class="l">Fullscreen</span></button><button id="lyr" class="tb" data-ic="layers" title="Layers"><span class="l">Layers</span></button><button id="fv" class="tb" data-ic="star" title="Favourite"></button><button id="svb" class="tb" data-ic="save" title="Save (Ctrl+S)"><span class="l">Save</span></button></div>
 <input id="bn" class="so" placeholder="Untitled" spellcheck="false">
 <span id="st" class="mut so"></span>
 <div class="grow"></div>
+<button id="sv" class="so" data-ic="save" title="Save (Ctrl+S)"><span class="l">Save</span></button>
 <button id="av" title="Account"></button>
 <div id="pop" hidden></div>
 </header>
@@ -33,7 +33,7 @@
 <section id="v-lib" class="view"></section>
 <section id="v-new" class="view"></section>
 <section id="v-set" class="view"></section>
-<section id="v-arch" class="view"></section>
+<section id="v-sec" class="view"></section>
 <section id="v-studio" class="view">
 <div class="rail">
 <div class="grp" id="tools">
@@ -54,7 +54,7 @@
 <div class="grp">
 <button id="fit" data-ic="fit" title="Fit to screen"></button><span id="zoom">100%</span><button id="pan" data-ic="palette" title="Colour &amp; brush panel"></button><button id="lay2" data-ic="layers" title="Layers"></button></div>
 </div>
-<div id="work"><div id="wrap"><canvas id="stage"></canvas><span id="ypos" hidden></span><button id="addsl" hidden></button></div>
+<div id="work"><div id="wrap"><canvas id="stage"></canvas><span id="ypos" hidden></span></div>
 <div id="side"><h4 data-ic="palette"><span id="sht">Colour &amp; brush</span></h4><div id="pnl">
 <div class="ps">Colour</div><div class="cgrid"><button class="cs" data-c="#000000" style="background:#000000" title="#000000"></button><button class="cs" data-c="#2b2b2b" style="background:#2b2b2b" title="#2b2b2b"></button><button class="cs" data-c="#555555" style="background:#555555" title="#555555"></button><button class="cs" data-c="#808080" style="background:#808080" title="#808080"></button><button class="cs" data-c="#aaaaaa" style="background:#aaaaaa" title="#aaaaaa"></button><button class="cs" data-c="#d4d4d4" style="background:#d4d4d4" title="#d4d4d4"></button><button class="cs" data-c="#ffffff" style="background:#ffffff" title="#ffffff"></button><button class="cs" data-c="#5c1a1a" style="background:#5c1a1a" title="#5c1a1a"></button><button class="cs" data-c="#b71c1c" style="background:#b71c1c" title="#b71c1c"></button><button class="cs" data-c="#ff3b30" style="background:#ff3b30" title="#ff3b30"></button><button class="cs" data-c="#ff7a59" style="background:#ff7a59" title="#ff7a59"></button><button class="cs" data-c="#ff9500" style="background:#ff9500" title="#ff9500"></button><button class="cs" data-c="#ffc107" style="background:#ffc107" title="#ffc107"></button><button class="cs" data-c="#ffe066" style="background:#ffe066" title="#ffe066"></button><button class="cs" data-c="#1b4332" style="background:#1b4332" title="#1b4332"></button><button class="cs" data-c="#2e7d32" style="background:#2e7d32" title="#2e7d32"></button><button class="cs" data-c="#34c759" style="background:#34c759" title="#34c759"></button><button class="cs" data-c="#8bc34a" style="background:#8bc34a" title="#8bc34a"></button><button class="cs" data-c="#00c7be" style="background:#00c7be" title="#00c7be"></button><button class="cs" data-c="#00897b" style="background:#00897b" title="#00897b"></button><button class="cs" data-c="#b7e4c7" style="background:#b7e4c7" title="#b7e4c7"></button><button class="cs" data-c="#0d1b4c" style="background:#0d1b4c" title="#0d1b4c"></button><button class="cs" data-c="#1565c0" style="background:#1565c0" title="#1565c0"></button><button class="cs" data-c="#007aff" style="background:#007aff" title="#007aff"></button><button class="cs" data-c="#32ade6" style="background:#32ade6" title="#32ade6"></button><button class="cs" data-c="#5856d6" style="background:#5856d6" title="#5856d6"></button><button class="cs" data-c="#7b1fa2" style="background:#7b1fa2" title="#7b1fa2"></button><button class="cs" data-c="#af52de" style="background:#af52de" title="#af52de"></button><button class="cs" data-c="#ff2d92" style="background:#ff2d92" title="#ff2d92"></button><button class="cs" data-c="#f48fb1" style="background:#f48fb1" title="#f48fb1"></button><button class="cs" data-c="#ffc8dd" style="background:#ffc8dd" title="#ffc8dd"></button><button class="cs" data-c="#5d4037" style="background:#5d4037" title="#5d4037"></button><button class="cs" data-c="#a1887f" style="background:#a1887f" title="#a1887f"></button><button class="cs" data-c="#f1c27d" style="background:#f1c27d" title="#f1c27d"></button><button class="cs" data-c="#ffe0bd" style="background:#ffe0bd" title="#ffe0bd"></button></div>
 <div class="crow"><label>Custom<input type="color" id="color" value="#111111"></label><label>Fill<input type="color" id="fill" value="#ffcc00"><input type="checkbox" id="dofill" title="Fill shapes"></label></div>
@@ -63,12 +63,23 @@
 <div class="ps">Opacity<span class="hw" data-v="op">100%</span></div><div class="sk sko" data-k="op"><div class="skf"></div><svg class="skb hat" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M14 31l5-19M23 31l5-19M32 31l5-19M41 31l5-19M50 31l5-19M59 31l5-19M68 31l5-19M77 31l5-19M86 31l5-19M95 31l5-19M104 31l5-19M113 31l5-19M122 31l5-19M131 31l5-19M140 31l5-19M149 31l5-19M158 31l5-19M167 31l5-19M176 31l5-19M185 31l5-19"/></svg><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M7 11C60 8 140 10 193 9C197 17 196 24 194 31C140 33 60 30 6 32C3 24 4 17 7 11Z"/><path d="M9 14C70 12 130 14 191 12" opacity=".4"/></svg><i class="skn"></i></div><input type="range" id="op" min="5" max="100" value="100" hidden>
 </div><div id="layers" hidden></div></div></div>
 </section></div>
+<nav id="mnav" aria-label="Main">
+<button data-n="all" data-mn="all" data-ic="grid"><span>Paintbooks</span></button>
+<button data-ms="set" data-mn="set" data-ic="gear"><span>Settings</span></button>
+<button class="mh" data-n="home" data-mn="home" aria-label="Home"><i class="logo"></i></button>
+<button data-ms="folder" data-mn="folder" data-ic="folder"><span>Folder</span></button>
+<button data-a="new" data-mn="new" data-ic="plus"><span>Create</span></button>
+</nav>
+<div id="mbd" hidden></div>
+<div id="mfs" hidden><div class="mfh"><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook"></button></div><div id="mftl"></div></div>
+<div id="cmenu" hidden></div>
 <div id="bpop" hidden><div class="bph"><b id="bpn">Pen</b><button class="ib" id="bpx" title="Close">✕</button></div><canvas id="bpv" width="520" height="140"></canvas>
 <div class="ps">Size<span class="hw" data-v="size"></span></div><div class="sk sks" data-k="size"><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><svg class="skb skp" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M5 21C50 21 100 18 150 12C170 9 185 7 195 6C198 15 197 26 195 34C160 30 100 26 60 24C35 23 18 23 5 23Z"/></svg><i class="skn"></i></div>
 <div class="ps">Opacity<span class="hw" data-v="op"></span></div><div class="sk sko" data-k="op"><div class="skf"></div><svg class="skb hat" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M14 31l5-19M23 31l5-19M32 31l5-19M41 31l5-19M50 31l5-19M59 31l5-19M68 31l5-19M77 31l5-19M86 31l5-19M95 31l5-19M104 31l5-19M113 31l5-19M122 31l5-19M131 31l5-19M140 31l5-19M149 31l5-19M158 31l5-19M167 31l5-19M176 31l5-19M185 31l5-19"/></svg><svg class="skb" viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M7 11C60 8 140 10 193 9C197 17 196 24 194 31C140 33 60 30 6 32C3 24 4 17 7 11Z"/><path d="M9 14C70 12 130 14 191 12" opacity=".4"/></svg><i class="skn"></i></div></div>
 <div id="tpop" hidden><b>Text</b><div class="ps">Font</div><select id="font"><option>Arial</option><option>Georgia</option><option>Courier New</option><option>Impact</option><option>Comic Sans MS</option><option>Times New Roman</option></select><div class="ps">Style</div><div class="bi"><button id="bold" class="bt"><b>B</b></button><button id="italic" class="bt"><i>I</i></button></div></div>
 <div id="dlg" hidden><div class="dbox"><b>Save changes?</b><p id="dtx"></p><div class="acts"><button id="dno">Don't save</button><button id="dyes" class="pri">Yes, save</button></div></div></div>
 <div id="fmenu" hidden></div>
+<div id="sech" hidden></div>
 <div id="mdl" hidden><div class="mbox"></div></div>
 <div id="auth"></div>
 <div id="toast"></div>
@@ -93,8 +104,6 @@
 <script defer src="/js/19-sidebar.js"></script>
 <script defer src="/js/20-bindings.js"></script>
 <script defer src="/js/21-brush-ui.js"></script>
-<script defer src="/js/23-collab.js"></script>
-<script defer src="/js/24-carousel.js"></script>
-<script defer src="/js/25-presence-mobile.js"></script>
 <script defer src="/js/22-init.js"></script>
+<script defer src="/js/23-mobile.js"></script>
 </body></html>
