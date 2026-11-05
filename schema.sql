@@ -3,7 +3,8 @@
 CREATE TABLE IF NOT EXISTS users (
   id          TEXT PRIMARY KEY,
   email       TEXT NOT NULL UNIQUE,
-  name        TEXT NOT NULL,
+  name        TEXT NOT NULL,              -- username
+  name_lc     TEXT,                       -- lowercase username (unique)
   pw_hash     TEXT NOT NULL,              -- pbkdf2$iterations$salt$hash
   theme       TEXT NOT NULL DEFAULT 'dark',
   tree_open   INTEGER NOT NULL DEFAULT 0,
@@ -11,6 +12,8 @@ CREATE TABLE IF NOT EXISTS users (
   created_at  INTEGER NOT NULL,
   agreed_at   INTEGER NOT NULL
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_name_lc ON users(name_lc);
 
 CREATE TABLE IF NOT EXISTS sessions (
   id          TEXT PRIMARY KEY,           -- SHA-256 of the cookie token (the raw token is never stored)
@@ -51,4 +54,25 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   key         TEXT PRIMARY KEY,
   count       INTEGER NOT NULL,
   reset_at    INTEGER NOT NULL
+);
+
+-- Collaboration
+CREATE TABLE IF NOT EXISTS book_members (
+  book_id     TEXT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+  user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  added_at    INTEGER NOT NULL,
+  PRIMARY KEY (book_id, user_id)
+);
+CREATE INDEX IF NOT EXISTS idx_members_user ON book_members(user_id);
+
+CREATE TABLE IF NOT EXISTS book_live (
+  book_id     TEXT PRIMARY KEY REFERENCES books(id) ON DELETE CASCADE,
+  client_id   TEXT NOT NULL,
+  state       TEXT NOT NULL,
+  updated_at  INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS presence (
+  user_id     TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  last_seen   INTEGER NOT NULL
 );

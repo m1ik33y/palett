@@ -1,5 +1,5 @@
 /* Toolbar, menu and dashboard bindings */
-$('#av').onclick=pop;$('#back').onclick=()=>leave(()=>go('home'));
+$('#av').onclick=()=>document.body.classList.contains('studio')&&cur?invitePop():pop();$('#back').onclick=()=>leave(()=>go('home'));
 $('#svb').onclick=()=>saveNow(1);
 $('#sv').onclick=async()=>{const b=$('#sv');if(b.classList.contains('busy'))return;b.classList.add('busy');try{await saveNow(1)}finally{b.classList.remove('busy')}};
 $('#bn').oninput=e=>{if(cur){cur.name=e.target.value||'Untitled';saveMeta(cur)}};

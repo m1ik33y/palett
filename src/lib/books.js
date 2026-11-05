@@ -7,7 +7,7 @@ export const MAX_BOOKS = 500;
 export const bookMeta = (r) => ({
   id: r.id, name: r.name, title: r.title, fav: r.fav, arch: r.arch,
   w: r.w, h: r.h, scroll: r.scroll, thumb: r.thumb,
-  created: r.created_at, updated: r.updated_at,
+  created: r.created_at, updated: r.updated_at, shared: !!r.shared,
 });
 
 export const META_COLS = 'id, name, title, fav, arch, w, h, scroll, thumb, created_at, updated_at';
@@ -26,6 +26,18 @@ export const chunkStatements = (env, bookId, text) => {
 export async function ownedBook(env, userId, id, unlocked = false) {
   const row = await env.DB.prepare(`SELECT ${META_COLS} FROM books WHERE id = ? AND user_id = ?`).bind(id, userId).first();
   if (!row || (row.arch && !unlocked)) throw new HttpError(404, 'Paintbook not found');
+  return row;
+}
+
+// Owner OR invited member. Archived books stay owner-only (and need the archive unlocked).
+export async function accessibleBook(env, userId, id, unlocked = false) {
+  const row = await env.DB.prepare(
+    `SELECT ${META_COLS}, user_id FROM books b WHERE id = ?1 AND (user_id = ?2 OR EXISTS
+       (SELECT 1 FROM book_members m WHERE m.book_id = b.id AND m.user_id = ?2))`
+  ).bind(id, userId).first();
+  if (!row) throw new HttpError(404, 'Paintbook not found');
+  row.isOwner = row.user_id === userId;
+  if (row.arch && (!row.isOwner || !unlocked)) throw new HttpError(404, 'Paintbook not found');
   return row;
 }
 
