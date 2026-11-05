@@ -1,5 +1,5 @@
 // Supabase Storage helpers (server side only: the service key never reaches the browser).
-// Env: SUPABASE_URL (https://<ref>.supabase.co), SUPABASE_SERVICE_KEY (secret), SUPABASE_BUCKET (default "pallet").
+// Env: SUPABASE_URL (https://<ref>.supabase.co), SUPABASE_SERVICE_KEY (secret), SUPABASE_BUCKET (default "palett").
 import { HttpError } from './http.js';
 
 export const MEDIA_PREFIX = '/api/media/';
@@ -34,7 +34,7 @@ function cfg(env) {
     throw new HttpError(503, 'Media storage is not configured yet (set SUPABASE_URL and SUPABASE_SERVICE_KEY).');
   const headers = { apikey: key };
   if (key.startsWith('eyJ')) headers.authorization = 'Bearer ' + key; // legacy JWT keys; new sb_secret_ keys use apikey only
-  return { base, bucket: env.SUPABASE_BUCKET || 'pallet', headers };
+  return { base, bucket: env.SUPABASE_BUCKET || 'palett', headers };
 }
 const objUrl = (c, key) => `${c.base}/storage/v1/object/${encodeURIComponent(c.bucket)}/${key}`;
 
