@@ -1,6 +1,10 @@
 /* Explorer tree in the sidebar */
 let fopen=false,fren=null,fmid=null;
 const fmHide=()=>{$('#fmenu').hidden=1;document.querySelectorAll('.fr.mo').forEach(e=>e.classList.remove('mo'))};
+function fmShow(r,id,x){const fm=$('#fmenu'),m=books.find(b=>b.id==id);if(!fm.hidden&&fmid==id){fmHide();return}fmHide();fmid=id;r.classList.add('mo');
+ fm.innerHTML=(PH.matches&&m?`<div class="sh">${esc(m.name)}</div>`:'')+`<button data-mx="rn">${ic('edit',16)}Rename</button><button data-mx="ar">${ic('archive',16)}Archive</button><button data-mx="dl" class="dng">${ic('trash',16)}Delete</button>`;fm.hidden=0;
+ if(PH.matches||!x){fm.style.top=fm.style.left='';return}
+ const b=x.getBoundingClientRect();fm.style.top=Math.min(b.bottom+4,innerHeight-100)+'px';fm.style.left=Math.max(8,b.right-150)+'px'}
 $('#fmenu').onclick=e=>{const b=e.target.closest('[data-mx]');if(!b)return;const id=fmid;fmHide();
  if(b.dataset.mx=='rn'){fren=id;ftRender()}else if(b.dataset.mx=='ar'){const m=books.find(x=>x.id==id);if(m)archPrompt(()=>archiveBook(m))}else{const m=books.find(x=>x.id==id);if(!m)return;delBook(m)}};
 const fsave=()=>patchMe({treeOpen:fopen?1:0});
@@ -12,7 +16,7 @@ function ftFill(box){if(!box)return;
 const ftClick=e=>{const x=e.target.closest('[data-fx]'),r=e.target.closest('[data-fid]'),id=r&&r.dataset.fid;
  if(x){e.stopPropagation();const k=x.dataset.fx;
   if(k=='nf')openNew('blank');
-  else if(k=='mn'){const fm=$('#fmenu');if(!fm.hidden&&fmid==id){fmHide();return}fmHide();fmid=id;r.classList.add('mo');const b=x.getBoundingClientRect();fm.innerHTML=`<button data-mx="rn">${ic('edit',16)}Rename</button><button data-mx="ar">${ic('archive',16)}Archive</button><button data-mx="dl" class="dng">${ic('trash',16)}Delete</button>`;fm.hidden=0;fm.style.top=Math.min(b.bottom+4,innerHeight-100)+'px';fm.style.left=Math.max(8,b.right-150)+'px'}
+  else if(k=='mn')fmShow(r,id,x);else if(k=='x')mfClose()
   return}
  if(r&&!e.target.closest('input')){open(id);window.mfClose&&mfClose()}};
 $('#ft').addEventListener('click',ftClick);$('#mfs').addEventListener('click',ftClick);

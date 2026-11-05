@@ -18,8 +18,9 @@ function cmHide(){const m=$('#cmenu');if(m.hidden)return;m.hidden=1;document.que
 function cmShow(btn,id){const m=books.find(b=>b.id==id);if(!m)return;const fm=$('#cmenu');
  if(!fm.hidden&&cmid==id){cmHide();return}
  cmHide();cmid=id;btn.closest('.card').classList.add('mo');
- fm.innerHTML=`<button data-cm="fav">${ic('star',16)}${m.fav?'Remove from favourites':'Add to favourites'}</button><button data-cm="dup">${ic('copy',16)}Duplicate</button><button data-cm="ren">${ic('edit',16)}Rename</button>${m.arch?`<button data-cm="unarch">${ic('archive',16)}Unarchive</button>`:''}<button data-cm="del" class="dng">${ic('trash',16)}Delete</button>`;
- fm.hidden=0;const r=btn.getBoundingClientRect(),w=fm.offsetWidth,h=fm.offsetHeight;
+ fm.innerHTML=(PH.matches?`<div class="sh">${esc(m.name)}</div>`:'')+`<button data-cm="fav">${ic('star',16)}${m.fav?'Remove from favourites':'Add to favourites'}</button><button data-cm="dup">${ic('copy',16)}Duplicate</button><button data-cm="ren">${ic('edit',16)}Rename</button>${m.arch?`<button data-cm="unarch">${ic('archive',16)}Unarchive</button>`:''}<button data-cm="del" class="dng">${ic('trash',16)}Delete</button>`;
+ fm.hidden=0;if(PH.matches){fm.style.left=fm.style.top='';return}
+ const r=btn.getBoundingClientRect(),w=fm.offsetWidth,h=fm.offsetHeight;
  fm.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+'px';
  fm.style.top=(r.bottom+4+h>innerHeight-8?Math.max(8,r.top-h-4):r.bottom+4)+'px'}
 function renCard(id){const c=[...document.querySelectorAll('.card')].find(x=>x.dataset.id==id),m=books.find(b=>b.id==id);if(!c||!m)return;const b=c.querySelector('b');
@@ -32,4 +33,4 @@ $('#cmenu').onclick=e=>{const b=e.target.closest('[data-cm]');if(!b)return;const
  else if(k=='del')delBook(m);
  else if(k=='unarch')api('/books/'+m.id,{method:'PATCH',body:{arch:0}}).then(()=>{m.arch=0;render_()}).catch(er=>toast(er.message||'Could not unarchive'));
  else if(k=='ren')renCard(id)};
-addEventListener('keydown',e=>{if(e.key=='Escape')cmHide()});addEventListener('resize',cmHide);document.addEventListener('scroll',cmHide,true);
+addEventListener('keydown',e=>{if(e.key=='Escape')cmHide()});addEventListener('resize',()=>{if(!PH.matches)cmHide()});document.addEventListener('scroll',e=>{if(!PH.matches)cmHide()},true);

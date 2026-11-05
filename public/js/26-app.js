@@ -3,6 +3,8 @@ const IN_APP=/PalettApp\//.test(navigator.userAgent);
 /* The Android shell calls this on the hardware back button. Return true if the web app handled it. */
 window.palettBack=function(){
  const hid=s=>{const e=document.querySelector(s);return !e||e.hidden};
+ if(window.sheetsCloseTop&&sheetsCloseTop())return true;
+ if(!hid('#mfs')){mfClose();return true}
  if(!hid('#dlg')){$('#dlg').hidden=true;return true}
  if(!hid('#mdl')){$('#mdl').hidden=true;return true}
  if(!hid('#pop')){$('#pop').hidden=true;return true}

@@ -62,5 +62,5 @@ function enableSheetDrag(el){
  el.addEventListener('touchend',()=>{if(!dragging)return;dragging=false;el.style.transition='transform .18s';if(dy>110){if(el.id==='pop')el.hidden=true;else if(el.id==='mdl')el.hidden=true}el.style.transform='';setTimeout(()=>el.style.transition='',200)},{passive:true});
 }
 addEventListener('DOMContentLoaded',()=>{
- mobileNavInit();enableSheetDrag(document.querySelector('#pop'));enableSheetDrag(document.querySelector('#mdl .mbox'));
+ mobileNavInit();
 });

@@ -391,3 +391,75 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 .getapp{display:block;text-align:center;margin-top:18px;font-size:14px;font-weight:600;color:var(--mut);text-decoration:underline;text-underline-offset:3px}
 .getapp[hidden],[data-getapp][hidden]{display:none}
 a.btn2{display:inline-flex;align-items:center;text-decoration:none}
+
+/* ===== Phone: menus are pure black/white bottom sheets over a light overlay; the folder view is full screen ===== */
+#sbd,.sh,.mfhint,.mfx{display:none}
+@keyframes sbdin{from{opacity:0}to{opacity:1}}
+@keyframes sheetup{from{transform:translateY(100%)}to{transform:none}}
+@keyframes fsin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (max-width:640px),(pointer:coarse) and (max-height:520px){
+ /* very light overlay behind every sheet */
+ #sbd{display:block;position:fixed;inset:0;z-index:84;background:rgba(0,0,0,.16);-webkit-tap-highlight-color:transparent;animation:sbdin .18s ease-out both}
+
+ /* the sheet itself: pure theme colour (black in dark, white in light), no gray panel, no popup shadow */
+ #pop,#mnu,#shf,#cmenu,#fmenu,#sech,#bpop,#tpop,#layers:not([hidden]),#work.bo .bgrid{
+  position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;
+  width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;margin:0!important;
+  max-height:74dvh!important;overflow-x:hidden;overflow-y:auto!important;overscroll-behavior:contain;
+  background:var(--bg)!important;color:var(--ink);
+  border:0!important;border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent)!important;
+  border-radius:22px 22px 0 0!important;box-shadow:none!important;
+  padding:0 10px calc(14px + env(safe-area-inset-bottom,0px))!important;
+  z-index:86!important;animation:sheetup .2s ease-out both}
+ #bpop,#tpop{padding-left:18px!important;padding-right:18px!important}
+ #layers:not([hidden]){padding-top:14px!important}
+ #work.bo .bgrid{padding-top:0!important;gap:8px!important}
+ /* grab handle */
+ #pop::before,#mnu::before,#cmenu::before,#fmenu::before,#sech::before,#bpop::before,#tpop::before,#shf::before,#work.bo .bgrid::before{
+  content:'';display:block;flex:none;width:40px;height:4px;border-radius:2px;background:var(--ink);opacity:.22;margin:9px auto 8px}
+ #shf::before,#work.bo .bgrid::before{grid-column:1/-1;justify-self:center}
+ .sh{display:block;padding:2px 14px 10px;font-size:13px;font-weight:700;color:var(--ink);opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+ /* menu rows: big touch targets */
+ #pop button,#mnu button,#cmenu button,#fmenu button,#sech button{width:100%;justify-content:flex-start;gap:16px;padding:15px 14px;font-size:16px;font-weight:500;border-radius:12px;color:var(--ink)}
+ #pop button svg,#mnu button svg,#cmenu button svg,#fmenu button svg,#sech button svg{width:22px;height:22px;flex:none}
+ #cmenu button.dng,#fmenu button.dng{color:#ff453a}
+ #pop button:active,#mnu button:active,#cmenu button:active,#fmenu button:active,#sech button:active,#shf button:active{background:color-mix(in srgb,var(--ink) 9%,transparent)!important}
+ #pop hr{background:color-mix(in srgb,var(--ink) 12%,transparent);margin:6px 10px}
+ #shf{gap:6px}
+ #shf button{padding:14px 0;border-radius:12px}
+ #sech button{text-align:left}
+
+ /* dialogs (legal text, archive password, "save changes?") are sheets too */
+ #mdl,#dlg{background:rgba(0,0,0,.16)!important;place-items:end stretch!important;padding:0!important}
+ #dlg{z-index:92}
+ #mdl .mbox,#dlg .dbox{width:100%!important;max-width:none!important;max-height:86dvh;border-radius:22px 22px 0 0;background:var(--bg);box-shadow:none;
+  border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent);padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px));animation:sheetup .2s ease-out both}
+ #mdl .mbox.sm{min-height:0}
+ #mdl .mbox::before,#dlg .dbox::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--ink);opacity:.22;margin:-10px auto 14px}
+
+ /* no 3-dot buttons: item menus open by press-and-hold */
+ .card .mm,#mfs .fa{display:none!important}
+ .card,.fr{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+ .card [contenteditable=true],.fi{-webkit-user-select:text;user-select:text}
+ .card.lp,.fr.lp,.card.mo,.fr.mo{opacity:.6}
+
+ /* folder = full-screen file explorer */
+ #mbd{display:none!important}
+ #mfs{display:flex;flex-direction:column;position:fixed;inset:0;max-height:none;z-index:70;background:var(--bg);border-radius:0;box-shadow:none;padding:0;overflow:hidden;animation:fsin .18s ease-out both}
+ #mfs .mfh{flex:none;gap:6px;padding:8px 10px;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent);font-size:19px;font-weight:800;letter-spacing:0;text-transform:none;color:var(--ink)}
+ #mfs .mfh button{display:grid;place-items:center;width:44px;height:44px;padding:0;color:var(--ink);border-radius:12px}
+ #mfs .mfh button svg{width:24px;height:24px}
+ #mfs .mfx{display:grid}
+ #mftl{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:6px 10px;gap:0}
+ #mfs .fr{height:58px;font-size:17px;padding:0 10px;gap:14px;border-radius:12px}
+ #mfs .fr svg{width:22px;height:22px}
+ #mfs .fr:hover{background:none!important}
+ #mfs .fr:active{background:color-mix(in srgb,var(--ink) 8%,transparent)!important}
+ #mfs .fe{font-size:15px;padding:28px 8px;text-align:center}
+ .mfhint{display:block;flex:none;text-align:center;color:var(--mut);font-size:12.5px;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:reduce){#sbd,#pop,#mnu,#shf,#cmenu,#fmenu,#sech,#bpop,#tpop,#layers,.bgrid,#mdl .mbox,#dlg .dbox,#mfs{animation:none!important}}
+@media (max-width:640px),(pointer:coarse) and (max-height:520px){
+ #layers:not([hidden]):empty::after{content:'No layers yet';display:block;text-align:center;padding:20px 0 12px;color:var(--mut);font-size:15px}
+}
