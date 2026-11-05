@@ -325,7 +325,7 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
  #zoom{display:none}
  #mnu{top:auto;bottom:calc(100% + 8px);left:0;max-height:min(70dvh,470px);overflow:auto;border:1px solid var(--hov)}
  #shf{position:fixed;left:10px;right:10px;top:auto;bottom:calc(128px + env(safe-area-inset-bottom,0px));grid-template-columns:repeat(6,1fr);border:1px solid var(--hov)}
- body #auth::after{height:170px;background-size:auto 100%}
+ body #auth::after{height:148px;background-size:auto 100%}
  #auth .tbx{max-height:110px}
  .ac .pri{border-radius:999px}
  /* colour + brush controls, split: colours on top, brush/size/opacity right above the tool rail */
@@ -372,4 +372,4 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 /* Auth page: crowd of faces along the bottom of the screen */
 #auth{display:flex;flex-direction:column;padding:24px 16px 0}
 #auth .ac{margin:auto;position:relative;z-index:1}
-#auth::after{content:'';flex:none;align-self:stretch;width:calc(100% + 32px);height:min(29.9vw,40vh);margin:24px -16px 0;background:url(/img/auth-crowd.svg) repeat-x center calc(100% + 8px)/auto 100%;pointer-events:none}
+#auth::after{content:'';flex:none;align-self:stretch;width:calc(100% + 32px);height:min(23vw,32vh);margin:24px -16px 0;background:url(/img/auth-crowd.svg) repeat-x center calc(100% + 14px)/auto 100%;pointer-events:none}
