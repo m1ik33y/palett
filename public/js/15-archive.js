@@ -14,7 +14,7 @@ const archFolderCard=()=>`<div class="fcard" data-arch-open role="button" tabind
 /* The folder itself (body class "arch", section #v-arch). Its header lives in the top bar: back button + title. */
 function archView(){const l=[...books].filter(b=>b.arch).sort((a,b)=>b.updated-a.updated);
  $('#v-arch').innerHTML=grid(l,'Nothing archived yet.<br>Archive a paintbook from the Folder explorer menu.')}
-$('#abk').innerHTML=ic('back',18);
+$('#abk').innerHTML=ic('back',22);
 $('#abk').onclick=()=>{lockArch();go('home')}; /* leaving the folder always closes it: the password is needed again */
 document.addEventListener('click',e=>{if(e.target.closest('[data-arch-open]'))go('arch')});
 document.addEventListener('keydown',e=>{if((e.key=='Enter'||e.key==' ')&&e.target.matches&&e.target.matches('[data-arch-open]')){e.preventDefault();go('arch')}});

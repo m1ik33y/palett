@@ -471,12 +471,13 @@ body.hasbar{padding-top:56px}
 /* ===== Archived folder: bare orange folder icon + name, and the folder page header ===== */
 .fcard{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:12px 6px;background:none;border-radius:12px;cursor:pointer;text-align:center;outline:0;-webkit-tap-highlight-color:transparent;transition:transform .15s,opacity .15s}
 .fcard:active{transform:scale(.96);opacity:.75}
+@media (hover:hover) and (pointer:fine){.fcard:hover{background:var(--hov)}}
 .fcard:focus-visible{box-shadow:0 0 0 2px #ff8a2b}
 .fcard svg{width:92px;height:auto;filter:drop-shadow(0 6px 10px rgba(242,118,26,.3))}
 .fcard b{font-size:14px;font-weight:600;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .grid.solo{margin-top:12px}
 .ao{display:none}body.arch .ao{display:inline-flex}
-#abk{padding:6px;margin-left:-4px;color:var(--ink);border-radius:10px}#abk svg{width:18px;height:18px}
+#abk{padding:8px;margin-left:-6px;color:var(--ink);border-radius:12px}#abk svg{width:22px;height:22px}
 .atl{align-items:center;font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
 #v-arch .grid{margin-top:12px}
 @media (max-width:640px),(pointer:coarse) and (max-height:520px){.fcard svg{width:84px}}
