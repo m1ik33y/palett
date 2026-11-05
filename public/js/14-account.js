@@ -2,7 +2,7 @@
 const acct=()=>me;
 function pop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}const a=acct();
  const av=user.avatar;
- p.innerHTML=`<div class="pf">${a?`<button type="button" class="pfa pfe${av?' has-img':''}" id="pfe" title="Change profile picture" aria-label="Change profile picture"${av?` style="background-image:url('${esc(av)}')"`:''}>${av?'':esc((user.name.trim()[0]||'A').toUpperCase())}<i class="pfc">Edit</i></button>`:`<span class="pfa">${esc((user.name.trim()[0]||'A').toUpperCase())}</span>`}<div class="pfn"><b>${esc(user.name)}</b><small>${a?'Signed in':'Guest'}</small></div></div>${a&&av?`<button data-pm="rmav">${ic('trash',18)}Remove photo</button>`:''}<hr>
+ p.innerHTML=`<div class="pf">${a?`<button type="button" class="pfa pfe${av?' has-img':''}" id="pfe" title="Change profile picture" aria-label="Change profile picture"${av?` style="background-image:url('${esc(av)}')"`:''}>${av?'':esc((user.name.trim()[0]||'A').toUpperCase())}<i class="pfc">${ic('camera',22)}</i></button>`:`<span class="pfa">${esc((user.name.trim()[0]||'A').toUpperCase())}</span>`}<div class="pfn"><b>${esc(user.name)}</b><small>${a?'Signed in':'Guest'}</small></div></div>${a&&av?`<button data-pm="rmav">${ic('trash',18)}Remove photo</button>`:''}<hr>
 <button data-pm="set">${ic('gear',18)}Settings</button><button data-pm="pp">${ic('shield',18)}Privacy Policy</button><button data-pm="tos">${ic('file',18)}Terms of Service</button><hr>
 ${a?`<button data-pm="out">${ic('logout',18)}Log out</button>`:`<button data-pm="in">${ic('user',18)}Log in / Sign up</button>`}`;p.hidden=0;
  const pe=$('#pfe');if(pe)pe.onclick=pickAvatar}

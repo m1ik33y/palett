@@ -377,7 +377,14 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 /* Profile pictures */
 #av.has-img,.pfa.has-img,.cpf.has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
 .pfe{position:relative;overflow:hidden;cursor:pointer;border:0;padding:0;color:inherit;font:inherit;font-weight:800}
-.pfe .pfc{position:absolute;left:0;right:0;bottom:0;padding:3px 0;background:rgba(0,0,0,.55);color:#fff;font:700 10px/1.2 inherit;font-style:normal;text-align:center;opacity:0;transition:opacity .15s}
+.pfe .pfc{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.42);color:#fff;opacity:0;transition:opacity .15s;pointer-events:none}
 .pfe:hover .pfc,.pfe:focus-visible .pfc{opacity:1}
-@media (hover:none){.pfe .pfc{opacity:1}}
+@media (hover:none){.pfe .pfc{opacity:.9;background:rgba(0,0,0,.3)}}
 #pop .pf .pfa{width:60px;height:60px;padding:0;justify-content:center;border-radius:50%;flex:none}
+
+/* Boot loader: shown until the session check finishes */
+#boot{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .35s ease,visibility .35s}
+#boot.off{opacity:0;visibility:hidden;pointer-events:none}
+#boot img{width:84px;height:84px;display:block;animation:bootp 1.4s ease-in-out infinite}
+@keyframes bootp{0%,100%{transform:scale(.92);opacity:.75}50%{transform:scale(1.04);opacity:1}}
+@media (prefers-reduced-motion:reduce){#boot img{animation:none}}

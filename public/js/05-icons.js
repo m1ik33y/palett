@@ -41,3 +41,5 @@ Object.assign(P,{eye:'<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 
  const sync=()=>{const n=b.classList.contains('dirty')?'save':'savecheck';if(n===k)return;k=n;b.innerHTML=ic(n)};
  new MutationObserver(sync).observe(b,{attributes:true,attributeFilter:['class']});
  document.addEventListener('DOMContentLoaded',sync);setTimeout(sync,0)})();
+
+P.camera='<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/>';

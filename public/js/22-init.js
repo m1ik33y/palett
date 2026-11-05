@@ -5,4 +5,7 @@ $('.brand i').innerHTML=LOGO;
 try{brushPrev()}catch(e){console.error(e)}skUpd();
 if(innerWidth<=800&&!PH.matches)$('#side').hidden=true;
 paint(document);if(!$('#side').hidden)$('#pan').classList.add('on');theme();avatar();
-(async()=>{try{const r=await api('/me');await startSession(r.user)}catch(e){showAuth('in')}})();
+/* Loader (#boot) stays up while we check for a session, then reveals the app or the login screen. */
+const bootHide=()=>{const b=$('#boot');if(b){b.classList.add('off');setTimeout(()=>b.remove(),500)}};
+const bootFail=setTimeout(()=>{if(!me)showAuth('in');bootHide()},15000);
+(async()=>{try{const r=await api('/me');await startSession(r.user)}catch(e){showAuth('in')}clearTimeout(bootFail);bootHide()})();
