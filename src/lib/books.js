@@ -25,7 +25,13 @@ export const chunkStatements = (env, bookId, text) => {
 
 export async function ownedBook(env, userId, id, unlocked = false) {
   const row = await env.DB.prepare(`SELECT ${META_COLS} FROM books WHERE id = ? AND user_id = ?`).bind(id, userId).first();
-  if (!row || (row.arch && !unlocked)) throw new HttpError(404, 'Paintbook not found');
+  if (!row) {
+    // An invited collaborator can see the book but may not archive, rename, favourite, duplicate or delete it.
+    const member = await env.DB.prepare('SELECT 1 AS ok FROM book_members WHERE book_id = ? AND user_id = ?').bind(id, userId).first();
+    if (member) throw new HttpError(403, 'Only the owner can do that with a shared paintbook.');
+    throw new HttpError(404, 'Paintbook not found');
+  }
+  if (row.arch && !unlocked) throw new HttpError(404, 'Paintbook not found');
   return row;
 }
 

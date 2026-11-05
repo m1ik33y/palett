@@ -217,11 +217,8 @@ body.set #v-set{display:block}body.set .dashonly{display:none}
 .tgl{position:relative;width:54px;height:30px;padding:0;border-radius:8px;background:var(--hov);flex:none;transition:background .18s}.tgl:active{transform:none}
 .tgl i{position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:5px;background:var(--mut);transition:transform .18s,background .18s}
 .tgl.on{background:var(--ink)}.tgl.on i{transform:translateX(24px);background:var(--bg)}
-body.sec #v-sec{display:block}body.sec .dashonly{display:none}
+body.arch #v-arch{display:block}body.arch .dashonly{display:none}
 .btn2{background:var(--hov);padding:9px 16px;font-weight:600}
-.sech{display:flex;align-items:center;gap:12px}.sech h1{display:flex;align-items:center;gap:10px;flex:1}
-#sech{position:fixed;z-index:25;background:var(--panel);border-radius:12px;padding:6px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
-#sech button{width:100%;gap:12px;padding:10px 12px;justify-content:flex-start;text-align:left}#sech small{display:block;color:var(--mut)}
 .mbox.sm{width:min(420px,100%);min-height:250px;padding:24px;display:flex;flex-direction:column}.mbox.sm .mh{margin-bottom:22px}.mbox.sm .mh b{font-size:19px}.mbox.sm .fld2{margin:0}.mbox.sm .pwf input{padding:14px 46px 14px 14px}.mbox.sm .aerr{margin:8px 0 0;min-height:20px}.mbox.sm .pri{margin-top:auto!important;padding:14px!important}
 input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;background:none;padding:8px 2px;box-shadow:none}input.ul:focus-visible{outline:0}
 .pwf{position:relative}.pwf input{width:100%;display:block;border:0;border-radius:5px;padding:11px 44px 11px 12px;background:color-mix(in srgb,var(--panel) 93%,#888)}.pwf input:focus-visible{outline:0;box-shadow:0 0 0 1px var(--mut)}
@@ -402,7 +399,7 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
  #sbd{display:block;position:fixed;inset:0;z-index:84;background:rgba(0,0,0,.16);-webkit-tap-highlight-color:transparent;animation:sbdin .18s ease-out both}
 
  /* the sheet itself: pure theme colour (black in dark, white in light), no gray panel, no popup shadow */
- #pop,#mnu,#shf,#cmenu,#fmenu,#sech,#bpop,#tpop,#layers:not([hidden]),#work.bo .bgrid{
+ #pop,#mnu,#shf,#cmenu,#fmenu,#bpop,#tpop,#layers:not([hidden]),#work.bo .bgrid{
   position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;
   width:auto!important;min-width:0!important;max-width:none!important;height:auto!important;margin:0!important;
   max-height:74dvh!important;overflow-x:hidden;overflow-y:auto!important;overscroll-behavior:contain;
@@ -415,20 +412,19 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
  #layers:not([hidden]){padding-top:14px!important}
  #work.bo .bgrid{padding-top:0!important;gap:8px!important}
  /* grab handle */
- #pop::before,#mnu::before,#cmenu::before,#fmenu::before,#sech::before,#bpop::before,#tpop::before,#shf::before,#work.bo .bgrid::before{
+ #pop::before,#mnu::before,#cmenu::before,#fmenu::before,#bpop::before,#tpop::before,#shf::before,#work.bo .bgrid::before{
   content:'';display:block;flex:none;width:40px;height:4px;border-radius:2px;background:var(--ink);opacity:.22;margin:9px auto 8px}
  #shf::before,#work.bo .bgrid::before{grid-column:1/-1;justify-self:center}
  .sh{display:block;padding:2px 14px 10px;font-size:13px;font-weight:700;color:var(--ink);opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
  /* menu rows: big touch targets */
- #pop button,#mnu button,#cmenu button,#fmenu button,#sech button{width:100%;justify-content:flex-start;gap:16px;padding:15px 14px;font-size:16px;font-weight:500;border-radius:12px;color:var(--ink)}
- #pop button svg,#mnu button svg,#cmenu button svg,#fmenu button svg,#sech button svg{width:22px;height:22px;flex:none}
+ #pop button,#mnu button,#cmenu button,#fmenu button{width:100%;justify-content:flex-start;gap:16px;padding:15px 14px;font-size:16px;font-weight:500;border-radius:12px;color:var(--ink)}
+ #pop button svg,#mnu button svg,#cmenu button svg,#fmenu button svg{width:22px;height:22px;flex:none}
  #cmenu button.dng,#fmenu button.dng{color:#ff453a}
- #pop button:active,#mnu button:active,#cmenu button:active,#fmenu button:active,#sech button:active,#shf button:active{background:color-mix(in srgb,var(--ink) 9%,transparent)!important}
+ #pop button:active,#mnu button:active,#cmenu button:active,#fmenu button:active,#shf button:active{background:color-mix(in srgb,var(--ink) 9%,transparent)!important}
  #pop hr{background:color-mix(in srgb,var(--ink) 12%,transparent);margin:6px 10px}
  #shf{gap:6px}
  #shf button{padding:14px 0;border-radius:12px}
- #sech button{text-align:left}
 
  /* dialogs (legal text, archive password, "save changes?") are sheets too */
  #mdl,#dlg{background:rgba(0,0,0,.16)!important;place-items:end stretch!important;padding:0!important}
@@ -458,7 +454,7 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
  #mfs .fr:active{background:color-mix(in srgb,var(--ink) 8%,transparent)!important}
  #mfs .fe{font-size:15px;padding:28px 8px;text-align:center}
 }
-@media (prefers-reduced-motion:reduce){#sbd,#pop,#mnu,#shf,#cmenu,#fmenu,#sech,#bpop,#tpop,#layers,.bgrid,#mdl .mbox,#dlg .dbox,#mfs{animation:none!important}}
+@media (prefers-reduced-motion:reduce){#sbd,#pop,#mnu,#shf,#cmenu,#fmenu,#bpop,#tpop,#layers,.bgrid,#mdl .mbox,#dlg .dbox,#mfs{animation:none!important}}
 @media (max-width:640px),(pointer:coarse) and (max-height:520px){
  #layers:not([hidden]):empty::after{content:'No layers yet';display:block;text-align:center;padding:20px 0 12px;color:var(--mut);font-size:15px}
 }
@@ -471,3 +467,22 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
 #apkbar .abd{flex:none;background:var(--ink);color:var(--bg);font-weight:700;font-size:14px;padding:9px 18px;border-radius:999px;text-decoration:none}
 #apkbar .abx{flex:none;width:36px;height:36px;padding:0;display:grid;place-items:center;color:var(--mut);font-size:15px;border-radius:50%}
 body.hasbar{padding-top:56px}
+
+/* ===== Archived folder: orange folder card in the library + the folder page ===== */
+.fcard{position:relative;background:var(--panel);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .18s,background .15s;-webkit-tap-highlight-color:transparent;outline:0}
+.fcard:hover{background:var(--hov)}.fcard:active{transform:scale(.98)}
+.fcard:focus-visible{box-shadow:0 0 0 2px #ff8a2b}
+.fth{aspect-ratio:16/9;display:grid;place-items:center;background:color-mix(in srgb,#ff8a2b 15%,var(--hov))}
+.fth svg{width:44%;max-width:96px;height:auto;filter:drop-shadow(0 6px 10px rgba(242,118,26,.35))}
+.fcard .nm b,.at h1{color:var(--ink)}
+.ah{display:flex;align-items:center;gap:12px;margin:6px 0 20px}
+.ah .ab{flex:none;color:var(--ink);padding:9px;margin-left:-6px;border-radius:12px}
+.afi{flex:none;display:grid;place-items:center}.afi svg{width:42px;height:auto;filter:drop-shadow(0 3px 6px rgba(242,118,26,.35))}
+.at{flex:1;min-width:0}.at h1{margin:0;font-size:24px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.at small{display:block;margin-top:2px}
+.alk{flex:none;padding:9px 15px}
+@media (max-width:640px),(pointer:coarse) and (max-height:520px){
+ .ah{gap:10px;margin:4px 0 16px}
+ .ah .ab{padding:8px}.afi svg{width:34px}.at h1{font-size:20px}.alk{padding:9px 13px;gap:7px}
+ .fcard .meta{padding:8px 2px 10px 10px}.fth svg{width:50%}
+}

@@ -1,6 +1,6 @@
 /* Global click delegation for cards, nav and menus */
 document.addEventListener('click',e=>{const T=e.target;
- if(!T.closest('#pop,#av'))$('#pop').hidden=1;if(!T.closest('#fmenu'))fmHide();if(!T.closest('#cmenu,[data-a=more]'))cmHide();if(!T.closest('#sech'))$('#sech').hidden=1;
+ if(!T.closest('#pop,#av'))$('#pop').hidden=1;if(!T.closest('#fmenu'))fmHide();if(!T.closest('#cmenu,[data-a=more]'))cmHide();
  const th=T.closest('[data-th]');if(th){user.theme=th.dataset.th;theme();saveProfile();pop();pop();return}
  const nv=T.closest('[data-n]');if(nv){nv.dataset.n=='home'?go('home'):go('lib',nv.dataset.n);return}
  const nt=T.closest('[data-nt]');if(nt){const t=nt.dataset.nt;if(t=='import'){f2.click();return}S.mode=t;newView();return}

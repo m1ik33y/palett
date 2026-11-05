@@ -3,7 +3,7 @@
 const q=s=>document.querySelector(s);
 const SHEETS=[
  ['#fmenu',()=>fmHide()],['#cmenu',()=>cmHide()],['#pop',e=>e.hidden=true],['#mnu',e=>e.hidden=true],
- ['#shf',e=>e.hidden=true],['#sech',e=>e.hidden=true],['#bpop',e=>e.hidden=true],['#tpop',e=>e.hidden=true]];
+ ['#shf',e=>e.hidden=true],['#bpop',e=>e.hidden=true],['#tpop',e=>e.hidden=true]];
 const shown=e=>!!e&&!e.hidden;
 const work=q('#work'),bd=q('#sbd');
 
