@@ -372,4 +372,4 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 /* Auth page: crowd of faces along the bottom of the screen */
 #auth{display:flex;flex-direction:column;padding:24px 16px 0}
 #auth .ac{margin:auto;position:relative;z-index:1}
-#auth::after{content:'';flex:none;align-self:stretch;width:calc(100% + 32px);height:min(30vw,38vh);margin:24px -16px 0;background:url(/img/auth-crowd.svg) center bottom/cover no-repeat;pointer-events:none}
+#auth::after{content:'';flex:none;align-self:stretch;width:calc(100% + 32px);height:min(29.9vw,40vh);margin:24px -16px 0;background:url(/img/auth-crowd.svg) repeat-x center calc(100% + 8px)/auto 100%;pointer-events:none}
