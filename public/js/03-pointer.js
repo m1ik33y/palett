@@ -1,7 +1,7 @@
 /* Pointer, wheel and text-editing interaction on the canvas */
 const ptrs=new Map();let pz=null;
 stage.onpointerdown=e=>{stage.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);if(ptrs.size>1){if(ptrs.size==2){const r=stage.getBoundingClientRect(),[a,b]=[...ptrs.values()];fitMode=0;pz={d:Math.hypot(a[0]-b[0],a[1]-b[1])||1,cx:(a[0]+b[0])/2-r.left,cy:(a[1]+b[1])/2-r.top,v:{...view}};drag=null;live=null;render()}return}const[x,y]=wp(e);
- if(tool=='hand'||spc||e.button==1){fitMode=0;drag={m:'pan',sx:e.clientX,sy:e.clientY,vx:view.x,vy:view.y};return}
+ if(tool=='hand'||spc||e.button==1||e.button==2){fitMode=0;drag={m:'pan',sx:e.clientX,sy:e.clientY,vx:view.x,vy:view.y};return}
  if(tool=='select'){
   if(sel){const hd=hh(x,y);if(hd&&!(sel.t=='text'&&hd.length<2)){drag={m:'rs',hd,o:{...sel},x,y,pre:JSON.stringify(objs)};return}}
   const o=[...objs].reverse().find(o=>hit(o,x,y));sel=o||null;syncUI();layers();
@@ -64,3 +64,5 @@ function editText(o){
  t.oninput=()=>{o.l=t.value;fit(o);place()};
  t.onkeydown=e=>{if(e.key=='Escape'||(e.key=='Enter'&&!e.shiftKey)){e.preventDefault();finish()}e.stopPropagation()};
  fit(o);place();t.focus();t.select()}
+
+stage.oncontextmenu=e=>e.preventDefault();
