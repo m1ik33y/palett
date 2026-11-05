@@ -1,6 +1,6 @@
 /* Dashboard: cards, home and library views */
 const card=b=>`<div class="card" data-id="${b.id}"><div class="th" style="${b.thumb?`background-image:url(${b.thumb})`:''}">${b.thumb?'':ic('palette')}</div>${b.fav?`<span class="fbadge" title="Favourite">${ic('star',14)}</span>`:''}<div class="meta"><div class="nm"><b>${esc(b.name)}</b><small>${b.title?esc(b.title)+' · ':''}${ago(b.updated)}</small></div>
-<button class="ib mm" data-a="more" title="More" aria-label="More options" aria-haspopup="menu">${ic('dots',22)}</button></div></div>`;
+<button class="ib mm" data-a="more" title="More" aria-label="More options" aria-haspopup="menu">${ic('dots',18)}</button></div></div>`;
 const grid=(l,msg)=>`<div class="grid">${l.length?l.map(card).join(''):`<div class="empty">${msg}</div>`}</div>`;
 const vis=()=>books.filter(b=>!b.arch),byUp=()=>[...vis()].sort((a,b)=>b.updated-a.updated),match=b=>b.name.toLowerCase().includes(qv.toLowerCase());
 function home(){const h=new Date().getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening',rec=byUp(),fav=vis().filter(b=>b.fav);

@@ -228,16 +228,15 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 .pwf button{position:absolute;right:4px;top:50%;transform:translateY(-50%);padding:7px;color:var(--mut);border-radius:5px}.pwf button:hover{color:var(--ink);background:none}.pwf button:active{transform:translateY(-50%)}
 
 /* ===== Studio header: Save button ===== */
-#sv{padding:8px 14px;background:var(--ink);color:var(--bg);font-weight:700;border-radius:9px;gap:8px;margin-right:4px}
-#sv:hover{background:var(--ink);opacity:.85}#sv svg{width:18px;height:18px}
-#sv.dirty::after{content:'';width:7px;height:7px;border-radius:50%;background:#fe713b;flex:none}
-#sv.busy{opacity:.6;pointer-events:none}
+#sv{position:relative}
+#sv.dirty::after{content:'';position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:#fe713b}
+#sv.busy{opacity:.5;pointer-events:none}
 
 /* ===== Paintbook cards: one horizontal 3-dot button -> dropdown ===== */
 .card{position:relative}
-.card .mm{opacity:0;padding:7px}
-.card:hover .mm,.card.mo .mm,.card:focus-within .mm{opacity:1}
-@media (hover:none){.card .mm{opacity:1}}
+.card .mm{opacity:.6;padding:7px;color:var(--mut)}
+.card .mm:hover,.card.mo .mm{opacity:1}
+.card .mm svg{width:18px;height:18px}
 .fbadge{position:absolute;left:8px;top:8px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--bg);color:var(--ink);pointer-events:none;opacity:.92}
 .fbadge svg{fill:currentColor}
 #cmenu{position:fixed;z-index:75;min-width:190px;background:var(--panel);border-radius:10px;padding:5px;display:flex;flex-direction:column;box-shadow:0 8px 28px rgba(0,0,0,.35)}
@@ -250,23 +249,23 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 
 /* ===== Phone layout: bottom navbar, full-screen pages, bottom tool rail ===== */
 @media (max-width:640px),(pointer:coarse) and (max-height:520px){
- :root{padding-bottom:0;--navh:66px}
+ :root{padding-bottom:0;--navh:54px}
  html,body{height:100dvh;overscroll-behavior:none}
  body{flex-direction:column}
  #app{min-height:0}
  #sb{display:none}
 
  /* bottom navbar: Paintbooks, Settings, [Home], Folder, Create */
- #mnav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:2px;background:var(--bg);border-top:1px solid var(--hov);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));position:relative;z-index:45}
+ #mnav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:2px;background:var(--bg);border-top:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));position:relative;z-index:45}
  body.studio #mnav,body.new #mnav{display:none}
  #mnav button{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:3px;padding:7px 2px;color:var(--mut);font-size:11px;font-weight:600;border-radius:12px}
- #mnav button svg{width:24px;height:24px}
+ #mnav button svg{width:26px;height:26px}
+ #mnav button span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
  #mnav button:hover{background:none}
  body.lib #mnav [data-mn=all],body.set #mnav [data-mn=set],#mnav [data-ms=folder].on{color:var(--ink);font-weight:700}
- #mnav .mh{flex:none;width:64px;height:64px;padding:0;margin-top:-30px;justify-content:center;border-radius:50%;background:var(--bg);border:1px solid var(--hov);box-shadow:0 4px 16px rgba(0,0,0,.3)}
- #mnav .mh:hover{background:var(--bg)}
- body.home #mnav .mh{border-color:#fe713b}
- #mnav .mh i{display:grid;width:42px;height:42px}#mnav .mh svg{width:100%;height:100%}
+ #mnav .mh{flex:1;width:auto;height:auto;padding:7px 2px;margin:0;border:0;border-radius:12px;background:none;box-shadow:none}
+ #mnav .mh:hover{background:none}
+ #mnav .mh i{display:grid;width:32px;height:32px}#mnav .mh svg{width:100%;height:100%}
 
  /* header */
  #top{padding:10px 12px 6px;gap:8px}
@@ -278,7 +277,6 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
  body.studio #pop{top:54px}
  body.studio #av{width:38px;height:38px}
  #bn{flex:1;width:auto;min-width:0;margin-left:0;font-size:15px}
- #sv{padding:9px 12px;margin-right:0}
 
  /* dashboard pages */
  .view{padding:4px 14px 22px}
@@ -312,7 +310,7 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
  #v-studio .rail{order:2;gap:6px}
  #v-studio #work{order:1;flex-direction:column;gap:8px}
  .rail>.grp{justify-content:space-between;padding:3px}
- #tools{flex:1 1 100%}.rail>.grp:nth-child(2){flex:5 1 0}.rail>.grp:nth-child(3){flex:3 1 0}
+ #tools{flex:1 1 100%}.rail>.grp:nth-child(2){flex:6 1 0}.rail>.grp:nth-child(3){flex:3 1 0}
  .grp button{flex:1;padding:11px 0;justify-content:center}
  .grp .mw,.grp .shw,.grp .pgw{flex:1;display:flex}.mw>button,.shw>button,.pgw>button{flex:1;justify-content:center}
  #zoom{display:none}
