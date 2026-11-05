@@ -468,21 +468,15 @@ a.btn2{display:inline-flex;align-items:center;text-decoration:none}
 #apkbar .abx{flex:none;width:36px;height:36px;padding:0;display:grid;place-items:center;color:var(--mut);font-size:15px;border-radius:50%}
 body.hasbar{padding-top:56px}
 
-/* ===== Archived folder: orange folder card in the library + the folder page ===== */
-.fcard{position:relative;background:var(--panel);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .18s,background .15s;-webkit-tap-highlight-color:transparent;outline:0}
-.fcard:hover{background:var(--hov)}.fcard:active{transform:scale(.98)}
+/* ===== Archived folder: bare orange folder icon + name, and the folder page header ===== */
+.fcard{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:12px 6px;background:none;border-radius:12px;cursor:pointer;text-align:center;outline:0;-webkit-tap-highlight-color:transparent;transition:transform .15s,opacity .15s}
+.fcard:active{transform:scale(.96);opacity:.75}
 .fcard:focus-visible{box-shadow:0 0 0 2px #ff8a2b}
-.fth{aspect-ratio:16/9;display:grid;place-items:center;background:color-mix(in srgb,#ff8a2b 15%,var(--hov))}
-.fth svg{width:44%;max-width:96px;height:auto;filter:drop-shadow(0 6px 10px rgba(242,118,26,.35))}
-.fcard .nm b,.at h1{color:var(--ink)}
-.ah{display:flex;align-items:center;gap:12px;margin:6px 0 20px}
-.ah .ab{flex:none;color:var(--ink);padding:9px;margin-left:-6px;border-radius:12px}
-.afi{flex:none;display:grid;place-items:center}.afi svg{width:42px;height:auto;filter:drop-shadow(0 3px 6px rgba(242,118,26,.35))}
-.at{flex:1;min-width:0}.at h1{margin:0;font-size:24px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.at small{display:block;margin-top:2px}
-.alk{flex:none;padding:9px 15px}
-@media (max-width:640px),(pointer:coarse) and (max-height:520px){
- .ah{gap:10px;margin:4px 0 16px}
- .ah .ab{padding:8px}.afi svg{width:34px}.at h1{font-size:20px}.alk{padding:9px 13px;gap:7px}
- .fcard .meta{padding:8px 2px 10px 10px}.fth svg{width:50%}
-}
+.fcard svg{width:92px;height:auto;filter:drop-shadow(0 6px 10px rgba(242,118,26,.3))}
+.fcard b{font-size:14px;font-weight:600;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.grid.solo{margin-top:12px}
+.ao{display:none}body.arch .ao{display:inline-flex}
+#abk{padding:6px;margin-left:-4px;color:var(--ink);border-radius:10px}#abk svg{width:18px;height:18px}
+.atl{align-items:center;font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+#v-arch .grid{margin-top:12px}
+@media (max-width:640px),(pointer:coarse) and (max-height:520px){.fcard svg{width:84px}}

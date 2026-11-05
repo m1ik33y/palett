@@ -45,9 +45,9 @@ function delBook(m){const i=books.indexOf(m);if(i<0)return;books.splice(i,1);ren
 addEventListener('pagehide',()=>{pendDel.forEach((t,id)=>{clearTimeout(t);fetch('/api/books/'+id,{method:'DELETE',keepalive:true})});pendDel.clear()});
 /* Archive: archived paintbooks are only sent by the server while this session is unlocked.
    The browser never holds the password hash or an unlock token (it lives in the server-side session). */
-let archOpen=false;
+let archOpen=false,archSolo=false;
 async function unlockArch(){const r=await api('/books?archived=1');books=books.filter(b=>!b.arch).concat(r.books);archOpen=true}
-function lockArch(){archOpen=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
+function lockArch(){archOpen=false;archSolo=false;books=books.filter(b=>!b.arch);api('/archive/lock',{method:'POST'}).catch(()=>{})}
 async function leaveBook(m){try{await api('/books/'+m.id+'/members?user='+encodeURIComponent(me.id),{method:'DELETE'});books=books.filter(b=>b.id!=m.id);render_();toast('Left “'+m.name+'”')}catch(e){toast(e.message||'Could not leave this paintbook')}}
 async function archiveBook(m){if(m.shared){toast('Only the owner can archive a shared paintbook');return}if(m._ar)return;m._ar=1;
  const patch=()=>api('/books/'+m.id,{method:'PATCH',body:{arch:1}});
