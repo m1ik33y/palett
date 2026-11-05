@@ -140,7 +140,7 @@ body.new #back{display:inline-flex}body.new .dashonly{display:none}
 body{user-select:none;-webkit-user-select:none;touch-action:manipulation}input,textarea,[contenteditable=true]{user-select:text;-webkit-user-select:text}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .brand i.logo{background:none;width:46px;height:46px;border-radius:0;overflow:visible}.brand i.logo svg{width:100%;height:100%;display:block}
-.tb svg{width:18px;height:18px}.tb.fav svg{fill:currentColor}#zoom{cursor:pointer}.ly button{display:grid;place-items:center}.ly button:hover{color:var(--ink)}
+#addpg[hidden]{display:none!important}.tb svg{width:18px;height:18px}.tb.fav svg{fill:currentColor}#zoom{cursor:pointer}.ly button{display:grid;place-items:center}.ly button:hover{color:var(--ink)}
 @media (max-width:1180px){.tb .l,#fv::after{display:none}}
 @media (max-width:800px){#nw1,#gl,#exp,#full,#st{display:none}#bn{width:34vw;margin-left:4px}}
 .frow{display:none!important}#mnu button{color:var(--ink)}.mw:has(#mnu:not([hidden])) #hb{background:var(--hov);color:var(--ink)}

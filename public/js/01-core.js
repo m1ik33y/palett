@@ -9,6 +9,12 @@ function setCanvas(w,h,scr){W=w;H=H0=h;SCR=scr?1:0;
  if(SCR){Q=1;art.width=art.height=base.width=base.height=1}
  else{Q=Math.max(.3,Math.min(3,devicePixelRatio||1,Math.sqrt(8e6/(W*H))));art.width=art.height=base.width=base.height=1}
  dirty=1}
+/* Slides: PG={n:pageCount,dir:'v'|'h'}; W x H0 is ONE page, pages sit in a row/column with a gap between them. */
+let PG=null;const PGAP=80;
+const pgPos=i=>PG.dir=='h'?{x:i*(W+PGAP),y:0}:{x:0,y:i*(H0+PGAP)};
+const pgWH=()=>PG.dir=='h'?{w:PG.n*W+(PG.n-1)*PGAP,h:H0}:{w:W,h:PG.n*H0+(PG.n-1)*PGAP};
+const pgRects=(c,fn)=>{for(let i=0;i<PG.n;i++){const p=pgPos(i);fn(c,p.x,p.y,W,H0)}};
+const pgClip=c=>{c.beginPath();pgRects(c,(c,x,y,w,h)=>c.rect(x,y,w,h));c.clip()};
 setCanvas(1920,1080,0);
 const frm=document.createElement('canvas'),fc=frm.getContext('2d');let cs='';
 const req=()=>{if(!rq){rq=1;requestAnimationFrame(()=>{rq=0;render(1);if(typeof liveQueue==='function'){liveQueue();liveAutosave()}})}};

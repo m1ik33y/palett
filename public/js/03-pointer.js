@@ -38,6 +38,7 @@ stage.ondblclick=e=>{if(tool!='select')return;const[x,y]=wp(e);const o=[...objs]
  if(o&&o.t=='text'){sel=o;snap();editText(o)}};
 stage.onwheel=e=>{e.preventDefault();fitMode=0;const r=stage.getBoundingClientRect();
  if(SCR&&!e.ctrlKey){const k=e.deltaMode==1?16:e.deltaMode==2?r.height:1;view.y-=e.deltaY*k;view.x-=e.deltaX*k;render(1);return}
+ if(PG&&!e.ctrlKey){const k=e.deltaMode==1?16:e.deltaMode==2?r.height:1;if(PG.dir=='h'){view.x-=(e.deltaX+e.deltaY)*k}else{view.y-=e.deltaY*k;view.x-=e.deltaX*k}render(1);return}
  const mx=e.clientX-r.left,my=e.clientY-r.top,
  ns=Math.min(8,Math.max(.1,view.s*Math.exp(-e.deltaY*.0015)));view.x=mx-(mx-view.x)*ns/view.s;view.y=my-(my-view.y)*ns/view.s;view.s=ns;render()};
 function editText(o){

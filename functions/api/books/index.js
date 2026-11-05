@@ -35,7 +35,8 @@ export async function onRequestPost({ request, env, data }) {
   const bg = /^#[0-9a-f]{6}$/i.test(b.bg) ? b.bg : '#ffffff';
 
   const id = newId(), now = Date.now();
-  const payload = JSON.stringify({ objs: [], imgs: {}, bg, nid: 1, w, h, scroll });
+  const pg = b.slides === 'h' || b.slides === 'v' ? { n: 1, dir: b.slides } : undefined;
+  const payload = JSON.stringify({ objs: [], imgs: {}, bg, nid: 1, w, h, scroll, ...(pg ? { pg } : {}) });
   await env.DB.batch([
     env.DB.prepare(
       `INSERT INTO books (id, user_id, name, title, fav, arch, w, h, scroll, thumb, size, created_at, updated_at)

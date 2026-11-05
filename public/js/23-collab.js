@@ -91,7 +91,7 @@ function liveReconnect(id){
 const liveHash=t=>{let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))>>>0;return h.toString(36)};
 const liveIk=()=>liveHash(Object.keys(imgs).sort().join(','));
 let liveSentIk='';
-const liveBase=()=>({objs:objs.map(o=>({...o,ed:0})),bg,nid,w:W,h:H0,scroll:SCR,car:(typeof car!=='undefined'&&car)||undefined,live});
+const liveBase=()=>({objs:objs.map(o=>({...o,ed:0})),bg,nid,w:W,h:H0,scroll:SCR,pg:PG||undefined,car:(typeof car!=='undefined'&&car)||undefined,live});
 async function livePull(id){
  if(livePullBusy||!cur||cur.id!==id||members.length<2)return;
  if(drag)return; // never overwrite what this user is drawing right now
@@ -109,6 +109,7 @@ async function livePull(id){
    return loadImg(src).then(im=>{imgs[key]=im});
   }));
   if(!cur||cur.id!==id||drag){liveApplying=false;liveCursor=0;return}
+  PG=d.pg&&d.pg.n>0?{n:Math.min(100,Math.floor(d.pg.n)||1),dir:d.pg.dir=='h'?'h':'v'}:null;
   if(d.w&&(d.w!==W||d.h!==H0))setCanvas(d.w,d.h,d.scroll);
   objs=Array.isArray(d.objs)?d.objs:[];
   bg=d.bg||'#ffffff';$('#bg').value=bg;pgSw();

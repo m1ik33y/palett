@@ -67,9 +67,9 @@ $('#imp').onclick=()=>$('#file').click();$('#file').onchange=e=>{[...e.target.fi
 addEventListener('dragover',e=>e.preventDefault());addEventListener('drop',e=>{e.preventDefault();[...e.dataTransfer.files].forEach(readF)});
 addEventListener('paste',e=>[...(e.clipboardData?.files||[])].forEach(readF));
 const bottom=()=>objs.reduce((m,o)=>o.hide?m:Math.max(m,o.y+o.h+(o.t=='stroke'?o.s:0)),0);
-function snapshot(sx,sy,sw,sh,ow,oh){const L=document.createElement('canvas');L.width=ow;L.height=oh;const x=L.getContext('2d');x.setTransform(ow/sw,0,0,oh/sh,-sx*ow/sw,-sy*oh/sh);objs.forEach(o=>draw(x,o));
- const F=document.createElement('canvas');F.width=ow;F.height=oh;const f=F.getContext('2d');f.fillStyle=bg;f.fillRect(0,0,ow,oh);f.drawImage(L,0,0);return F}
-function exBox(){let x0=0,y0=0,x1=W,y1=SCR?Math.max(H0,Math.ceil(bottom()+40)):H;
+function snapshot(sx,sy,sw,sh,ow,oh){const T=[ow/sw,0,0,oh/sh,-sx*ow/sw,-sy*oh/sh];const L=document.createElement('canvas');L.width=ow;L.height=oh;const x=L.getContext('2d');x.setTransform(...T);if(PG)pgClip(x);objs.forEach(o=>draw(x,o));
+ const F=document.createElement('canvas');F.width=ow;F.height=oh;const f=F.getContext('2d');f.fillStyle=bg;if(PG){f.setTransform(...T);pgRects(f,(c,a,b,w,h)=>c.fillRect(a,b,w,h));f.setTransform(1,0,0,1,0,0)}else f.fillRect(0,0,ow,oh);f.drawImage(L,0,0);return F}
+function exBox(){if(PG){const z=pgWH();return{x:0,y:0,w:Math.ceil(z.w),h:Math.ceil(z.h)}}let x0=0,y0=0,x1=W,y1=SCR?Math.max(H0,Math.ceil(bottom()+40)):H;
  if(!SCR)objs.forEach(o=>{if(o.hide||o.br=='eraser')return;const p=o.t=='stroke'?o.s*1.5:0;x0=Math.min(x0,o.x-p);y0=Math.min(y0,o.y-p);x1=Math.max(x1,o.x+o.w+p);y1=Math.max(y1,o.y+o.h+p)});
  return{x:Math.floor(x0),y:Math.floor(y0),w:Math.ceil(x1-x0),h:Math.ceil(y1-y0)}}
 $('#exp').onclick=()=>{const B=exBox(),k=Math.min(SCR?1:Q,16000/B.h,16000/B.w,Math.sqrt(1.2e8/(B.w*B.h)));

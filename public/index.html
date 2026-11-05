@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Palett</title>
 <meta name="description" content="Palett: brushes, shapes, layers and scroll canvases, saved to your account."><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-title" content="Palett"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/css/styles.css?v=20261105l">
+<link rel="stylesheet" href="/css/styles.css?v=20261105m">
 </head><body class="home"><div id="boot" role="status" aria-label="Loading Palett"><img src="/favicon.svg" alt="Palett"></div><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wob" x="-5%" y="-25%" width="110%" height="150%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter></svg>
 <aside id="sb"><div id="sbs"><div class="brand"><i class="logo"></i><span>Palett</span></div>
 <button class="nv" data-n="home" data-ic="home"><span>Home</span></button>
@@ -14,7 +14,8 @@
 <div id="ft" hidden><div class="fbar"><span>Explorer</span><span class="grow"></span><button data-fx="nf" data-ic="fileplus" title="New paintbook"></button></div><div id="ftl"></div></div>
 <button class="nv nw" data-nt="blank" data-ic="blank"><span>Blank</span></button>
 <button class="nv nw" data-nt="import" data-ic="upload"><span>Import</span></button>
-<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button></div>
+<button class="nv nw" data-nt="scroll" data-ic="scroll"><span>Scroll</span></button>
+<button class="nv nw" data-nt="slides" data-ic="slides"><span>Slides</span></button></div>
 <button id="nb" class="nv" data-a="new" data-ic="plus"><span>Create</span></button></aside>
 <div id="app">
 <header id="top">
@@ -50,7 +51,7 @@
 <span class="pgw"><button id="pgb" title="Page colour"><i class="pgs" id="pgs"></i></button><input type="color" id="bg" value="#ffffff" title="Page colour"></span></div>
 <div class="grp">
 <button id="undo" data-ic="undo" title="Undo (Ctrl+Z)"></button><button id="redo" data-ic="redo" title="Redo (Ctrl+Y)"></button><button id="sv" data-ic="save" title="Save (Ctrl+S)" aria-label="Save"></button>
-<button id="dup" data-ic="copy" title="Duplicate (Ctrl+D)"></button><button id="del" data-ic="trash" title="Delete"></button><button id="clr" data-ic="clean" title="Clear canvas"></button></div>
+<button id="dup" data-ic="copy" title="Duplicate (Ctrl+D)"></button><button id="del" data-ic="trash" title="Delete"></button><button id="clr" data-ic="clean" title="Clear canvas"></button><button id="addpg" data-ic="plus" title="Add page" aria-label="Add page" hidden></button></div>
 <div class="grp">
 <button id="fit" data-ic="fit" title="Fit to screen"></button><span id="zoom">100%</span><button id="pan" data-ic="palette" title="Colour &amp; brush panel"></button><button id="lay2" data-ic="layers" title="Layers"></button></div>
 </div>
@@ -84,31 +85,32 @@
 <div id="mdl" hidden><div class="mbox"></div></div>
 <div id="auth"></div>
 <div id="toast"></div>
-<script defer src="/js/01-core.js?v=20261105l"></script>
-<script defer src="/js/02-render.js?v=20261105l"></script>
-<script defer src="/js/03-pointer.js?v=20261105l"></script>
-<script defer src="/js/04-editor.js?v=20261105l"></script>
-<script defer src="/js/05-icons.js?v=20261105l"></script>
-<script defer src="/js/06-logo.js?v=20261105l"></script>
-<script defer src="/js/07-api.js?v=20261105l"></script>
-<script defer src="/js/08-helpers.js?v=20261105l"></script>
-<script defer src="/js/09-store.js?v=20261105l"></script>
-<script defer src="/js/10-library.js?v=20261105l"></script>
-<script defer src="/js/11-new-paintbook.js?v=20261105l"></script>
-<script defer src="/js/12-nav.js?v=20261105l"></script>
-<script defer src="/js/13-legal.js?v=20261105l"></script>
-<script defer src="/js/14-account.js?v=20261105l"></script>
-<script defer src="/js/15-archive.js?v=20261105l"></script>
-<script defer src="/js/16-settings.js?v=20261105l"></script>
-<script defer src="/js/17-auth.js?v=20261105l"></script>
-<script defer src="/js/18-events.js?v=20261105l"></script>
-<script defer src="/js/19-sidebar.js?v=20261105l"></script>
-<script defer src="/js/20-bindings.js?v=20261105l"></script>
-<script defer src="/js/21-brush-ui.js?v=20261105l"></script>
-<script defer src="/js/22-init.js?v=20261105l"></script>
-<script defer src="/js/23-mobile.js?v=20261105l"></script>
-<script defer src="/js/23-collab.js?v=20261105l"></script>
-<script defer src="/js/25-presence-mobile.js?v=20261105l"></script>
-<script defer src="/js/26-app.js?v=20261105l"></script>
-<script defer src="/js/27-sheets.js?v=20261105l"></script>
+<script defer src="/js/01-core.js?v=20261105m"></script>
+<script defer src="/js/02-render.js?v=20261105m"></script>
+<script defer src="/js/03-pointer.js?v=20261105m"></script>
+<script defer src="/js/04-editor.js?v=20261105m"></script>
+<script defer src="/js/05-icons.js?v=20261105m"></script>
+<script defer src="/js/06-logo.js?v=20261105m"></script>
+<script defer src="/js/07-api.js?v=20261105m"></script>
+<script defer src="/js/08-helpers.js?v=20261105m"></script>
+<script defer src="/js/09-store.js?v=20261105m"></script>
+<script defer src="/js/10-library.js?v=20261105m"></script>
+<script defer src="/js/11-new-paintbook.js?v=20261105m"></script>
+<script defer src="/js/12-nav.js?v=20261105m"></script>
+<script defer src="/js/13-legal.js?v=20261105m"></script>
+<script defer src="/js/14-account.js?v=20261105m"></script>
+<script defer src="/js/15-archive.js?v=20261105m"></script>
+<script defer src="/js/16-settings.js?v=20261105m"></script>
+<script defer src="/js/17-auth.js?v=20261105m"></script>
+<script defer src="/js/18-events.js?v=20261105m"></script>
+<script defer src="/js/19-sidebar.js?v=20261105m"></script>
+<script defer src="/js/20-bindings.js?v=20261105m"></script>
+<script defer src="/js/21-brush-ui.js?v=20261105m"></script>
+<script defer src="/js/22-init.js?v=20261105m"></script>
+<script defer src="/js/23-mobile.js?v=20261105m"></script>
+<script defer src="/js/23-collab.js?v=20261105m"></script>
+<script defer src="/js/25-presence-mobile.js?v=20261105m"></script>
+<script defer src="/js/26-app.js?v=20261105m"></script>
+<script defer src="/js/27-sheets.js?v=20261105m"></script>
+<script defer src="/js/28-slides.js?v=20261105m"></script>
 </body></html>

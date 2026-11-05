@@ -46,15 +46,18 @@ function render(keep){if(!keep)qs();
  const sig=[view.x,view.y,view.s,w,h,H].join();if(sig!=cs){cs=sig;dirty=1}
  if(lay.width!=w||lay.height!=h){lay.width=frm.width=w;lay.height=frm.height=h;dirty=1}
  if(dirty){lc.setTransform(1,0,0,1,0,0);lc.clearRect(0,0,w,h);lc.setTransform(dpr*view.s,0,0,dpr*view.s,dpr*view.x,dpr*view.y);
-  lc.save();if(SCR){lc.beginPath();lc.rect(0,0,W,H);lc.clip()}
+  lc.save();if(SCR){lc.beginPath();lc.rect(0,0,W,H);lc.clip()}else if(PG)pgClip(lc)
   const x0=-view.x/view.s,x1=(r.width-view.x)/view.s,y0=-view.y/view.s,y1=(r.height-view.y)/view.s;
   objs.forEach(o=>{const m=(o.s||0)*3+30;if(o.x-m<=x1&&o.x+o.w+m>=x0&&o.y-m<=y1&&o.y+o.h+m>=y0)draw(lc,o)});lc.restore();dirty=0}
  let src=lay;
- if(live){fc.setTransform(1,0,0,1,0,0);fc.clearRect(0,0,w,h);fc.drawImage(lay,0,0);fc.setTransform(dpr*view.s,0,0,dpr*view.s,dpr*view.x,dpr*view.y);fc.save();if(SCR){fc.beginPath();fc.rect(0,0,W,H);fc.clip()}draw(fc,live);fc.restore();src=frm}
+ if(live){fc.setTransform(1,0,0,1,0,0);fc.clearRect(0,0,w,h);fc.drawImage(lay,0,0);fc.setTransform(dpr*view.s,0,0,dpr*view.s,dpr*view.x,dpr*view.y);fc.save();if(SCR){fc.beginPath();fc.rect(0,0,W,H);fc.clip()}else if(PG)pgClip(fc);draw(fc,live);fc.restore();src=frm}
  sc.setTransform(1,0,0,1,0,0);sc.clearRect(0,0,w,h);T();
- sc.shadowColor='rgba(0,0,0,.35)';sc.shadowBlur=18;sc.fillStyle=bg;sc.fillRect(0,0,W,H);sc.shadowBlur=0;sc.imageSmoothingQuality='high';
+ sc.shadowColor='rgba(0,0,0,.35)';sc.shadowBlur=18;sc.fillStyle=bg;if(PG)pgRects(sc,(c,x,y,w,h)=>c.fillRect(x,y,w,h));else sc.fillRect(0,0,W,H);sc.shadowBlur=0;sc.imageSmoothingQuality='high';
  sc.setTransform(1,0,0,1,0,0);sc.drawImage(src,0,0);T();
- if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}else $('#ypos').hidden=true
+ if(SCR){const yp=$('#ypos');yp.hidden=false;yp.textContent='Scroll · '+Math.round(-view.y/view.s).toLocaleString()+' px'}
+ else if(PG){const yp=$('#ypos'),cx=(r.width/2-view.x)/view.s,cy=(r.height/2-view.y)/view.s,i=Math.max(0,Math.min(PG.n-1,Math.floor(PG.dir=='h'?cx/(W+PGAP):cy/(H0+PGAP))));yp.hidden=false;yp.textContent='Slide '+(i+1)+' of '+PG.n}
+ else $('#ypos').hidden=true
+ $('#addpg').hidden=!PG
  if(sel&&tool=='select'&&!sel.ed){const k=1/view.s;sc.strokeStyle='#4f46e5';sc.lineWidth=1.5*k;sc.strokeRect(sel.x,sel.y,sel.w,sel.h);
   sc.fillStyle='#fff';HS.forEach(([n,a,b])=>{const x=sel.x+a*sel.w-4.5*k,y=sel.y+b*sel.h-4.5*k;sc.fillRect(x,y,9*k,9*k);sc.strokeRect(x,y,9*k,9*k)})}
  $('#zoom').textContent=Math.round(view.s*100)+'%';if(window.tbPlace)tbPlace()}
@@ -65,5 +68,6 @@ const nm=o=>o.t=='text'?'T: '+o.l.slice(0,14):o.t=='stroke'?(o.br=='eraser'?'era
 function add(o){o.id=nid++;objs.push(o);sel=o;syncUI();layers();render()}
 function setTool(t){tool=t;if(t!='text')$('#tpop').hidden=true;if(t!='select')sel=null;document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));
  stage.style.cursor=t=='select'?'default':t=='hand'?'grab':t=='text'?'text':'crosshair';layers();render()}
-function fitView(){const r=stage.getBoundingClientRect();if(!r.width||!r.height)return;fitMode=1;if(SCR){view.s=Math.min(2,(r.width-48)/W);view.x=(r.width-W*view.s)/2;view.y=24}
+function fitView(){const r=stage.getBoundingClientRect();if(!r.width||!r.height)return;fitMode=1;if(PG){view.s=Math.min(2,(r.width-48)/W,(r.height-48)/H0);if(PG.dir=='h'){view.x=24;view.y=(r.height-H0*view.s)/2}else{view.x=(r.width-W*view.s)/2;view.y=24}render();return}
+ if(SCR){view.s=Math.min(2,(r.width-48)/W);view.x=(r.width-W*view.s)/2;view.y=24}
  else{view.s=Math.min((r.width-48)/W,(r.height-48)/H);view.x=(r.width-W*view.s)/2;view.y=(r.height-H*view.s)/2}render()}

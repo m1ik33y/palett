@@ -10,7 +10,7 @@ rect:'<rect x="4" y="5" width="16" height="14" rx="2"/>',ellipse:'<ellipse cx="1
 image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',redo:'<path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/>',
 fit:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',full:'<path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/>',layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
 export:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',
-blank:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',upload:'<path d="M12 16V5M7 10l5-5 5 5M5 20h14"/>',scroll:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M12 8v8M9.500 13.500L12 16l2.500-2.500"/>',
+slides:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',blank:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',upload:'<path d="M12 16V5M7 10l5-5 5 5M5 20h14"/>',scroll:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M12 8v8M9.500 13.500L12 16l2.500-2.500"/>',
 sliders:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',swap:'<path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>'};
 Object.assign(P,{menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
 cursor:'<path d="M5 3.500l14 7-6 2-2.200 6.500z" fill="currentColor" fill-opacity=".2"/><path d="M13 12.500l5 5"/>',
