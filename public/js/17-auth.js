@@ -2,7 +2,7 @@
 async function loadBooks(){try{books=(await api('/books')).books}catch(e){books=[];toast(e.message||'Could not load paintbooks')}}
 async function startSession(u){
   if(lastUid&&lastUid!==u.id){cur=null;go('home')}
-  archOpen=false;lastUid=u.id;me=u;user.name=u.name;user.theme=u.theme||'dark';
+  archOpen=false;lastUid=u.id;me=u;user.name=u.name;user.avatar=u.avatar||null;user.theme=u.theme||'dark';
   fopen=!!u.treeOpen;$('#ft').hidden=!fopen;$('#fb').classList.toggle('fo',fopen);
   theme();avatar();if(typeof presenceStart==='function')presenceStart();await loadBooks();render_();$('#auth').hidden=1}
 function sessionExpired(){if(!$('#auth').hidden)return;me=null;showAuth('in');$('#aerr').textContent='Your session expired. Please log in again.'}

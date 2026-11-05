@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   pw_hash     TEXT NOT NULL,              -- pbkdf2$iterations$salt$hash
   theme       TEXT NOT NULL DEFAULT 'dark',
   tree_open   INTEGER NOT NULL DEFAULT 0,
+  avatar      TEXT,                       -- storage key of the profile picture (Supabase bucket), nullable
   arch_hash   TEXT,                       -- bcrypt hash of the "secret folder" password (nullable until set)
   created_at  INTEGER NOT NULL,
   agreed_at   INTEGER NOT NULL

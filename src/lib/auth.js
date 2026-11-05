@@ -1,11 +1,12 @@
 import { randomToken, sha256Hex } from './crypto.js';
 import { HttpError } from './http.js';
+import { mediaUrl } from './supabase.js';
 
 const COOKIE = 'palett_session';
 const SESSION_MS = 30 * 24 * 3600 * 1000;
 
 export const publicUser = (u) => ({
-  id: u.id, name: u.name, theme: u.theme, treeOpen: !!u.tree_open,
+  id: u.id, name: u.name, theme: u.theme, treeOpen: !!u.tree_open, avatar: mediaUrl(u.avatar),
 });
 
 function readCookie(request, name) {

@@ -2,7 +2,7 @@
 let members=[],memberBook=null;
 const PFC=['#fe713b','#5856d6','#00897b','#ff2d92','#1565c0','#8bc34a','#af52de','#ff9500'];
 const pfcol=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return PFC[h%PFC.length]};
-const pfp=m=>`<span class="cpf" style="background:${pfcol(m.id)}" title="${esc(m.name)}${m.owner?' (owner)':''}">${esc((m.name.trim()[0]||'A').toUpperCase())}</span>`;
+const pfp=m=>`<span class="cpf${m.avatar?' has-img':''}" style="background-color:${pfcol(m.id)}${m.avatar?`;background-image:url('${esc(m.avatar)}')`:''}" title="${esc(m.name)}${m.owner?' (owner)':''}">${m.avatar?'':esc((m.name.trim()[0]||'A').toUpperCase())}</span>`;
 async function loadMembers(){if(!cur)return;const id=cur.id;try{const r=await api('/books/'+id+'/members');if(cur&&cur.id==id){members=r.members;memberBook=id;cur.isOwner=r.isOwner;avatar();liveStart();if(typeof refreshMemberPresence==='function')refreshMemberPresence()}}catch(e){}}
 const memberRow=()=>members.map(pfp).join('');
 function invitePop(){const p=$('#pop');if(!p.hidden){p.hidden=1;return}
@@ -105,8 +105,8 @@ async function livePull(id){
   liveApplying=true;
   const d=r.state;
   if(d.imgs)await Promise.all(Object.entries(d.imgs).map(([key,src])=>{
-   if(imgs[key]&&imgs[key].src===src)return Promise.resolve();
-   return new Promise(resolve=>{const im=new Image();im.onload=im.onerror=()=>{imgs[key]=im;resolve()};im.src=src});
+   if(imgs[key]&&imgSrc(imgs[key])===src)return Promise.resolve();
+   return loadImg(src).then(im=>{imgs[key]=im});
   }));
   if(!cur||cur.id!==id||drag){liveApplying=false;liveCursor=0;return}
   if(d.w&&(d.w!==W||d.h!==H0))setCanvas(d.w,d.h,d.scroll);
@@ -133,7 +133,7 @@ function liveQueue(){
   const ik=liveIk(),sendImgs=ik!==liveSentIk;
   if(raw===liveLastSent&&!sendImgs)return;
   const state={...base,ik};
-  if(sendImgs)state.imgs=Object.fromEntries(Object.entries(imgs).map(([k,v])=>[k,v.src]));
+  if(sendImgs)state.imgs=Object.fromEntries(Object.entries(imgs).map(([k,v])=>[k,imgSrc(v)]));
   livePushBusy=true;
   try{
    const r=await api('/books/'+cur.id+'/live',{method:'POST',body:{clientId:liveClientId,state}});

@@ -9,3 +9,6 @@ database_id = "072abd6a-db6e-48b0-aaa1-b4a948f067fc"
 
 [vars]
 BCRYPT_COST = "10"
+# Media storage (Supabase). The service key is a SECRET: `npx wrangler pages secret put SUPABASE_SERVICE_KEY --project-name palett`
+SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co"
+SUPABASE_BUCKET = "pallet"

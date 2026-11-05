@@ -373,3 +373,11 @@ input.ul{border:0;border-bottom:1.5px solid var(--ink);border-radius:0;backgroun
 #auth{display:flex;flex-direction:column;padding:24px 16px 0}
 #auth .ac{margin:auto;position:relative;z-index:1}
 #auth::after{content:'';flex:none;align-self:stretch;width:calc(100% + 32px);height:min(23vw,32vh);margin:24px -16px 0;background:url(/img/auth-crowd.svg) repeat-x center calc(100% + 14px)/auto 100%;pointer-events:none}
+
+/* Profile pictures */
+#av.has-img,.pfa.has-img,.cpf.has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
+.pfe{position:relative;overflow:hidden;cursor:pointer;border:0;padding:0;color:inherit;font:inherit;font-weight:800}
+.pfe .pfc{position:absolute;left:0;right:0;bottom:0;padding:3px 0;background:rgba(0,0,0,.55);color:#fff;font:700 10px/1.2 inherit;font-style:normal;text-align:center;opacity:0;transition:opacity .15s}
+.pfe:hover .pfc,.pfe:focus-visible .pfc{opacity:1}
+@media (hover:none){.pfe .pfc{opacity:1}}
+#pop .pf .pfa{width:60px;height:60px;padding:0;justify-content:center;border-radius:50%;flex:none}

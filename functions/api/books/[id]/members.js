@@ -1,14 +1,15 @@
 import { HttpError, json, readJson } from '../../../../src/lib/http.js';
 import { accessibleBook } from '../../../../src/lib/books.js';
+import { mediaUrl } from '../../../../src/lib/supabase.js';
 
 async function listMembers(env, book) {
   const { results } = await env.DB.prepare(
-    `SELECT u.id, u.name, 1 AS owner, 0 AS ord FROM users u WHERE u.id = ?1
+    `SELECT u.id, u.name, u.avatar, 1 AS owner, 0 AS ord FROM users u WHERE u.id = ?1
      UNION ALL
-     SELECT u.id, u.name, 0, m.added_at FROM book_members m JOIN users u ON u.id = m.user_id WHERE m.book_id = ?2
+     SELECT u.id, u.name, u.avatar, 0, m.added_at FROM book_members m JOIN users u ON u.id = m.user_id WHERE m.book_id = ?2
      ORDER BY ord`
   ).bind(book.user_id, book.id).all();
-  return results.map((r) => ({ id: r.id, name: r.name, owner: !!r.owner }));
+  return results.map((r) => ({ id: r.id, name: r.name, avatar: mediaUrl(r.avatar), owner: !!r.owner }));
 }
 
 export async function onRequestGet({ env, data, params }) {

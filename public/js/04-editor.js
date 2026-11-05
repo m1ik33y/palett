@@ -47,11 +47,22 @@ document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{const t=b.datase
  if(t=='text'&&tool=='text'){const p=$('#tpop');if(!p.hidden){p.hidden=true;return}p.hidden=false;const r=b.getBoundingClientRect();p.style.left=Math.max(10,Math.min(innerWidth-p.offsetWidth-10,r.left))+'px';p.style.top=(PH.matches?Math.max(8,r.top-p.offsetHeight-8):r.bottom+8)+'px'}else setTool(t)});
 document.addEventListener('click',e=>{if(!e.target.closest('#tpop,[data-t=text]'))$('#tpop').hidden=true});
 addEventListener('keydown',e=>{if(e.key=='Escape')$('#tpop').hidden=true});
-function addImg(src,fill){if(!cur)return;const im=new Image();im.onload=()=>{const id='i'+nid++;imgs[id]=im;
- if(fill){snap();setTool('select');add(mk({t:'img',img:id,w:W,h:H,x:0,y:0}));return}
- const k=Math.min(1,W*.6/im.width,H*.6/im.height);
- snap();setTool('select');add(mk({t:'img',img:id,w:im.width*k,h:im.height*k,x:(W-im.width*k)/2,y:(H-im.height*k)/2}))};im.src=src}
-function readF(f){if(!f||!f.type.startsWith('image/'))return;const r=new FileReader();r.onload=()=>addImg(r.result);r.readAsDataURL(f)}
+/* Image attachments are uploaded to the storage bucket; the canvas only keeps a short URL, so
+   collaborators receive it through live sync instantly. Falls back to embedding if storage is unavailable. */
+function addImg(src,fill,file){if(!cur)return;const book=cur.id;
+ (async()=>{let blob=file,im=null;
+  if(!blob&&typeof src=='string'&&src.startsWith('data:')){try{blob=await(await fetch(src)).blob()}catch(e){}}
+  if(blob){toast('Uploading image…');
+   try{const up=await fitImg(blob,3200);im=await fileImg(up);const r=await upMedia(up,'kind=book&book='+book);im._u=r.url;$('#toast').classList.remove('on')}
+   catch(e){toast('Image stored inside the canvas ('+(e.message||'upload failed')+')');im=null}}
+  if(!im){const s2=blob?await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=()=>r(null);fr.readAsDataURL(blob)}):src;
+   if(!s2)return;im=await new Promise(r=>{const x=new Image();x.onload=()=>r(x);x.onerror=()=>r(null);x.src=s2});if(!im)return}
+  if(!cur||cur.id!==book)return;
+  const id='i'+nid++;imgs[id]=im;
+  if(fill){snap();setTool('select');add(mk({t:'img',img:id,w:W,h:H,x:0,y:0}));return}
+  const k=Math.min(1,W*.6/im.width,H*.6/im.height);
+  snap();setTool('select');add(mk({t:'img',img:id,w:im.width*k,h:im.height*k,x:(W-im.width*k)/2,y:(H-im.height*k)/2}))})()}
+function readF(f){if(!f||!f.type.startsWith('image/'))return;addImg(null,0,f)}
 $('#imp').onclick=()=>$('#file').click();$('#file').onchange=e=>{[...e.target.files].forEach(readF);e.target.value=''};
 addEventListener('dragover',e=>e.preventDefault());addEventListener('drop',e=>{e.preventDefault();[...e.dataTransfer.files].forEach(readF)});
 addEventListener('paste',e=>[...(e.clipboardData?.files||[])].forEach(readF));

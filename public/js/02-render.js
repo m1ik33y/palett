@@ -5,7 +5,7 @@ function shapePath(c,k,x,y,w,h){
  (PTS[k]||PTS.tri).forEach((q,i)=>i?c.lineTo(x+q[0]*w,y+q[1]*h):c.moveTo(x+q[0]*w,y+q[1]*h));c.closePath()}
 function draw(c,o){
  if(o.hide||o.ed)return;c.save();c.globalAlpha=o.op;
- if(o.t=='img')c.drawImage(imgs[o.img],o.x,o.y,o.w,o.h);
+ if(o.t=='img'){const im=imgs[o.img];if(im&&im.complete&&im.naturalWidth)c.drawImage(im,o.x,o.y,o.w,o.h)}
  else if(o.t=='text'){c.font=fontStr(o);c.fillStyle=o.c;c.textBaseline='top';o.l.split('\n').forEach((l,i)=>c.fillText(l,o.x,o.y+i*o.fs*1.2))}
  else if(o.t=='rect'||o.t=='ell'||o.t=='poly'){c.lineWidth=o.s;c.strokeStyle=o.c;c.fillStyle=o.fc;c.lineJoin='round';c.beginPath();
   o.t=='rect'?c.rect(o.x,o.y,o.w,o.h):o.t=='poly'?shapePath(c,o.k,o.x,o.y,o.w,o.h):c.ellipse(o.x+o.w/2,o.y+o.h/2,o.w/2,o.h/2,0,0,7);if(o.df)c.fill();if(o.s>0)c.stroke()}
